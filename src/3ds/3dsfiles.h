@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
+#include <string>
 
 //----------------------------------------------------------------------
 // Initialize the library

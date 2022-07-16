@@ -1023,7 +1023,7 @@ printf ("%d\n", emulatorFrame);
         //
         #define SYNC_SAMPLES  (735 * 2 * 2)     
 
-        emulator.waitBehavior = WAIT_FULL;
+        emulator.waitBehavior = FPS_WAIT_FULL;
         if (config.cd_loaded)
         {
             // If we are running too slowly for the CD / ADPCM audio, 
@@ -1035,7 +1035,7 @@ printf ("%d\n", emulatorFrame);
                 if (cd_write_index_diff < 0)
                     cd_write_index_diff += CD_AUDIO_BUFFER_SIZE;
                 if (cd_write_index_diff < SYNC_SAMPLES)
-                    emulator.waitBehavior = WAIT_NONE;
+                    emulator.waitBehavior = FPS_WAIT_NONE;
             }
 
             if (adpcm.has_samples)
@@ -1047,11 +1047,11 @@ printf ("%d\n", emulatorFrame);
                 if (adpcm_write_index_diff < 0)
                     adpcm_write_index_diff += ADPCM_AUDIO_BUFFER_SIZE;
                 if (adpcm_write_index_diff < SYNC_SAMPLES)
-                    emulator.waitBehavior = WAIT_NONE;
+                    emulator.waitBehavior = FPS_WAIT_NONE;
             }
 
-            //if (emulator.waitBehavior == WAIT_NONE)
-            //    printf ("WAIT_NONE\n");
+            //if (emulator.waitBehavior == FPS_WAIT_NONE)
+            //    printf ("FPS_WAIT_NONE\n");
             cd.has_samples = false;
             adpcm.has_samples = false;
         }

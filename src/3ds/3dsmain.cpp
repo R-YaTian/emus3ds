@@ -865,7 +865,7 @@ void emulatorLoop()
 {
 	// Main loop
     //emulator.enableDebug = true;
-    emulator.waitBehavior = WAIT_FULL;
+    emulator.waitBehavior = FPS_WAIT_FULL;
 
     int emuFramesSkipped = 0;
     long emuFrameTotalActualTicks = 0;
@@ -973,11 +973,11 @@ void emulatorLoop()
             {
 
                 float timeDiffInMilliseconds = (float)skew * 1000000 / TICKS_PER_SEC;
-                if (emulator.waitBehavior == WAIT_HALF)
+                if (emulator.waitBehavior == FPS_WAIT_HALF)
                     timeDiffInMilliseconds /= 2;
-                else if (emulator.waitBehavior == WAIT_NONE)
+                else if (emulator.waitBehavior == FPS_WAIT_NONE)
                     timeDiffInMilliseconds = 1;
-                emulator.waitBehavior = WAIT_FULL;
+                emulator.waitBehavior = FPS_WAIT_FULL;
 
                 // Reset the counters.
                 //

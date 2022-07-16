@@ -189,21 +189,21 @@ SMenuItem optionsForSpriteFlicker[] =
 {
     MENU_MAKE_DIALOG_ACTION (0, "Hardware Accurate",   "Flickers like real hardware"),
     MENU_MAKE_DIALOG_ACTION (1, "Better Visuals",      "Looks better, less accurate"),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForIdleLoopPatch[] =
 {
     MENU_MAKE_DIALOG_ACTION (1, "Enabled",              "Faster but some games may freeze"),
     MENU_MAKE_DIALOG_ACTION (0, "Disabled",             "Slower but better compatibility"),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForCPUCore[] =
 {
     MENU_MAKE_DIALOG_ACTION (1, "Fast",                 "Faster, heavily optimized CPU core."),
     MENU_MAKE_DIALOG_ACTION (2, "Compatible",           "More compatible, but slower CPU core."),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 
@@ -211,7 +211,7 @@ SMenuItem optionsForPaletteFix[] =
 {
     MENU_MAKE_DIALOG_ACTION (0, "Enabled",              "Best, but slower"),
     MENU_MAKE_DIALOG_ACTION (1, "Disabled",             "Fastest, less accurate"),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionMenu[] = {
@@ -313,7 +313,7 @@ SMenuItem optionsForDisk[] =
     MENU_MAKE_DIALOG_ACTION (6, "Change to Disk 3 Side B",  ""),
     MENU_MAKE_DIALOG_ACTION (7, "Change to Disk 4 Side A",  ""),
     MENU_MAKE_DIALOG_ACTION (8, "Change to Disk 4 Side B",  ""),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 
@@ -333,8 +333,8 @@ SMenuItem emulatorMenu[] = {
     MENU_MAKE_ACTION    (2003, "  Save Slot #3"),   // Do not modify
     MENU_MAKE_ACTION    (2004, "  Save Slot #4"),   // Do not modify
     MENU_MAKE_ACTION    (2005, "  Save Slot #5"),   // Do not modify
-    MENU_MAKE_HEADER2   (""),   
-    
+    MENU_MAKE_HEADER2   (""),
+
     MENU_MAKE_ACTION    (3001, "  Load Slot #1"),   // Do not modify
     MENU_MAKE_ACTION    (3002, "  Load Slot #2"),   // Do not modify
     MENU_MAKE_ACTION    (3003, "  Load Slot #3"),   // Do not modify
@@ -400,14 +400,14 @@ char *impl3dsTitleText = "PicoDrive for 3DS v0.94";
 
 
 //---------------------------------------------------------
-// The bitmaps for the emulated console's UP, DOWN, LEFT, 
+// The bitmaps for the emulated console's UP, DOWN, LEFT,
 // RIGHT keys.
 //---------------------------------------------------------
 u32 input3dsDKeys[4] = { SMD_BUTTON_UP, SMD_BUTTON_DOWN, SMD_BUTTON_LEFT, SMD_BUTTON_RIGHT };
 
 
 //---------------------------------------------------------
-// The list of valid joypad bitmaps for the emulated 
+// The list of valid joypad bitmaps for the emulated
 // console.
 //
 // This should NOT include D-keys.
@@ -461,7 +461,7 @@ bool impl3dsInitializeCore()
 				  POPT_EN_32X|POPT_EN_PWM | POPT_DIS_IDLE_DET;
 	defaultConfig.s_PsndRate = sampleRate;
 	defaultConfig.s_PicoRegion = 0; // auto
-	defaultConfig.s_PicoAutoRgnOrder = 0x814; // US, JP, EU 
+	defaultConfig.s_PicoAutoRgnOrder = 0x814; // US, JP, EU
 	defaultConfig.s_PicoCDBuffers = 0;
 	defaultConfig.confirm_save = EOPT_CONFIRM_SAVE;
 	defaultConfig.Frameskip = -1; // auto
@@ -486,7 +486,7 @@ bool impl3dsInitializeCore()
     // ** Initialize core
     PicoInit();
     PicoDrawSetOutFormat(PDF_RGB555, 0);
-    
+
 	// Initialize our GPU.
 	// Load up and initialize any shaders
 	//
@@ -504,10 +504,10 @@ bool impl3dsInitializeCore()
 	gpu3dsInitializeShaderRegistersForRenderTarget(0, 10);
 	gpu3dsInitializeShaderRegistersForTexture(4, 14);
 	gpu3dsInitializeShaderRegistersForTextureOffset(6);
-	
+
     if (!video3dsInitializeSoftwareRendering(512, 256, GX_TRANSFER_FMT_RGB565))
         return false;
-    
+
 	// allocate all necessary vertex lists
 	//
     if (emulator.isReal3DS)
@@ -579,7 +579,7 @@ void impl3dsGenerateSoundSamples(int numberOfSamples)
 // This gives time for the sound generation to execute
 // from the 2nd core before copying it to the actual
 // output buffer.
-// 
+//
 // For a console with only MONO output, simply copy
 // the samples into the leftSamples buffer.
 //---------------------------------------------------------
@@ -687,19 +687,19 @@ void setSampleRate(bool preserveState)
 
 	// compute a sample rate closes to 30000 kHz for old 3DS, and 44100 Khz for new 3DS.
 	//
-    u8 new3DS = false;
+    bool new3DS = false;
     APT_CheckNew3DS(&new3DS);
     if (new3DS)
         sampleRate = 44100;
-    
+
     soundSamplesPerGeneration = snd3dsComputeSamplesPerLoop(sampleRate, soundLoopsPerSecond);
 	soundSamplesPerSecond = snd3dsComputeSampleRate(sampleRate, soundLoopsPerSecond);
 
 	PicoIn.sndRate = currentConfig.s_PsndRate = defaultConfig.s_PsndRate = soundSamplesPerSecond;
 	snd3dsSetSampleRate(
 		true,
-		soundSamplesPerSecond, 
-		soundLoopsPerSecond, 
+		soundSamplesPerSecond,
+		soundLoopsPerSecond,
 		true);
     PsndRerate(preserveState ? 0 : 1);
 }
@@ -732,7 +732,7 @@ bool impl3dsLoadROM(char *romFilePath)
 	}
 
     video3dsClearAllSoftwareBuffers();
-    
+
     impl3dsResetConsole();
     setSampleRate(false);
 
@@ -756,7 +756,7 @@ int impl3dsGetROMFrameRate()
 // console
 //---------------------------------------------------------
 void impl3dsResetConsole()
-{	
+{
     cache3dsInit();
 
     // ** Reset
@@ -772,7 +772,7 @@ void impl3dsResetConsole()
 //---------------------------------------------------------
 // This is called when preparing to start emulating
 // a new frame. Use this to do any preparation of data,
-// the hardware, swap any vertex list buffers, etc, 
+// the hardware, swap any vertex list buffers, etc,
 // before the frame is emulated
 //---------------------------------------------------------
 void impl3dsPrepareForNewFrame()
@@ -808,7 +808,7 @@ void impl3dsEmulationBegin()
 	gpu3dsDisableStencilTest();
 	gpu3dsSetTextureEnvironmentReplaceTexture0();
 	gpu3dsSetRenderTargetToTopFrameBuffer();
-	gpu3dsFlush();	
+	gpu3dsFlush();
 	//if (emulator.isReal3DS)
 	//	gpu3dsWaitForPreviousFlush();
 
@@ -831,7 +831,7 @@ void impl3dsEmulationPollInput()
 
 
 //---------------------------------------------------------
-// The following pipeline is used if the 
+// The following pipeline is used if the
 // emulation engine does software rendering.
 //
 // You can potentially 'hide' the wait latencies by
@@ -854,13 +854,13 @@ int currentFrameIndex = 0;
 //---------------------------------------------------------
 void impl3dsRenderDrawTextureToFrameBuffer()
 {
-	t3dsStartTiming(14, "Draw Texture");	
+	t3dsStartTiming(14, "Draw Texture");
 
     gpu3dsUseShader(0);
     gpu3dsSetRenderTargetToTopFrameBuffer();
-    
+
     // 320x224
-    float tx1 = 0, ty1 = 8;         
+    float tx1 = 0, ty1 = 8;
     float tx2 = 320, ty2 = 232;
 
     if (((Pico.video.reg[12] & 1) == 0) && !(PicoIn.AHW & PAHW_SMS))
@@ -952,7 +952,7 @@ void impl3dsRenderDrawTextureToFrameBuffer()
 			gpu3dsAddQuadVertexes(0, 0, 400, 240, tx1 + 8, ty1 + 8, tx2 - 8, ty2 - 8, 0);
 			break;
 	}
-    
+
     gpu3dsDrawVertexes();
 	t3dsEndTiming(14);
 
@@ -977,16 +977,16 @@ void impl3dsEmulationRunOneFrame(bool firstFrame, bool skipDrawingFrame)
     apply_cheats();
     ROMCheatUpdate();
     RAMCheatUpdate();
-    
+
 	if (!skipDrawingPreviousFrame)
         video3dsTransferFrameBufferToScreenAndSwap();
 
 	t3dsStartTiming(10, "EmulateFrame");
 	{
         // Let's try to keep the digital sample queue filled with some data
-        emulator.waitBehavior = WAIT_FULL;
+        emulator.waitBehavior = FPS_WAIT_FULL;
         if (dacQueueGetLength(&dacQueue) <= soundSamplesPerGeneration * 2)
-            emulator.waitBehavior = WAIT_NONE;
+            emulator.waitBehavior = FPS_WAIT_NONE;
 
 		impl3dsEmulationPollInput();
 
@@ -996,12 +996,12 @@ void impl3dsEmulationRunOneFrame(bool firstFrame, bool skipDrawingFrame)
 	}
 
 	t3dsEndTiming(10);
-    
+
 	if (!skipDrawingFrame)
         video3dsCopySoftwareBufferToTexture();
 
 	if (!skipDrawingPreviousFrame)
-		impl3dsRenderDrawTextureToFrameBuffer();	
+		impl3dsRenderDrawTextureToFrameBuffer();
 
 	skipDrawingPreviousFrame = skipDrawingFrame;
 	t3dsEndTiming(1);
@@ -1011,7 +1011,7 @@ void impl3dsEmulationRunOneFrame(bool firstFrame, bool skipDrawingFrame)
 
 //---------------------------------------------------------
 // Finalize any variables or state of the GPU
-// before the emulation loop ends and control 
+// before the emulation loop ends and control
 // goes into the menu.
 //---------------------------------------------------------
 void impl3dsEmulationEnd()
@@ -1022,7 +1022,7 @@ void impl3dsEmulationEnd()
 	{
 		if (lastWait == WAIT_PPF)
 			gspWaitForPPF();
-		else 
+		else
 		if (lastWait == WAIT_P3D)
 			gpu3dsWaitForPreviousFlush();
 	}*/
@@ -1087,7 +1087,7 @@ bool impl3dsLoadState(int slotNumber)
 	    sprintf(ext, ".st%d", slotNumber - 1);
 
     impl3dsResetConsole();
-    
+
     // ** Load State
     PicoState(file3dsReplaceFilenameExtension(romFileNameFullPath, ext), 0);
 
@@ -1099,7 +1099,7 @@ bool impl3dsLoadState(int slotNumber)
 // This function will be called everytime the user
 // selects an action on the menu.
 //
-// Returns true if the menu should close and the game 
+// Returns true if the menu should close and the game
 // should resume
 //---------------------------------------------------------
 bool impl3dsOnMenuSelected(int ID)
@@ -1110,10 +1110,10 @@ bool impl3dsOnMenuSelected(int ID)
 
 
 //---------------------------------------------------------
-// This function will be called everytime the user 
+// This function will be called everytime the user
 // changes the value in the specified menu item.
 //
-// Returns true if the menu should close and the game 
+// Returns true if the menu should close and the game
 // should resume
 //---------------------------------------------------------
 bool impl3dsOnMenuSelectedChanged(int ID, int value)
@@ -1137,14 +1137,14 @@ bool impl3dsOnMenuSelectedChanged(int ID, int value)
             return true;
         }
     }
-    
+
     return false;
 }
 
 
 
 //---------------------------------------------------------
-// Initializes the default global settings. 
+// Initializes the default global settings.
 // This method is called everytime if the global settings
 // file does not exist.
 //---------------------------------------------------------
@@ -1166,8 +1166,8 @@ void impl3dsInitializeDefaultSettingsByGame()
 	settings3DS.ForceFrameRate = 0;
 	settings3DS.Volume = 4;
 
-    settings3DS.OtherOptions[SETTINGS_ALLSPRITES] = 0;	
-    settings3DS.OtherOptions[SETTINGS_IDLELOOPPATCH] = 0;	
+    settings3DS.OtherOptions[SETTINGS_ALLSPRITES] = 0;
+    settings3DS.OtherOptions[SETTINGS_IDLELOOPPATCH] = 0;
     settings3DS.OtherOptions[SETTINGS_BIOS] = 0;
     settings3DS.OtherOptions[SETTINGS_CPUCORE] = 1;
     settings3DS.OtherOptions[SETTINGS_LOWPASSFILTER] = 1;
@@ -1176,7 +1176,7 @@ void impl3dsInitializeDefaultSettingsByGame()
 
 
 //----------------------------------------------------------------------
-// Read/write all possible game specific settings into a file 
+// Read/write all possible game specific settings into a file
 // created in this method.
 //
 // This must return true if the settings file exist.
@@ -1235,7 +1235,7 @@ bool impl3dsReadWriteSettingsByGame(bool writeMode)
 
 
 //----------------------------------------------------------------------
-// Read/write all possible global specific settings into a file 
+// Read/write all possible global specific settings into a file
 // created in this method.
 //
 // This must return true if the settings file exist.
@@ -1245,7 +1245,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
     bool success = config3dsOpenFile("./picodrive_3ds.cfg", writeMode);
     if (!success)
         return false;
-    
+
     int deprecated = 0;
 
     // v0.90 options
@@ -1285,7 +1285,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
 
     // New options come here.
 
-    
+
     config3dsCloseFile();
 
     return true;
@@ -1329,7 +1329,7 @@ bool impl3dsApplyAllSettings(bool updateGameSettings)
 
 	// compute a sample rate closes to 30000 kHz for old 3DS, and 44100 Khz for new 3DS.
 	//
-    u8 new3DS = false;
+    bool new3DS = false;
     APT_CheckNew3DS(&new3DS);
     PicoIn.lowPassFilter = 0;
     if (settings3DS.OtherOptions[SETTINGS_LOWPASSFILTER])
@@ -1345,7 +1345,7 @@ bool impl3dsApplyAllSettings(bool updateGameSettings)
         long oldTicksPerFrame = TICKS_PER_SEC / impl3dsGetROMFrameRate();
         if (Pico.rom)
         {
-            if (settings3DS.ForceFrameRate == 0 || 
+            if (settings3DS.ForceFrameRate == 0 ||
                 settings3DS.OtherOptions[SETTINGS_REGION] == 0)
                 PicoDetectRegion();
 
@@ -1380,7 +1380,7 @@ bool impl3dsApplyAllSettings(bool updateGameSettings)
                     Pico.m.pal = 0;
             }
         }
-        //long oldTicksPerFrame = TICKS_PER_SEC / impl3dsGetROMFrameRate(); 
+        //long oldTicksPerFrame = TICKS_PER_SEC / impl3dsGetROMFrameRate();
         settings3DS.TicksPerFrame = TICKS_PER_SEC / impl3dsGetROMFrameRate();
         if (settings3DS.TicksPerFrame != oldTicksPerFrame)
             setSampleRate(true);
@@ -1418,7 +1418,7 @@ bool impl3dsApplyAllSettings(bool updateGameSettings)
             PicoSetInputDevice(0, PICO_INPUT_PAD_6BTN);
             PicoSetInputDevice(1, PICO_INPUT_PAD_6BTN);
         }
-        
+
     }
 
     return settingsChanged;
@@ -1477,7 +1477,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
         for (int b = 0; b < 8; b++)
             UPDATE_SETTINGS(settings3DS.GlobalTurbo[b], -1, 13000 + b);
     }
-    if (!settings3DS.UseGlobalTurbo || copyMenuToSettings) 
+    if (!settings3DS.UseGlobalTurbo || copyMenuToSettings)
     {
         for (int b = 0; b < 8; b++)
             UPDATE_SETTINGS(settings3DS.Turbo[b], -1, 13000 + b);
@@ -1508,7 +1508,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
     UPDATE_SETTINGS(settings3DS.OtherOptions[SETTINGS_CONTROLLERTYPE], -1, 13100); // controller type
 
     return settingsUpdated;
-	
+
 }
 
 
@@ -1527,7 +1527,7 @@ void impl3dsClearAllCheats()
 
 
 //----------------------------------------------------------------------
-// Adds cheats into the emulator core after being loaded up from 
+// Adds cheats into the emulator core after being loaded up from
 // the .CHX file.
 //
 // This method is called only when cheats are loaded.
@@ -1552,7 +1552,7 @@ bool impl3dsAddCheat(bool cheatEnabled, char *name, char *code)
 
 //----------------------------------------------------------------------
 // Enable/disables a cheat in the emulator core.
-// 
+//
 // This method will be triggered when the user enables/disables
 // cheats in the cheat menu.
 //----------------------------------------------------------------------
