@@ -757,11 +757,6 @@ void emulatorFinalize()
     gspWaitForVBlank();
 
 #ifndef EMU_RELEASE
-    printf("snd3dsFinalize:\n");
-#endif
-    snd3dsFinalize();
-
-#ifndef EMU_RELEASE
     printf("gpu3dsFinalize:\n");
 #endif
     gpu3dsFinalize();
@@ -988,6 +983,12 @@ void emulatorLoop()
 	}
 
     snd3dsStopPlaying();
+
+		#ifndef EMU_RELEASE
+		    printf("snd3dsFinalize:\n");
+		#endif
+		    snd3dsFinalize();
+
 
     // Wait for the sound thread to leave the snd3dsMixSamples entirely
     // to prevent a race condition between the PTMU_GetBatteryChargeState (when

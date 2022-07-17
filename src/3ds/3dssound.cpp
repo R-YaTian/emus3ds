@@ -408,22 +408,27 @@ bool snd3dsInitialize()
         APT_SetAppCpuTimeLimit(30); // enables syscore usage
 #endif
 
-#ifndef EMU_RELEASE
-        printf ("snd3dsInit - DSP Stack: %x\n", snd3DS.mixingThreadStack);
-        printf ("snd3dsInit - DSP ThreadFunc: %x\n", &snd3dsMixingThread);
-#endif
-        ret = svcCreateThread(&snd3DS.mixingThreadHandle, snd3dsMixingThread, 0,
-            (u32*)(snd3DS.mixingThreadStack+0x4000), 0x18, 1);
-        if (ret)
+        snd3DS.mixingThreadHandle = NULL;
+
+        if (snd3dsSpawnMixingThread)
         {
-            printf("Unable to start DSP thread: %x\n", ret);
-            snd3dsFinalize();
-            DEBUG_WAIT_L_KEY
-            return false;
-        }
 #ifndef EMU_RELEASE
-        printf ("snd3dsInit - Create DSP thread %x\n", snd3DS.mixingThreadHandle);
+          printf ("snd3dsInit - DSP Stack: %x\n", snd3DS.mixingThreadStack);
+          printf ("snd3dsInit - DSP ThreadFunc: %x\n", &snd3dsMixingThread);
 #endif
+          ret = svcCreateThread(&snd3DS.mixingThreadHandle, snd3dsMixingThread, 0,
+              (u32*)(snd3DS.mixingThreadStack+0x4000), 0x18, 1);
+          if (ret)
+          {
+              printf("Unable to start DSP thread: %x\n", ret);
+              snd3dsFinalize();
+              DEBUG_WAIT_L_KEY
+              return false;
+          }
+#ifndef EMU_RELEASE
+          printf ("snd3dsInit - Create DSP thread %x\n", snd3DS.mixingThreadHandle);
+#endif
+      }
     }
 
 #ifndef EMU_RELEASE
