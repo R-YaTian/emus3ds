@@ -90,8 +90,8 @@ bool video3dsInitializeSoftwareRendering(int width, int height, GX_TRANSFER_FORM
 
     // Allocate texture for main screen in VRAM.
     //
-    videoScreenTexture[0] = gpu3dsCreateTextureInVRAM(videoBufferWidth, videoBufferHeight, textureFormat);  
-    videoScreenTexture[1] = gpu3dsCreateTextureInVRAM(videoBufferWidth, videoBufferHeight, textureFormat);  
+    videoScreenTexture[0] = gpu3dsCreateTextureInVRAM(videoBufferWidth, videoBufferHeight, textureFormat);
+    videoScreenTexture[1] = gpu3dsCreateTextureInVRAM(videoBufferWidth, videoBufferHeight, textureFormat);
 
     // Allocate buffer in linear memory to be used by the emulator to draw into
     //
@@ -130,10 +130,10 @@ SGPUTexture *video3dsGetCurrentScreenTexture()
 //-----------------------------------------------------------------------------
 // Clear the software buffers.
 //-----------------------------------------------------------------------------
-void *video3dsClearAllSoftwareBuffers()
+void video3dsClearAllSoftwareBuffers()
 {
-    memset(videoSoftwareBuffer[0], 0, videoBufferWidth * videoBufferHeight * videoSoftwareBufferBitDepth / 8);    
-    memset(videoSoftwareBuffer[1], 0, videoBufferWidth * videoBufferHeight * videoSoftwareBufferBitDepth / 8);    
+    memset(videoSoftwareBuffer[0], 0, videoBufferWidth * videoBufferHeight * videoSoftwareBufferBitDepth / 8);
+    memset(videoSoftwareBuffer[1], 0, videoBufferWidth * videoBufferHeight * videoSoftwareBufferBitDepth / 8);
 }
 
 //-----------------------------------------------------------------------------
@@ -172,13 +172,13 @@ void video3dsStartNewHardwareRenderedFrame()
 
 
 //-----------------------------------------------------------------------------
-// Transfer the screen from the frame buffer and swap. 
+// Transfer the screen from the frame buffer and swap.
 // This should be called as soon as possible in impl3dsEmulationRunOneFrame.
 //-----------------------------------------------------------------------------
 void video3dsTransferFrameBufferToScreenAndSwap()
 {
     t3dsStartTiming(16, "Transfer");
-    gpu3dsTransferToScreenBuffer();	
+    gpu3dsTransferToScreenBuffer();
     t3dsEndTiming(16);
 
     t3dsStartTiming(19, "SwapBuffers");
@@ -216,7 +216,7 @@ void video3dsFinalize()
 {
 	if (videoSoftwareBuffer[0]) linearFree(videoSoftwareBuffer[0]);
 	if (videoSoftwareBuffer[1]) linearFree(videoSoftwareBuffer[1]);
-    
+
 	if (videoScreenTexture[0]) gpu3dsDestroyTextureFromVRAM(videoScreenTexture[0]);
 	if (videoScreenTexture[1]) gpu3dsDestroyTextureFromVRAM(videoScreenTexture[1]);
 

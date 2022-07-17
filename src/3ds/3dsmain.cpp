@@ -116,17 +116,17 @@ bool emulatorLoadRom()
     //
     emulatorSettingsLoad(false, true, false);
     impl3dsApplyAllSettings();
-    
+
     if (!impl3dsLoadROM(romFileNameFullPath2))
     {
         // If the ROM loading fails:
         // 1. Restore the original ROM file path.
         strncpy(romFileNameFullPath, romFileNameFullPathOriginal, _MAX_PATH - 1);
-        
+
         // 2. Reload original settings
         //emulatorSettingsLoad(false, true, false);
         impl3dsApplyAllSettings();
-        
+
         menu3dsHideDialog();
 
         return false;
@@ -156,7 +156,7 @@ SMenuItem fileMenu[MAX_FILES + 1];
 //char romFileNames[MAX_FILES][_MAX_PATH];
 // By changing the romFileNames to fileList (strings allocated on demand)
 // this fixes the crashing problem on Old 3DS when running Luma 8 and Rosalina 2.
-// 
+//
 std::vector<std::string> fileList;
 
 int totalRomFileCount = 0;
@@ -280,7 +280,7 @@ bool emulatorSettingsSave(bool includeGlobalSettings, bool includeGameSettings, 
 void menuSelectFile(void)
 {
     gfxSetDoubleBuffering(GFX_BOTTOM, true);
-    
+
     fileGetAllFiles();
     int previousFileID = fileFindLastSelectedFile();
     menu3dsClearMenuTabs();
@@ -398,7 +398,7 @@ bool menuSelectedChanged(int ID, int value)
 void menuPause()
 {
     gfxSetDoubleBuffering(GFX_BOTTOM, true);
-    
+
     bool settingsUpdated = false;
     bool cheatsUpdated = false;
     bool settingsSaved = false;
@@ -515,7 +515,7 @@ void menuPause()
         {
             int slot = selection - 2000;
             char text[200];
-           
+
             sprintf(text, "Saving into slot %d...\nThis may take a while", slot);
             menu3dsShowDialog("Savestates", text, DIALOGCOLOR_CYAN, NULL);
             bool result = impl3dsSaveState(slot);
@@ -590,7 +590,7 @@ void menuPause()
                 menu3dsShowDialog("Screenshot", text, DIALOGCOLOR_GREEN, optionsForOk);
                 menu3dsHideDialog();
             }
-            else 
+            else
             {
                 menu3dsShowDialog("Screenshot", "Oops. Unable to take screenshot!", DIALOGCOLOR_RED, optionsForOk);
                 menu3dsHideDialog();
@@ -609,7 +609,7 @@ void menuPause()
 
                 break;
             }
-            
+
         }
         else if (selection == 6001)
         {
@@ -622,7 +622,7 @@ void menuPause()
             }
             else
                 menu3dsHideDialog();
-            
+
         }
         else
         {
@@ -779,17 +779,17 @@ void emulatorFinalize()
 
     //printf("romfsExit:\n");
     //romfsExit();
-    
+
 #ifndef EMU_RELEASE
     printf("hidExit:\n");
 #endif
 	hidExit();
-    
+
 #ifndef EMU_RELEASE
     printf("aptExit:\n");
 #endif
 	aptExit();
-    
+
 #ifndef EMU_RELEASE
     printf("srvExit:\n");
 #endif
@@ -856,7 +856,7 @@ void updateFrameCount()
 
 
 //----------------------------------------------------------
-// This is the main emulation loop. It calls the 
+// This is the main emulation loop. It calls the
 //    impl3dsRunOneFrame
 //   (which must be implemented for any new core)
 // for the execution of the frame.
@@ -914,23 +914,23 @@ void emulatorLoop()
 
         impl3dsEmulationRunOneFrame(firstFrame, skipDrawingFrame);
 
-        firstFrame = false; 
+        firstFrame = false;
 
         // This either waits for the next frame, or decides to skip
         // the rendering for the next frame if we are too slow.
         //
 #ifndef EMU_RELEASE
-        if (emulator.isReal3DS)
+       if (emulator.isReal3DS)
 #endif
         {
 
             // Check the keys to see if the user is fast-forwarding
             //
-            int keysHeld = input3dsGetCurrentKeysHeld();
+           int keysHeld = input3dsGetCurrentKeysHeld();
             emulator.fastForwarding = false;
-            if ((settings3DS.UseGlobalEmuControlKeys && (settings3DS.GlobalButtonHotkeyDisableFramelimit & keysHeld)) ||
-                (!settings3DS.UseGlobalEmuControlKeys && (settings3DS.ButtonHotkeyDisableFramelimit & keysHeld))) 
-                emulator.fastForwarding = true;
+           if ((settings3DS.UseGlobalEmuControlKeys && (settings3DS.GlobalButtonHotkeyDisableFramelimit & keysHeld)) ||
+               (!settings3DS.UseGlobalEmuControlKeys && (settings3DS.ButtonHotkeyDisableFramelimit & keysHeld)))
+               emulator.fastForwarding = true;
 
             long currentTick = svcGetSystemTick();
             long actualTicksThisFrame = currentTick - startFrameTick;

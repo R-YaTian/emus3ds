@@ -26,7 +26,7 @@ SGPUTexture *video3dsGetCurrentScreenTexture();
 //-----------------------------------------------------------------------------
 // Clear the software buffers.
 //-----------------------------------------------------------------------------
-void *video3dsClearAllSoftwareBuffers();
+void video3dsClearAllSoftwareBuffers();
 
 //-----------------------------------------------------------------------------
 // Get the previous software screen buffers.
@@ -49,7 +49,7 @@ void video3dsStartNewSoftwareRenderedFrame();
 void video3dsStartNewHardwareRenderedFrame();
 
 //-----------------------------------------------------------------------------
-// Transfer the screen from the frame buffer and swap. 
+// Transfer the screen from the frame buffer and swap.
 // This should be called as soon as possible in impl3dsEmulationRunOneFrame.
 //-----------------------------------------------------------------------------
 void video3dsTransferFrameBufferToScreenAndSwap();

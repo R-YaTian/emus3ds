@@ -35,7 +35,7 @@
             if (key == KEY_SELECT)                                          \
                 { emulator.enableDebug = !emulator.enableDebug; break; }    \
             prevkey = key;                                                  \
-        }                                                                   \ 
+        }                                                                   \
     }
 
 
@@ -52,6 +52,6 @@ typedef struct
 } SEmulator;
 
 extern SEmulator emulator;
-    
+
 
 #endif

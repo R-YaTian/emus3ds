@@ -34,7 +34,7 @@ int snd3dsMaxLoopBuffer = 2;
 //---------------------------------------------------------
 // Computes the truncated number of samples per loop by
 // dividing the the ideal sample rate by the total
-// number of loops to be executed per second. 
+// number of loops to be executed per second.
 //
 // Usually loopsPerSecond is the frame rate. If you want
 // to generate samples twice per frame, then this value
@@ -47,8 +47,8 @@ int snd3dsComputeSamplesPerLoop(int idealSampleRate, int loopsPerSecond)
 
 
 //---------------------------------------------------------
-// Computes the final sample rate by taking the 
-// samples generate per loop multiplying by the 
+// Computes the final sample rate by taking the
+// samples generate per loop multiplying by the
 // number of loops in a second.
 //---------------------------------------------------------
 int snd3dsComputeSampleRate(int idealSampleRate, int loopsPerSecond)
@@ -63,7 +63,7 @@ int snd3dsComputeSampleRate(int idealSampleRate, int loopsPerSecond)
 // The problem is that the existing CSND library
 // is unable to provide the actual playing sample
 // position from the hardware. So we have to compute
-// this manually. 
+// this manually.
 //
 // But computing it this way may cause skews in sound
 // generation over time, so the csndTicksPerSecond
@@ -84,7 +84,7 @@ int blockCount = 0;
 // Mix the samples.
 //
 // This is usually called from within 3dssound.cpp.
-// It should only be called externall from other 
+// It should only be called externall from other
 // files when running in Citra.
 //---------------------------------------------------------
 void snd3dsMixSamples()
@@ -170,7 +170,7 @@ void snd3dsMixSamples()
 
     // Doing GSPGPU_FlushDataCache may cause race conditions with
     // the battery check (and other stuff?) on the main thread.
-    // causing the whole emulator to freeze. 
+    // causing the whole emulator to freeze.
     //
     // So we only flush data cache if the snd3DS.isPlaying is true.
     //
@@ -208,7 +208,7 @@ void snd3dsMixingThread(void *p)
 // Triggers the CSND to play the sound from the
 // buffers.
 //---------------------------------------------------------
-Result snd3dsPlaySound(int chn, u32 flags, u32 sampleRate, float vol, float pan, void* data0, void* data1, u32 size)
+void snd3dsPlaySound(int chn, u32 flags, u32 sampleRate, float vol, float pan, void* data0, void* data1, u32 size)
 {
 	u32 paddr0 = 0, paddr1 = 0;
 
@@ -266,7 +266,7 @@ void snd3dsStartPlaying()
             snd3DS.rightBuffer[i] = 0;
         }
         CSND_FlushDataCache(snd3DS.fullBuffers, SAMPLEBUFFER_SIZE * 2 * 2);
-        
+
         // CSND
         // Fix: Copied libctru's csndPlaySound and modified it so that it will
         // not play immediately upon calling. This seems to solve the left
@@ -287,7 +287,7 @@ void snd3dsStartPlaying()
         snd3DS.startTick = svcGetSystemTick();
 
         // Fix for race condition for 64-bit access in the sound thread.
-        snd3DS.upToSamplePosition = snd3dsGetSamplePosition();  
+        snd3DS.upToSamplePosition = snd3dsGetSamplePosition();
         snd3DS.isPlaying = true;
     }
 }
@@ -313,16 +313,16 @@ void snd3dsStopPlaying()
 //---------------------------------------------------------
 // Set the sampling rate.
 //
-// This function should be called by the 
+// This function should be called by the
 // impl3dsInitializeCore function. It CANNOT be called
 // after the snd3dsInitialize function is called.
 //---------------------------------------------------------
 void snd3dsSetSampleRate(
-    bool isStereo, 
-    int idealSampleRate, 
-    int loopsPerSecond, 
+    bool isStereo,
+    int idealSampleRate,
+    int loopsPerSecond,
     bool spawnMixingThread,
-    int minLoopBuffer, 
+    int minLoopBuffer,
     int maxLoopBuffer)
 {
     snd3dsIsStereo = isStereo;
@@ -389,13 +389,13 @@ bool snd3dsInitialize()
 #ifdef LIBCTRU_1_0_0
         aptOpenSession();
         APT_SetAppCpuTimeLimit(30); // enables syscore usage
-        aptCloseSession();   
+        aptCloseSession();
 #else
         APT_SetAppCpuTimeLimit(30); // enables syscore usage
 #endif
 
         snd3DS.mixingThreadHandle = NULL;
-        
+
         if (snd3dsSpawnMixingThread)
         {
     #ifndef EMU_RELEASE
