@@ -898,6 +898,7 @@ void emulatorLoop()
         updateFrameCount();
 
     	input3dsScanInputForEmulation();
+			input3dsScanInputForEmulation2P();
         if (emulator.emulatorState != EMUSTATE_EMULATE)
             break;
 

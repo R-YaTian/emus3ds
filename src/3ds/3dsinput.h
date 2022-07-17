@@ -16,6 +16,11 @@
 #define BTN3DS_START    9
 
 
+void initIRED();
+void input3dsScanInputForEmulation2P();
+u16 input3dsGetCurrentKeysHeld2P();
+
+
 //---------------------------------------------------------
 // Reads and processes Joy Pad buttons.
 //
@@ -38,10 +43,10 @@ u32 input3dsProcess3dsKeys();
 //---------------------------------------------------------
 // Sets the default buttons / turbo values.
 //
-// Pass the settings3DS.GlobalButtonMapping or 
+// Pass the settings3DS.GlobalButtonMapping or
 // settings3DS.ButtonMapping into the first parameter.
 //
-// Pass the settings3DS.GlobalTurbo or 
+// Pass the settings3DS.GlobalTurbo or
 // settings3DS.Turbo into the second parameter.
 //---------------------------------------------------------
 void input3dsSetDefaultButtonMappings(int buttonMapping[10][4], int turbo[8], bool overwrite);

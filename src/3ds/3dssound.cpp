@@ -449,7 +449,7 @@ void snd3dsFinalize()
      if (snd3DS.mixingThreadHandle)
      {
          // Wait (at most 1 second) for the sound thread to finish,
-#ifndef RELEASE
+#ifndef EMU_RELEASE
          printf ("Join mixingThreadHandle\n");
 #endif
          svcWaitSynchronization(snd3DS.mixingThreadHandle, 1000 * 1000000);

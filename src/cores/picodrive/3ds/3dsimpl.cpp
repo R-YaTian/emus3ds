@@ -54,6 +54,8 @@ extern "C" void clearBottomScreen();
 #include "platform.h"
 #include "cheats.h"
 
+#include "inputRedirect.h"
+
 extern "C" int YM2612Write_(unsigned int a, unsigned int v);
 extern int ctr_svchack_successful;
 
@@ -710,6 +712,7 @@ void setSampleRate(bool preserveState)
 //---------------------------------------------------------
 bool impl3dsLoadROM(char *romFilePath)
 {
+  initIRED();
     // ** Load ROM
     PicoPatchUnload();
 	enum media_type_e media_type;
@@ -757,6 +760,7 @@ int impl3dsGetROMFrameRate()
 //---------------------------------------------------------
 void impl3dsResetConsole()
 {
+  initIRED();
     cache3dsInit();
 
     // ** Reset
@@ -827,6 +831,25 @@ void impl3dsEmulationPollInput()
 
     PicoIn.pad[0] = consoleJoyPad;
 
+    u16 keysHeldIRED = input3dsGetCurrentKeysHeld2P();
+    u32 consoleJoyPad2P = 0;
+
+    if (keysHeldIRED & IRED_UP) consoleJoyPad2P |= SMD_BUTTON_UP;
+    if (keysHeldIRED & IRED_DOWN) consoleJoyPad2P |= SMD_BUTTON_DOWN;
+    if (keysHeldIRED & IRED_LEFT) consoleJoyPad2P |= SMD_BUTTON_LEFT;
+    if (keysHeldIRED & IRED_RIGHT) consoleJoyPad2P |= SMD_BUTTON_RIGHT;
+
+    if (keysHeldIRED & IRED_A) consoleJoyPad2P |= SMD_BUTTON_C;
+    if (keysHeldIRED & IRED_B) consoleJoyPad2P |= SMD_BUTTON_B;
+    if (keysHeldIRED & IRED_X) consoleJoyPad2P |= SMD_BUTTON_X;
+    if (keysHeldIRED & IRED_Y) consoleJoyPad2P |= SMD_BUTTON_A;
+    if (keysHeldIRED & IRED_L) consoleJoyPad2P |= SMD_BUTTON_Y;
+    if (keysHeldIRED & IRED_R) consoleJoyPad2P |= SMD_BUTTON_Z;
+
+    if (keysHeldIRED & IRED_START) consoleJoyPad2P |= SMD_BUTTON_START;
+    if (keysHeldIRED & IRED_SELECT) consoleJoyPad2P |= SMD_BUTTON_MODE;
+
+    PicoIn.pad[1] = consoleJoyPad2P;
 }
 
 
