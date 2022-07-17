@@ -25,6 +25,8 @@ bool snd3dsSpawnMixingThread = true;
 int snd3dsMinLoopBuffer = 1;
 int snd3dsMaxLoopBuffer = 2;
 
+#define SAMPLEBUFFER_SIZE 44100
+
 
 //---------------------------------------------------------
 // Computes the truncated number of samples per loop by
@@ -88,7 +90,7 @@ void snd3dsMixSamples()
 
     t3dsStartTiming(44, "Mix");
     bool generateSound = false;
-    if (snd3DS.isPlaying && !snd3DS.generateSilence)
+    if (snd3DS.isPlaying)
     {
         impl3dsGenerateSoundSamples(snd3dsSamplesPerLoop);
         generateSound = true;
@@ -103,16 +105,16 @@ void snd3dsMixSamples()
         u64 deltaTimeAhead = snd3DS.upToSamplePosition - nowSamplePosition;
         long blocksAhead = deltaTimeAhead / snd3dsSamplesPerLoop;
 
-        if (blocksAhead < MIN_FORWARD_BLOCKS)
+        if (blocksAhead < snd3dsMinLoopBuffer)
         {
             // buffer is about to underrun.
             //
             generateAtSamplePosition =
                 ((u64)((nowSamplePosition + snd3dsSamplesPerLoop - 1) / snd3dsSamplesPerLoop)) * snd3dsSamplesPerLoop +
-                MIN_FORWARD_BLOCKS * snd3dsSamplesPerLoop;
+                snd3dsMinLoopBuffer * snd3dsSamplesPerLoop;
             break;
         }
-        else if (blocksAhead < MAX_FORWARD_BLOCKS)
+        else if (blocksAhead < snd3dsMaxLoopBuffer)
         {
             // play head is still within acceptable range.
             // so we place the generated samples at where
@@ -160,8 +162,8 @@ void snd3dsMixSamples()
     //
     t3dsStartTiming(43, "Mix-Flush");
     blockCount++;
-    if (blockCount % MIN_FORWARD_BLOCKS == 0)
-        GSPGPU_FlushDataCache(snd3DS.fullBuffers, snd3dsSampleRate * 2 * 2);
+    if (blockCount % MIN_FORWARD_BLOCKS == 0 && snd3DS.isPlaying)
+        CSND_FlushDataCache(snd3DS.fullBuffers, SAMPLEBUFFER_SIZE * 2 * 2);
     t3dsEndTiming(43);
 }
 
@@ -222,6 +224,9 @@ void snd3dsPlaySound(int chn, u32 flags, u32 sampleRate, float vol, float pan, v
 	flags &= ~0xFFFF001F;
 	flags |= SOUND_ENABLE | SOUND_CHANNEL(chn) | (timer << 16);
 
+  // compute the ticks per second.
+  csndTicksPerSecond = (uint64)timer * 4 * sampleRate;
+
 	u32 volumes = CSND_VOL(vol, pan);
 	CSND_SetChnRegs(flags, paddr0, paddr1, size, volumes, volumes);
 
@@ -260,9 +265,8 @@ void snd3dsStartPlaying()
         // Flush CSND command buffers
         csndExecCmds(true);
         snd3DS.startTick = svcGetSystemTick();
-        snd3DS.upToSamplePosition = 0;
+        snd3DS.upToSamplePosition = snd3dsGetSamplePosition();
         snd3DS.isPlaying = true;
-        snd3DS.generateSilence = false;
     }
 }
 
@@ -339,10 +343,10 @@ bool snd3dsInitialize()
 
     // Initialize the sound buffers
     //
-    snd3DS.fullBuffers = (short *)linearAlloc(snd3dsSampleRate * 2 * 2);
+    snd3DS.fullBuffers = (short *)linearAlloc(SAMPLEBUFFER_SIZE * 2 * 2);
 	snd3DS.leftBuffer = &snd3DS.fullBuffers[0];
-	snd3DS.rightBuffer = &snd3DS.fullBuffers[snd3dsSampleRate];
-    memset(snd3DS.fullBuffers, 0, sizeof(snd3dsSampleRate * 2 * 2));
+	snd3DS.rightBuffer = &snd3DS.fullBuffers[SAMPLEBUFFER_SIZE];
+    memset(snd3DS.fullBuffers, 0, sizeof(SAMPLEBUFFER_SIZE * 2 * 2));
 
     if (!snd3DS.fullBuffers)
     {

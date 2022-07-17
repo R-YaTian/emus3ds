@@ -718,12 +718,6 @@ void emulatorInitialize()
         exit(0);
     }
 
-    if (!snd3dsInitialize())
-    {
-        printf ("Unable to initialize CSND\n");
-        exit (0);
-    }
-
     ui3dsInitialize();
 
     /*if (romfsInit()!=0)
@@ -892,7 +886,7 @@ void emulatorLoop()
         ui3dsDrawStringWithNoWrapping(0, 100, 320, 115, 0x7f7f7f, HALIGN_CENTER, "Touch screen for menu");
     }
 
-//    snd3dsStartPlaying();
+		snd3dsInitialize();
 
     impl3dsEmulationBegin();
 

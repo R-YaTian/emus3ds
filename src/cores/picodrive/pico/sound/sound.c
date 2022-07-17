@@ -654,16 +654,14 @@ PICO_INTERNAL void PsndGetSamples(int y)
       if (PicoIn.AHW & (PAHW_MCD | PAHW_32X))
       {
         if (!emulator.fastForwarding)
-            // dacQueueWaitUntilLength(&dacQueue, Pico.snd.len * 2, 20, 1000000);
-            dacQueueWaitUntilLength(&dacQueue, Pico.snd.len * 2, 20, 10000);
+            dacQueueWaitUntilLength(&dacQueue, Pico.snd.len * 2, 20, 1000000);
         for (int i = 0; i < length; i++)
             dacQueueAddStereo(&dacQueue, PicoIn.sndOut[i*2] + buf32[i*2], PicoIn.sndOut[i*2] + (buf32[i*2 + 1]));
       }
       else
       {
         if (!emulator.fastForwarding)
-            // dacQueueWaitUntilLength(&dacQueue, Pico.snd.len * 2, 20, 1000000);
-            dacQueueWaitUntilLength(&dacQueue, Pico.snd.len * 2, 20, 10000);
+            dacQueueWaitUntilLength(&dacQueue, Pico.snd.len * 2, 20, 1000000);
         for (int i = 0; i < length; i++)
             dacQueueAddStereo(&dacQueue, PicoIn.sndOut[i*2], PicoIn.sndOut[i*2]);
       }
