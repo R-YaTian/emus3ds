@@ -385,20 +385,20 @@ extern SSettings3DS settings3DS;
 //---------------------------------------------------------
 // Provide a comma-separated list of file extensions
 //---------------------------------------------------------
-char *impl3dsRomExtensions = "sms,md,smd,gen,rom,bin,iso,32x";
+const char *impl3dsRomExtensions = "sms,md,smd,gen,rom,bin,iso,32x";
 
 
 //---------------------------------------------------------
 // The title image .PNG filename.
 //---------------------------------------------------------
-char *impl3dsTitleImage = "./picodrive_3ds_top.png";
+const char *impl3dsTitleImage = "./picodrive_3ds_top.png";
 
 
 //---------------------------------------------------------
 // The title that displays at the bottom right of the
 // menu.
 //---------------------------------------------------------
-char *impl3dsTitleText = "PicoDrive for 3DS v0.94";
+const char *impl3dsTitleText = "PicoDrive for 3DS v0.94";
 
 
 //---------------------------------------------------------
@@ -1234,7 +1234,7 @@ bool impl3dsReadWriteSettingsByGame(bool writeMode)
     config3dsReadWriteInt32("IdleLoopPatch=%d\n", &settings3DS.OtherOptions[SETTINGS_IDLELOOPPATCH], 0, 1);
     config3dsReadWriteInt32("TurboZL=%d\n", &settings3DS.Turbo[6], 0, 10);
     config3dsReadWriteInt32("TurboZR=%d\n", &settings3DS.Turbo[7], 0, 10);
-    static char *buttonName[10] = {"A", "B", "X", "Y", "L", "R", "ZL", "ZR", "SELECT","START"};
+    static const char *buttonName[10] = {"A", "B", "X", "Y", "L", "R", "ZL", "ZR", "SELECT","START"};
     char buttonNameFormat[50];
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 2; ++j) {
@@ -1293,7 +1293,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
     config3dsReadWriteInt32("AutoSavestate=%d\n", &settings3DS.AutoSavestate, 0, 1);
     config3dsReadWriteInt32("TurboZL=%d\n", &settings3DS.GlobalTurbo[6], 0, 10);
     config3dsReadWriteInt32("TurboZR=%d\n", &settings3DS.GlobalTurbo[7], 0, 10);
-    static char *buttonName[10] = {"A", "B", "X", "Y", "L", "R", "ZL", "ZR", "SELECT","START"};
+    static const char *buttonName[10] = {"A", "B", "X", "Y", "L", "R", "ZL", "ZR", "SELECT","START"};
     char buttonNameFormat[50];
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 2; ++j) {

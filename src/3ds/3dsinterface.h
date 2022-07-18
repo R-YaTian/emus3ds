@@ -35,11 +35,11 @@ typedef struct
     int     UseGlobalVolume = 0;            // Use global button mappings for all games
                                             // 0 - no, 1 - yes
 
-    int     GlobalButtonMapping[10][4] = {{0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}};  
+    int     GlobalButtonMapping[10][4] = {{0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}};
                                             // Button Mapping using 3DS buttons: 0 - A, 1 - B, 2 - X, 3 - Y, 4 - L, 5 - R, 6 - ZL, 7 - ZR
                                             // Values: Specific to each core.
 
-    int     GlobalTurbo[8] = {0, 0, 0, 0, 0, 0, 0, 0};  
+    int     GlobalTurbo[8] = {0, 0, 0, 0, 0, 0, 0, 0};
                                             // Turbo buttons: 0 - No turbo, 1 - Release/Press every alt frame.
                                             // Indexes for 3DS buttons: 0 - A, 1 - B, 2 - X, 3 - Y, 4 - L, 5 - R
 
@@ -57,15 +57,15 @@ typedef struct
 
     int     ForceFrameRate = 0;             // 0 - Use ROM's Region, 1 - Force 50 fps, 2 - Force 60 fps
 
-    int     Turbo[8] = {0, 0, 0, 0, 0, 0, 0, 0};  
+    int     Turbo[8] = {0, 0, 0, 0, 0, 0, 0, 0};
                                             // Turbo buttons: 0 - No turbo, 1 - Release/Press every alt frame.
                                             // Indexes for 3DS buttons: 0 - A, 1 - B, 2 - X, 3 - Y, 4 - L, 5 - R
 
-    int     ButtonMapping[10][4] = {{0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}};  
+    int     ButtonMapping[10][4] = {{0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}, {0,0,0,0}};
                                             // Button Mapping using 3DS buttons: 0 - A, 1 - B, 2 - X, 3 - Y, 4 - L, 5 - R, 6 - ZL, 7 - ZR
                                             // Values: Specific to each core.
 
-    long    TicksPerFrame = TICKS_PER_FRAME_NTSC;     
+    long    TicksPerFrame = TICKS_PER_FRAME_NTSC;
                                             // Ticks per frame. Will change depending on PAL/NTSC
 
     // Other Game-Specific Settings
@@ -101,31 +101,31 @@ typedef struct
 //---------------------------------------------------------
 // Provide a comma-separated list of file extensions
 //---------------------------------------------------------
-extern char *impl3dsRomExtensions;
+extern const char *impl3dsRomExtensions;
 
 
 //---------------------------------------------------------
 // The title image .PNG filename.
 //---------------------------------------------------------
-extern char *impl3dsTitleImage;
+extern const char *impl3dsTitleImage;
 
 
 //---------------------------------------------------------
 // The title that displays at the bottom right of the
 // menu.
 //---------------------------------------------------------
-extern char *impl3dsTitleText;
+extern const char *impl3dsTitleText;
 
 
 //---------------------------------------------------------
-// The bitmaps for the emulated console's UP, DOWN, LEFT, 
+// The bitmaps for the emulated console's UP, DOWN, LEFT,
 // RIGHT keys.
 //---------------------------------------------------------
 extern u32 input3dsDKeys[4];
 
 
 //---------------------------------------------------------
-// The list of valid joypad bitmaps for the emulated 
+// The list of valid joypad bitmaps for the emulated
 // console.
 //
 // This should NOT include D-keys.
@@ -146,7 +146,7 @@ extern u32 input3dsDefaultButtonMappings[10];
 //---------------------------------------------------------
 // Initializes the emulator core.
 //
-// You must call snd3dsSetSampleRate here to set 
+// You must call snd3dsSetSampleRate here to set
 // the CSND's sampling rate.
 //---------------------------------------------------------
 bool impl3dsInitializeCore();
@@ -276,17 +276,17 @@ extern SMenuItem cheatMenu[];
 // This function will be called everytime the user
 // selects an action on the menu.
 //
-// Returns true if the menu should close and the game 
+// Returns true if the menu should close and the game
 // should resume
 //---------------------------------------------------------
 bool impl3dsOnMenuSelected(int ID);
 
 
 //---------------------------------------------------------
-// This function will be called everytime the user 
+// This function will be called everytime the user
 // changes the value in the specified menu item.
 //
-// Returns true if the menu should close and the game 
+// Returns true if the menu should close and the game
 // should resume
 //---------------------------------------------------------
 bool impl3dsOnMenuSelectedChanged(int ID, int value);
@@ -315,7 +315,7 @@ void impl3dsInitializeDefaultSettingsByGame();
 
 
 //----------------------------------------------------------------------
-// Read/write all possible game specific settings into a file 
+// Read/write all possible game specific settings into a file
 // created in this method.
 //
 // This must return true if the settings file exist.
@@ -324,7 +324,7 @@ bool impl3dsReadWriteSettingsByGame(bool writeMode);
 
 
 //----------------------------------------------------------------------
-// Read/write all possible global specific settings into a file 
+// Read/write all possible global specific settings into a file
 // created in this method.
 //
 // This must return true if the settings file exist.
@@ -363,7 +363,7 @@ void impl3dsClearAllCheats();
 
 
 //----------------------------------------------------------------------
-// Adds cheats into the emulator core after being loaded up from 
+// Adds cheats into the emulator core after being loaded up from
 // the .CHX file.
 //
 // This method is called only when cheats are loaded.
@@ -377,7 +377,7 @@ bool impl3dsAddCheat(bool cheatEnabled, char *name, char *code);
 
 //----------------------------------------------------------------------
 // Enable/disables a cheat in the emulator core.
-// 
+//
 // This method will be triggered when the user enables/disables
 // cheats in the cheat menu.
 //----------------------------------------------------------------------

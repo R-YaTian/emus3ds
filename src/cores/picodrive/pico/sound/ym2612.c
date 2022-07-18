@@ -1086,7 +1086,7 @@ chan_render_loop_declare_expand(7)
 	chan_render_loop_algo ## algo ## _1_10,		\
 	chan_render_loop_algo ## algo ## _1_11		\
 
-void (* chan_render_loop_ptr[8*2*4])(chan_rend_context *ct, int *buffer, int length) = 
+void (* chan_render_loop_ptr[8*2*4])(chan_rend_context *ct, int *buffer, int length) =
 {
 	chan_render_loop_expand(0),
 	chan_render_loop_expand(1),
@@ -1111,13 +1111,13 @@ static void chan_render_finish(int length)
 {
 	// This is weird: because if the channels are all disabled, the timer will
 	// not be incremented.
-	ym2612.OPN.eg_cnt = crct.eg_cnt;		
+	ym2612.OPN.eg_cnt = crct.eg_cnt;
 	ym2612.OPN.eg_timer = crct.eg_timer;
 	/*ym2612.OPN.eg_timer += ym2612.OPN.eg_timer_add * length;
 	while (ym2612.OPN.eg_timer > EG_TIMER_OVERFLOW)
 	{
 		ym2612.OPN.eg_timer -= EG_TIMER_OVERFLOW;
-		ym2612.OPN.eg_cnt++;		
+		ym2612.OPN.eg_cnt++;
 	}*/
 
 	g_lfo_ampm = crct.pack >> 16; // need_save
@@ -1128,8 +1128,8 @@ static int chan_render(int *buffer, int length, int c, UINT32 flags) // flags: s
 {
 	crct.CH = &ym2612.CH[c];
 	if (!(crct.CH->SLOT[SLOT1].state | crct.CH->SLOT[SLOT2].state | crct.CH->SLOT[SLOT3].state | crct.CH->SLOT[SLOT4].state))
-		return;
-	
+		return 0;
+
 	crct.mem = crct.CH->mem_value;		/* one sample delay memory */
 	crct.lfo_cnt = ym2612.OPN.lfo_cnt;
 
@@ -2084,4 +2084,3 @@ void *YM2612GetRegs(void)
 {
 	return ym2612.REGS;
 }
-

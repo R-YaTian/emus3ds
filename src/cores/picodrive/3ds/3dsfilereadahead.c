@@ -2,6 +2,7 @@
 #include "stdio.h"
 #include "3dsfilereadahead.h"
 #include "3dsdbg.h"
+#include <string.h>
 
 extern void debugWait();
 
@@ -22,15 +23,15 @@ void read_ahead_init(cd_read_ahead_struct *cd_read_ahead)
 //-----------------------------------------------------------------------------
 // Call ftell
 //-----------------------------------------------------------------------------
-long read_ahead_ftell(cd_read_ahead_struct *cd_read_ahead, FILE *fp) 
+long read_ahead_ftell(cd_read_ahead_struct *cd_read_ahead, FILE *fp)
 {
   if (fp == NULL)
     return 0;
-  
+
   if (cd_read_ahead->fptr != fp)
   {
     return ftell(fp);
-  }  
+  }
   else
   {
     return cd_read_ahead->seek_pos + cd_read_ahead->buffer_pos;
@@ -40,10 +41,10 @@ long read_ahead_ftell(cd_read_ahead_struct *cd_read_ahead, FILE *fp)
 
 //-----------------------------------------------------------------------------
 // Seek to a position in the file. If the new position is still
-// within the size of the buffer loaded from disk, update all the 
+// within the size of the buffer loaded from disk, update all the
 // internal position pointers.
 //-----------------------------------------------------------------------------
-void read_ahead_fseek(cd_read_ahead_struct *cd_read_ahead, FILE *fp, int pos, int origin) 
+void read_ahead_fseek(cd_read_ahead_struct *cd_read_ahead, FILE *fp, int pos, int origin)
 {
   if (fp == NULL)
     return;
@@ -60,7 +61,7 @@ void read_ahead_fseek(cd_read_ahead_struct *cd_read_ahead, FILE *fp, int pos, in
   }
   else
   {
-    if (cd_read_ahead->seek_pos <= pos && 
+    if (cd_read_ahead->seek_pos <= pos &&
       pos < (cd_read_ahead->seek_pos + cd_read_ahead->buffer_length))
     {
       cd_read_ahead->buffer_pos = pos - cd_read_ahead->seek_pos;
@@ -80,27 +81,27 @@ void read_ahead_fseek(cd_read_ahead_struct *cd_read_ahead, FILE *fp, int pos, in
 // data is still within the buffer. Otherwise, fseek to the new position
 // and read-ahead to fill the full buffer and load the requested size.
 //-----------------------------------------------------------------------------
-int read_ahead_fread(cd_read_ahead_struct *cd_read_ahead, void *dest_buffer, int size, FILE *fp) 
+int read_ahead_fread(cd_read_ahead_struct *cd_read_ahead, void *dest_buffer, int size, FILE *fp)
 {
   if (fp == NULL)
     return 0;
-  
-  int total_size = size;  
-  if (cd_read_ahead->fptr != fp || 
-      (cd_read_ahead->buffer_pos + total_size) > cd_read_ahead->buffer_length) 
-  { 
+
+  int total_size = size;
+  if (cd_read_ahead->fptr != fp ||
+      (cd_read_ahead->buffer_pos + total_size) > cd_read_ahead->buffer_length)
+  {
     fseek(fp, cd_read_ahead->buffer_pos + cd_read_ahead->seek_pos, SEEK_SET);
     cd_read_ahead->seek_pos = cd_read_ahead->buffer_pos + cd_read_ahead->seek_pos;
-    cd_read_ahead->buffer_length = fread(cd_read_ahead->buffer, 1, CD_READ_AHEAD_BUFFER_SIZE, fp); 
-    cd_read_ahead->buffer_pos = 0; 
-    cd_read_ahead->fptr = fp; 
-  } 
-  if (cd_read_ahead->buffer_pos + total_size > cd_read_ahead->buffer_length) 
-  {
-    total_size = cd_read_ahead->buffer_length - cd_read_ahead->buffer_pos; 
+    cd_read_ahead->buffer_length = fread(cd_read_ahead->buffer, 1, CD_READ_AHEAD_BUFFER_SIZE, fp);
+    cd_read_ahead->buffer_pos = 0;
+    cd_read_ahead->fptr = fp;
   }
-  memcpy(dest_buffer, &cd_read_ahead->buffer[cd_read_ahead->buffer_pos], total_size); 
-  cd_read_ahead->buffer_pos += total_size; 
+  if (cd_read_ahead->buffer_pos + total_size > cd_read_ahead->buffer_length)
+  {
+    total_size = cd_read_ahead->buffer_length - cd_read_ahead->buffer_pos;
+  }
+  memcpy(dest_buffer, &cd_read_ahead->buffer[cd_read_ahead->buffer_pos], total_size);
+  cd_read_ahead->buffer_pos += total_size;
 
   return total_size;
 }

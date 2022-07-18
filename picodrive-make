@@ -52,16 +52,16 @@ INCLUDES	:=	include \
 
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
-CFLAGS	:= -g -w -O3 -mword-relocations -finline-limit=20000 \
+CFLAGS	:= -g -O3 -mword-relocations -finline-limit=20000 \
             -D_ASM_DRAW_C -D_ASM_MEMORY_C -D_ASM_MISC_C -D_ASM_YM2612_C -D_ASM_CD_MEMORY_C -D_ASM_32X_DRAW \
-			-DEMU_C68K -D_USE_DRZ80 -D__arm__ -DDRC_SH2 -D_SVP_DRC -D_3DS \
-			-fno-rtti -fomit-frame-pointer -ffunction-sections -fpermissive \
+			-DEMU_C68K -D_USE_DRZ80 -D__arm__ -DDRC_SH2 -D_SVP_DRC \
+			-fomit-frame-pointer -ffunction-sections \
 			$(ARCH)
 
-#CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS -D__GNUC__ -DUSE_FILE32API -DLIBCTRU_1_0_0 -DLSB_FIRST -DARM_ARCH
-CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS -DARM_ARCH
+#CFLAGS	+=	$(INCLUDE) -D__3DS__ -D__GNUC__ -DUSE_FILE32API -DLIBCTRU_1_0_0 -DLSB_FIRST -DARM_ARCH
+CFLAGS	+=	$(INCLUDE) -D__3DS__ -DARM_ARCH
 
-CXXFLAGS	:= $(CFLAGS)  -fno-exceptions -std=gnu++11
+CXXFLAGS	:= $(CFLAGS) -fno-rtti -fpermissive -fno-exceptions -std=gnu++11
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)

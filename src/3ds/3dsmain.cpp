@@ -37,7 +37,7 @@ SEmulator emulator;
 int frameCount60 = 60;
 u64 frameCountTick = 0;
 int framesSkippedCount = 0;
-char *romFileName = 0;
+const char *romFileName = 0;
 char romFileNameFullPath[_MAX_PATH];
 char romFileNameLastSelected[_MAX_PATH];
 
@@ -671,7 +671,7 @@ SMenuItem cheatMenu[401] =
 };
 
 
-char *noCheatsText[] {
+const char *noCheatsText[] {
     "",
     "    No cheats available for this game ",
     "",

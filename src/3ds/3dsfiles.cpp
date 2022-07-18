@@ -92,7 +92,7 @@ void _makepath (char *path, const char *, const char *dir, const char *fname, co
     if (!dir) dir = empty_dir;
     if (!fname) fname = empty_fname;
     if (!ext) ext = empty_ext;
-    
+
 	if (dir && *dir)
 	{
 		strcpy(path, dir);
@@ -123,7 +123,7 @@ void file3dsInitialize(void)
 //----------------------------------------------------------------------
 // Takes the original file name and replace the extension.
 //----------------------------------------------------------------------
-const char * file3dsReplaceFilenameExtension (char *fileName, char *extension)
+const char * file3dsReplaceFilenameExtension (char *fileName, const char *extension)
 {
 	static char	s[_MAX_PATH + 1];
 	char		drive[_MAX_PATH + 1], dir[_MAX_PATH + 1], fname[_MAX_PATH + 1], ext[_MAX_PATH + 1];
@@ -167,7 +167,7 @@ void file3dsGoToParentDirectory(void)
 //----------------------------------------------------------------------
 // Go up to the child directory.
 //----------------------------------------------------------------------
-void file3dsGoToChildDirectory(char *childDir)
+void file3dsGoToChildDirectory(const char *childDir)
 {
     strncat(currentDir, childDir, _MAX_PATH);
     strncat(currentDir, "/", _MAX_PATH);
@@ -197,11 +197,11 @@ char *file3dsGetExtension(char *filePath)
 //----------------------------------------------------------------------
 // Case-insensitive check for substring.
 //----------------------------------------------------------------------
-char* stristr( char* str1, const char* str2 )
+const char* stristr(const char* str1, const char* str2 )
 {
-    char* p1 = str1 ;
+    const char* p1 = str1 ;
     const char* p2 = str2 ;
-    char* r = *p2 == 0 ? str1 : 0 ;
+    const char* r = *p2 == 0 ? str1 : 0 ;
 
     while( *p1 != 0 && *p2 != 0 )
     {
@@ -240,7 +240,7 @@ char* stristr( char* str1, const char* str2 )
 // Specify a comma separated list of extensions.
 //
 //----------------------------------------------------------------------
-std::vector<std::string> file3dsGetFiles(char *extensions, int maxFiles)
+std::vector<std::string> file3dsGetFiles(const char *extensions, int maxFiles)
 {
     std::vector<std::string> files;
     char buffer[_MAX_PATH];
@@ -251,7 +251,7 @@ std::vector<std::string> file3dsGetFiles(char *extensions, int maxFiles)
     if (strlen(currentDir) > 1)
     {
         // Insert the parent directory.
-        snprintf(buffer, _MAX_PATH, "\x01 ..");   
+        snprintf(buffer, _MAX_PATH, "\x01 ..");
         files.push_back(buffer);
     }
 

@@ -62,7 +62,7 @@ bool video3dsInitializeHardwareRendering(int width, int height)
 bool video3dsInitializeSoftwareRendering(int width, int height, GX_TRANSFER_FORMAT bufferFormat)
 {
     video3dsFinalize();
-    int textureFormat = GPU_RGBA8;
+    GPU_TEXCOLOR textureFormat = GPU_RGBA8;
 
     if (bufferFormat == GX_TRANSFER_FMT_RGBA8)
     {

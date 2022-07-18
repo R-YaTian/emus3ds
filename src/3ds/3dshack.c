@@ -6,7 +6,7 @@
 #include "3dsdbg.h"
 #include "3dshack.h"
 
-typedef int (*ctr_callback_type)(void);
+typedef int (*test_func_type)(void);
 
 
 static int hack3dsSvcInitialized = 0;
@@ -18,7 +18,7 @@ static unsigned int s1, s2, s3, s0;
 // Internal function that enables all services. This must be run via
 // svcBackdoor.
 //-----------------------------------------------------------------------------
-static void ctrEnableAllServices(void)
+static s32 ctrEnableAllServices(void)
 {
    __asm__ volatile("cpsid aif");
 
@@ -28,39 +28,41 @@ static void ctrEnableAllServices(void)
    s1 = svc_access_control[1];
    s2 = svc_access_control[2];
    s3 = svc_access_control[3];
-   
+
    svc_access_control[0]=0xFFFFFFFE;
    svc_access_control[1]=0xFFFFFFFF;
    svc_access_control[2]=0xFFFFFFFF;
    svc_access_control[3]=0x3FFFFFFF;
 
+   return 0;
 }
 
 
 //-----------------------------------------------------------------------------
-// Internal function that invalidates the instruction cache. This must be run 
+// Internal function that invalidates the instruction cache. This must be run
 // via svcBackdoor.
 //-----------------------------------------------------------------------------
-static void ctrInvalidateInstructionCache(void)
+static s32 ctrInvalidateInstructionCache(void)
 {
    __asm__ volatile(
       "cpsid aif\n\t"
       "mov r0, #0\n\t"
       "mcr p15, 0, r0, c7, c5, 0\n\t");
+  return 0;
 }
 
 
 //-----------------------------------------------------------------------------
-// Internal function that flushes the data cache. This must be run 
+// Internal function that flushes the data cache. This must be run
 // via svcBackdoor.
 //-----------------------------------------------------------------------------
-static void ctrFlushDataCache(void)
+static s32 ctrFlushDataCache(void)
 {
    __asm__ volatile(
       "cpsid aif\n\t"
       "mov r0, #0\n\t"
       "mcr p15, 0, r0, c7, c10, 0\n\t");
-
+  return 0;
 }
 
 
@@ -72,9 +74,9 @@ int hack3dsMapMemory(int virtualAddr, void *buffer, int size, int permission)
 {
     #define MEMOP_MAP     4 ///< Mirror mapping
 
-    unsigned int currentHandle;
+    long unsigned int currentHandle;
     svcDuplicateHandle(&currentHandle, 0xFFFF8001);
-    int res = svcControlProcessMemory(currentHandle, virtualAddr, buffer, size, MEMOP_MAP, permission);
+    int res = svcControlProcessMemory(currentHandle, virtualAddr, (u32)buffer, size, MEMOP_MAP, permission);
     svcCloseHandle(currentHandle);
 
     return res;
@@ -89,9 +91,9 @@ int hack3dsUnmapMemory(int virtualAddr, void *buffer, int size)
 {
     #define MEMOP_MAP     4 ///< Mirror mapping
 
-    unsigned int currentHandle;
+    long unsigned int currentHandle;
     svcDuplicateHandle(&currentHandle, 0xFFFF8001);
-    int res = svcControlProcessMemory(currentHandle, virtualAddr, buffer, size, MEMOP_UNMAP, 0x3);
+    int res = svcControlProcessMemory(currentHandle, virtualAddr, (u32)buffer, size, MEMOP_UNMAP, 0x3);
     svcCloseHandle(currentHandle);
 
     return res;
@@ -104,9 +106,9 @@ int hack3dsUnmapMemory(int virtualAddr, void *buffer, int size)
 //-----------------------------------------------------------------------------
 int hack3dsSetMemoryPermission(void *buffer, int size, int permission)
 {
-    unsigned int currentHandle;
+    long unsigned int currentHandle;
     svcDuplicateHandle(&currentHandle, 0xFFFF8001);
-    int res = svcControlProcessMemory(currentHandle, buffer, 0, size, MEMOP_PROT, permission);
+    int res = svcControlProcessMemory(currentHandle, (u32)buffer, 0, size, MEMOP_PROT, permission);
     svcCloseHandle(currentHandle);
 
     return res;
@@ -119,7 +121,7 @@ int hack3dsSetMemoryPermission(void *buffer, int size, int permission)
 void hack3dsInvalidateInstructionCache(void)
 {
 //   __asm__ volatile("svc 0x2E\n\t");
-   svcBackdoor((ctr_callback_type)ctrInvalidateInstructionCache);
+   svcBackdoor(ctrInvalidateInstructionCache);
 
 }
 
@@ -129,7 +131,7 @@ void hack3dsInvalidateInstructionCache(void)
 void hack3dsFlushDataCache(void)
 {
 //   __asm__ volatile("svc 0x4B\n\t");
-   svcBackdoor((ctr_callback_type)ctrFlushDataCache);
+   svcBackdoor(ctrFlushDataCache);
 }
 
 
@@ -152,7 +154,7 @@ int hack3dsTestDynamicRecompilation(void)
     if (hack3dsSetMemoryPermission(&hack3dsTestBuffer[0], 4096, 0x7))
     {
         // If svcControlProcessMemory didn't succeed, likely dynarec
-        // will just crash. 
+        // will just crash.
 #ifndef EMU_RELEASE
         printf ("Dynarec test: svcControlProcessMemory failed!\n");
 #endif
@@ -161,7 +163,7 @@ int hack3dsTestDynamicRecompilation(void)
     }
 
     int *test_out = hack3dsTestBuffer;
-    int (*testfunc)(void) = hack3dsTestBuffer;
+    int (*testfunc)(void) = (test_func_type)hack3dsTestBuffer;
 
     *test_out++ = 0xe3a000dd; // mov r0, 0xdd
     *test_out++ = 0xe12fff1e; // bx lr
@@ -186,7 +188,7 @@ int hack3dsTestDynamicRecompilation(void)
 
 //-----------------------------------------------------------------------------
 // Initializes the hack to gain kernel access to all services.
-// The one that we really are interested is actually the 
+// The one that we really are interested is actually the
 // svcControlProcessMemory, because once we have kernel access, we can
 // grant read/write/execute access to memory blocks, and which means we
 // can do dynamic recompilation.
@@ -201,8 +203,8 @@ int hack3dsInitializeSvcHack(void)
         return 0;         // Means this was launched from Homebrew Launcher
     }
 
-    svcBackdoor((ctr_callback_type)ctrEnableAllServices);
-    svcBackdoor((ctr_callback_type)ctrEnableAllServices);
+    svcBackdoor(ctrEnableAllServices);
+    svcBackdoor(ctrEnableAllServices);
 #ifndef EMU_RELEASE
     printf("svc_access_control: %x %x %x %x\n", s0, s1, s2, s3);
 #endif
@@ -217,4 +219,3 @@ int hack3dsInitializeSvcHack(void)
     hack3dsSvcInitialized = 1;
     return 1;
 }
-
