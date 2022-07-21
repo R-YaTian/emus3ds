@@ -44,6 +44,7 @@
 #include "Pad.h"
 #include "Config.h"
 #include "palette.h"
+#include "inputRedirect.h"
 
 #define SETTINGS_ALLSPRITES         0
 #define SETTINGS_GLOBALINSERTCOIN1  1
@@ -630,6 +631,15 @@ void impl3dsEmulationPollInput()
 {
     u32 keysHeld3ds = input3dsGetCurrentKeysHeld();
     u32 consoleJoyPad = input3dsProcess3dsKeys();
+
+    u16 keysHeld2P = input3dsGetCurrentKeysHeld2P();
+    u8 *ptrHeld2P = (u8 *)&keysHeld2P;
+    u8 *ptrJoyPad = (u8 *)&consoleJoyPad;
+    ptrJoyPad[1] |= (ptrHeld2P[0] & 0x0F);
+    if (keysHeld2P & IRED_LEFT) ptrJoyPad[1] |= 0x40;
+    if (keysHeld2P & IRED_RIGHT) ptrJoyPad[1] |= 0x80;
+    if (keysHeld2P & IRED_UP) ptrJoyPad[1] |= 0x10;
+    if (keysHeld2P & IRED_DOWN) ptrJoyPad[1] |= 0x20;
 
     if (nes)
 		nes->pad->SetSyncData(consoleJoyPad);

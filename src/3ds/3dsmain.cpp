@@ -884,6 +884,7 @@ void emulatorLoop()
 		snd3dsInitialize();
 
     impl3dsEmulationBegin();
+		initIRED();
 
 	while (true)
 	{

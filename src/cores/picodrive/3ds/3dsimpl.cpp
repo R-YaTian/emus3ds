@@ -712,7 +712,6 @@ void setSampleRate(bool preserveState)
 //---------------------------------------------------------
 bool impl3dsLoadROM(char *romFilePath)
 {
-  initIRED();
     // ** Load ROM
     PicoPatchUnload();
 	enum media_type_e media_type;
@@ -760,7 +759,6 @@ int impl3dsGetROMFrameRate()
 //---------------------------------------------------------
 void impl3dsResetConsole()
 {
-  initIRED();
     cache3dsInit();
 
     // ** Reset
