@@ -2,7 +2,7 @@
 #ifndef _PALETTE_H_
 #define _PALETTE_H_
 
-#include "3ds.h"
+#include <3ds.h>
 
 typedef struct
 {

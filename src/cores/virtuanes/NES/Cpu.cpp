@@ -14,7 +14,6 @@
 #include "typedef.h"
 #include "macro.h"
 
-#include "DebugOut.h"
 #include "App.h"
 #include "Config.h"
 
@@ -1065,9 +1064,9 @@ char *CPU::Disassemble(int addr, uint8 *opcode) {
 		//jumps
 		case 0x20: strcpy(chr,"JSR"); goto _jump;
 		case 0x4C: strcpy(chr,"JMP"); goto _jump;
-		case 0x6C: absolute(tmp); 
+		case 0x6C: absolute(tmp);
             //sprintf(str,"JMP ($%04X) = $%04X", tmp,GetMem(tmp)|GetMem(tmp+1)<<8);
-            sprintf(str,"JMP ($%04X)", tmp); 
+            sprintf(str,"JMP ($%04X)", tmp);
             break;
 		_jump:
 			absolute(tmp);
@@ -1153,7 +1152,7 @@ register BYTE	DT;
 
 		//if (R.PC - 1 == 0xE1A9)
 		//	emulator.enableDebug = true;
-		
+
 		/*
 		if (emulator.enableDebug)
 		{
@@ -1162,22 +1161,22 @@ register BYTE	DT;
 			BYTE *opcodefull = &CPU_MEM_BANK[addr>>13][addr&0x1FFF];
 
 			//FILE *fp = fopen("cpudbg.txt", "a");
-			//fprintf (fp, 
+			//fprintf (fp,
 			dbgprintf2("$%04X:%-54s ", R.PC - 1, Disassemble(R.PC + opsz - 1, opcodefull));
 			dbgprintf4("A:%02X X:%02X Y:%02X ", R.A, R.X, R.Y, R.S);
-			dbgprintf4("P:%s%s%s%s", 
+			dbgprintf4("P:%s%s%s%s",
 				(R.P & N_FLAG) ? "N" : "n",
 				(R.P & V_FLAG) ? "V" : "v",
 				(R.P & R_FLAG) ? "U" : "u",
 				(R.P & B_FLAG) ? "B" : "b"
 				);
-			dbgprintf4("%s%s%s%s\n", 
+			dbgprintf4("%s%s%s%s\n",
 				(R.P & D_FLAG) ? "D" : "d",
 				(R.P & I_FLAG) ? "I" : "i",
 				(R.P & Z_FLAG) ? "Z" : "z",
 				(R.P & C_FLAG) ? "C" : "c"
 				);
-			
+
 			//fclose(fp);
 		}
 		*/
@@ -2218,4 +2217,3 @@ _execute_exit:
 
 	return	TOTAL_cycles - OLD_cycles;
 }
-

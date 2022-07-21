@@ -5,11 +5,12 @@
 //                                               written     2002/06/27 //
 //                                               last modify ----/--/-- //
 //////////////////////////////////////////////////////////////////////////
-#include "DebugOut.h"
 #include "Pathlib.h"
 #include "Config.h"
 
 #include "APU_INTERNAL.h"
+#include <windows.h>
+#include "windows.h"
 
 #include "state.h"
 #include "rom.h"
@@ -1341,4 +1342,3 @@ void	APU_INTERNAL::LoadState( LPBYTE p )
 //	p += sizeof(ch3);
 	GETBLOCK( p, &ch4, sizeof(ch4) );
 }
-

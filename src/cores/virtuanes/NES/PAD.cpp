@@ -10,7 +10,6 @@
 #include "typedef.h"
 #include "macro.h"
 
-#include "DebugOut.h"
 #include "Config.h"
 
 //#include "DirectDraw.h"
@@ -115,7 +114,7 @@ void	PAD::Reset()
 	}
 	if( crc == 0xc68363f6		// Crazy Climber(J)
 	 /*
-	 // For 3DS. 
+	 // For 3DS.
 	 // Removed this, otherwise the player is unable to move in
 	 // Smash TV.
 	 || crc == 0x2989ead6		// Smash TV(U) [!]

@@ -10,14 +10,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "DebugOut.h"
 #include "typedef.h"
 #include "macro.h"
 
 #include "3dsdbg.h"
 #include "nes.h"
-#include "mmu_fceux.h" 
-#include "mmu.h" 
+#include "mmu_fceux.h"
+#include "mmu.h"
 #include "cpu.h"
 #include "ppu.h"
 #include "apu.h"
@@ -546,9 +545,9 @@ Mapper*	CreateMapper( NES* parent, INT no, BOOL bUnif )
 		case	26:
 			return new Mapper026(parent);
 		case	28:
-			return new MapperFCEUX(parent, 
-				fceux_mapper028::M28Power, 
-				fceux_mapper028::M28Reset, 
+			return new MapperFCEUX(parent,
+				fceux_mapper028::M28Power,
+				fceux_mapper028::M28Reset,
 				fceux_mapper028::StateRestore,
 				NULL,
 				fceux_mapper028::StateRegs);
@@ -561,9 +560,9 @@ Mapper*	CreateMapper( NES* parent, INT no, BOOL bUnif )
 		case	35:
 			return new Mapper035(parent);
 		case	36:
-			return new MapperFCEUX(parent, 
-				fceux_mapper036::M36Power, 
-				NULL, 
+			return new MapperFCEUX(parent,
+				fceux_mapper036::M36Power,
+				NULL,
 				fceux_mapper036::M36Restore,
 				NULL,
 				fceux_mapper036::StateRegs);
@@ -716,9 +715,9 @@ Mapper*	CreateMapper( NES* parent, INT no, BOOL bUnif )
 		case	117:
 			return new Mapper117(parent);
 		case	120:
-			return new MapperFCEUX(parent, 
-				fceux_mapper120::M120Power, 
-				NULL, 
+			return new MapperFCEUX(parent,
+				fceux_mapper120::M120Power,
+				NULL,
 				fceux_mapper120::StateRestore,
 				NULL,
 				fceux_mapper120::StateRegs);
@@ -835,9 +834,9 @@ Mapper*	CreateMapper( NES* parent, INT no, BOOL bUnif )
 			return new Mapper202(parent);
 
 		case	206:
-			return new MapperFCEUX(parent, 
-				fceux_mapper206::M206Power, 
-				NULL, 
+			return new MapperFCEUX(parent,
+				fceux_mapper206::M206Power,
+				NULL,
 				fceux_mapper206::StateRestore,
 				NULL,
 				fceux_mapper206::StateRegs);
@@ -924,4 +923,3 @@ Mapper*	CreateMapper( NES* parent, INT no, BOOL bUnif )
 
 	return	NULL;
 }
-

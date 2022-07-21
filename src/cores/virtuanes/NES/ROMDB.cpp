@@ -10,7 +10,6 @@
 #include "typedef.h"
 #include "macro.h"
 
-#include "DebugOut.h"
 #include "App.h"
 //#include "Plugin.h"
 #include "Pathlib.h"
@@ -190,4 +189,3 @@ DEBUGOUT( "File:%s\n", Path.c_str() );
 DEBUGOUT( "Database file not found.\n" );
 	}*/
 }
-

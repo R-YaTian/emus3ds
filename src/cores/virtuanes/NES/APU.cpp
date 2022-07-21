@@ -5,7 +5,6 @@
 //                                               written     2002/06/27 //
 //                                               last modify ----/--/-- //
 //////////////////////////////////////////////////////////////////////////
-#include "DebugOut.h"
 #include "App.h"
 #include "Config.h"
 
@@ -62,11 +61,11 @@ void	APU::SetQueue( u64 writetime, WORD addr, BYTE data )
 		if (writetime - queue.data[queue.wrptr].time >= 0x1ff && new_elapsed_time == 0)
 			new_elapsed_time = writetime;
 	}*/
-	
+
 	queue.data[queue.wrptr].time = writetime;
 	queue.data[queue.wrptr].addr = addr;
 	queue.data[queue.wrptr].data = data;
-	
+
 	// Write to wrptr after completing both increment and masking.
 	// (helps prevent race conditions?)
 	//queue.wrptr++;
@@ -142,7 +141,7 @@ void	APU::SetExQueue( u64 writetime, WORD addr, BYTE data )
 		if (writetime - exqueue.data[exqueue.wrptr].time >= 0x1ff && new_elapsed_time == 0)
 			new_elapsed_time = writetime;
 	}*/
-		
+
 	exqueue.data[exqueue.wrptr].time = writetime;
 	exqueue.data[exqueue.wrptr].addr = addr;
 	exqueue.data[exqueue.wrptr].data = data;
@@ -446,10 +445,10 @@ INT	nFilterType = Config.sound.nFilterType;
 		new_elapsed_time = 0;
 	}
 
-	while( dwLength-- ) 
+	while( dwLength-- )
 	{
 		writetime = elapsed_time;
-		
+
 		/*
 		while( GetQueue( writetime, q ) ) {
 			WriteProcess( q.addr, q.data );
@@ -471,7 +470,7 @@ INT	nFilterType = Config.sound.nFilterType;
 			if (q.addr == 0x5011)
 				WriteExProcess( q.addr, q.data );
 		}
-		
+
 		// 0-4:internal 5-7:VRC6 8:VRC7 9:FDS 10-12:MMC5 13-20:N106 21-23:FME7
 		output = 0;
 		output += internal.Process( 0 )*RECTANGLE_VOL;
@@ -576,7 +575,7 @@ INT	nFilterType = Config.sound.nFilterType;
 		INT	diff = abs(output-last_data);
 		if( diff > 0x4000 ) {
 			output /= 4;
-		} else 
+		} else
 		if( diff > 0x3000 ) {
 			output /= 3;
 		} else

@@ -47,9 +47,9 @@
 
 #define SETTINGS_ALLSPRITES         0
 #define SETTINGS_GLOBALINSERTCOIN1  1
-#define SETTINGS_GLOBALINSERTCOIN2  2 
+#define SETTINGS_GLOBALINSERTCOIN2  2
 #define SETTINGS_INSERTCOIN1        3
-#define SETTINGS_INSERTCOIN2        4  
+#define SETTINGS_INSERTCOIN2        4
 
 //----------------------------------------------------------------------
 // Settings
@@ -138,7 +138,7 @@ SMenuItem optionsForSpriteFlicker[] =
 {
     MENU_MAKE_DIALOG_ACTION (0, "Hardware Accurate",   "Flickers like real hardware"),
     MENU_MAKE_DIALOG_ACTION (1, "Better Visuals",      "Looks better, less accurate"),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionMenu[] = {
@@ -237,7 +237,7 @@ SMenuItem optionsForDisk[] =
     MENU_MAKE_DIALOG_ACTION (6, "Change to Disk 3 Side B",  ""),
     MENU_MAKE_DIALOG_ACTION (7, "Change to Disk 4 Side A",  ""),
     MENU_MAKE_DIALOG_ACTION (8, "Change to Disk 4 Side B",  ""),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 
@@ -258,8 +258,8 @@ SMenuItem emulatorMenu[] = {
     MENU_MAKE_ACTION    (2003, "  Save Slot #3"),   // Do not modify
     MENU_MAKE_ACTION    (2004, "  Save Slot #4"),   // Do not modify
     MENU_MAKE_ACTION    (2005, "  Save Slot #5"),   // Do not modify
-    MENU_MAKE_HEADER2   (""),   
-    
+    MENU_MAKE_HEADER2   (""),
+
     MENU_MAKE_ACTION    (3001, "  Load Slot #1"),   // Do not modify
     MENU_MAKE_ACTION    (3002, "  Load Slot #2"),   // Do not modify
     MENU_MAKE_ACTION    (3003, "  Load Slot #3"),   // Do not modify
@@ -317,31 +317,31 @@ extern SSettings3DS settings3DS;
 //---------------------------------------------------------
 // Provide a comma-separated list of file extensions
 //---------------------------------------------------------
-char *impl3dsRomExtensions = "nes,fds";
+const char *impl3dsRomExtensions = "nes,fds";
 
 
 //---------------------------------------------------------
 // The title image .PNG filename.
 //---------------------------------------------------------
-char *impl3dsTitleImage = "./virtuanes_3ds_top.png";
+const char *impl3dsTitleImage = "./virtuanes_3ds_top.png";
 
 
 //---------------------------------------------------------
 // The title that displays at the bottom right of the
 // menu.
 //---------------------------------------------------------
-char *impl3dsTitleText = "VirtuaNES for 3DS v1.02";
+const char *impl3dsTitleText = "VirtuaNES for 3DS v1.02";
 
 
 //---------------------------------------------------------
-// The bitmaps for the emulated console's UP, DOWN, LEFT, 
+// The bitmaps for the emulated console's UP, DOWN, LEFT,
 // RIGHT keys.
 //---------------------------------------------------------
 u32 input3dsDKeys[4] = { BTNNES_UP, BTNNES_DOWN, BTNNES_LEFT, BTNNES_RIGHT };
 
 
 //---------------------------------------------------------
-// The list of valid joypad bitmaps for the emulated 
+// The list of valid joypad bitmaps for the emulated
 // console.
 //
 // This should NOT include D-keys.
@@ -383,12 +383,12 @@ bool impl3dsInitializeCore()
 	gpu3dsInitializeShaderRegistersForRenderTarget(0, 10);
 	gpu3dsInitializeShaderRegistersForTexture(4, 14);
 	gpu3dsInitializeShaderRegistersForTextureOffset(6);
-	
-	
+
+
     // Create all the necessary textures
     //
     //nesTileCacheTexture = gpu3dsCreateTextureInLinearMemory(1024, 1024, GPU_RGBA5551);
- 
+
     if (!video3dsInitializeSoftwareRendering(512, 256, GX_TRANSFER_FMT_RGB565))
         return false;
 
@@ -457,7 +457,7 @@ void impl3dsGenerateSoundSamples(int numberOfSamples)
 // This gives time for the sound generation to execute
 // from the 2nd core before copying it to the actual
 // output buffer.
-// 
+//
 // For a console with only MONO output, simply copy
 // the samples into the leftSamples buffer.
 //---------------------------------------------------------
@@ -492,13 +492,13 @@ bool impl3dsLoadROM(char *romFilePath)
 	// compute a sample rate closes to 32000 kHz.
 	//
     int nesSampleRate = 32000;
-    u8 new3DS = false;
+    bool new3DS = false;
     APT_CheckNew3DS(&new3DS);
 
     // Lagrange Point and Old 3DS, we need to use a lower sample rate
     // because the 2nd core is not fast enough to generate VRC7 sounds.
     //
-    if (nes->rom->GetMapperNo() == 85 && !new3DS)   
+    if (nes->rom->GetMapperNo() == 85 && !new3DS)
         nesSampleRate = 20000;
 
     int numberOfGenerationsPerSecond = nes->nescfg->FrameRate * 2;
@@ -506,11 +506,11 @@ bool impl3dsLoadROM(char *romFilePath)
 	soundSamplesPerSecond = snd3dsComputeSampleRate(nesSampleRate, numberOfGenerationsPerSecond);
 	snd3dsSetSampleRate(
 		false,
-		nesSampleRate, 
-		numberOfGenerationsPerSecond, 
-		true, 
+		nesSampleRate,
+		numberOfGenerationsPerSecond,
+		true,
         1, 4);
-	
+
 	Config.sound.nRate = soundSamplesPerSecond;
 	Config.sound.nBits = 16;
 	Config.sound.nFilterType = 1;
@@ -529,7 +529,7 @@ bool impl3dsLoadROM(char *romFilePath)
             break;
         if (emulatorMenu[i].ID == 30000)
         {
-            if (fdsDiskNo > 0) 
+            if (fdsDiskNo > 0)
                 emulatorMenu[i].Type = MENUITEM_PICKER2;
             else
                 emulatorMenu[i].Type = MENUITEM_DISABLED;
@@ -564,7 +564,7 @@ int impl3dsGetROMFrameRate()
 // console
 //---------------------------------------------------------
 void impl3dsResetConsole()
-{	
+{
 	if (nes)
 		nes->SoftReset();
 }
@@ -573,7 +573,7 @@ void impl3dsResetConsole()
 //---------------------------------------------------------
 // This is called when preparing to start emulating
 // a new frame. Use this to do any preparation of data,
-// the hardware, swap any vertex list buffers, etc, 
+// the hardware, swap any vertex list buffers, etc,
 // before the frame is emulated
 //---------------------------------------------------------
 void impl3dsPrepareForNewFrame()
@@ -612,7 +612,7 @@ void impl3dsEmulationBegin()
 	gpu3dsDisableStencilTest();
 	gpu3dsSetTextureEnvironmentReplaceTexture0();
 	gpu3dsSetRenderTargetToTopFrameBuffer();
-	gpu3dsFlush();	
+	gpu3dsFlush();
 	//if (emulator.isReal3DS)
 	//	gpu3dsWaitForPreviousFlush();
 }
@@ -648,7 +648,7 @@ void impl3dsEmulationPollInput()
 
 
 //---------------------------------------------------------
-// The following pipeline is used if the 
+// The following pipeline is used if the
 // emulation engine does software rendering.
 //
 // You can potentially 'hide' the wait latencies by
@@ -663,7 +663,7 @@ int lastWait = 0;
 
 void impl3dsRenderDrawTextureToFrameBuffer()
 {
-	t3dsStartTiming(14, "Draw Texture");	
+	t3dsStartTiming(14, "Draw Texture");
 
     // Draw a black colored rectangle covering the entire screen.
     //
@@ -762,7 +762,7 @@ if (frameCount60 == 59)
         video3dsCopySoftwareBufferToTexture();
 
 	if (!skipDrawingPreviousFrame)
-		impl3dsRenderDrawTextureToFrameBuffer();	
+		impl3dsRenderDrawTextureToFrameBuffer();
 
 	skipDrawingPreviousFrame = skipDrawingFrame;
 	t3dsEndTiming(1);
@@ -772,7 +772,7 @@ if (frameCount60 == 59)
 
 //---------------------------------------------------------
 // Finalize any variables or state of the GPU
-// before the emulation loop ends and control 
+// before the emulation loop ends and control
 // goes into the menu.
 //---------------------------------------------------------
 void impl3dsEmulationEnd()
@@ -783,7 +783,7 @@ void impl3dsEmulationEnd()
 	{
 		if (lastWait == WAIT_PPF)
 			gspWaitForPPF();
-		else 
+		else
 		if (lastWait == WAIT_P3D)
 			gpu3dsWaitForPreviousFlush();
 	}*/
@@ -804,7 +804,7 @@ void impl3dsEmulationPaused()
     {
         ui3dsDrawRect(50, 140, 270, 154, 0x000000);
         ui3dsDrawStringWithNoWrapping(50, 140, 270, 154, 0x3f7fff, HALIGN_CENTER, "Saving SRAM to SD card...");
-        
+
         nes->SaveSRAM();
     }
 }
@@ -851,7 +851,7 @@ bool impl3dsLoadState(int slotNumber)
 	    sprintf(ext, ".sta");
     else
 	    sprintf(ext, ".st%d", slotNumber - 1);
-    
+
 	if (nes)
 	{
 		nes->LoadState(file3dsReplaceFilenameExtension(romFileNameFullPath, ext));
@@ -866,7 +866,7 @@ bool impl3dsLoadState(int slotNumber)
 // This function will be called everytime the user
 // selects an action on the menu.
 //
-// Returns true if the menu should close and the game 
+// Returns true if the menu should close and the game
 // should resume
 //---------------------------------------------------------
 bool impl3dsOnMenuSelected(int ID)
@@ -877,10 +877,10 @@ bool impl3dsOnMenuSelected(int ID)
 
 
 //---------------------------------------------------------
-// This function will be called everytime the user 
+// This function will be called everytime the user
 // changes the value in the specified menu item.
 //
-// Returns true if the menu should close and the game 
+// Returns true if the menu should close and the game
 // should resume
 //---------------------------------------------------------
 bool impl3dsOnMenuSelectedChanged(int ID, int value)
@@ -895,7 +895,7 @@ bool impl3dsOnMenuSelectedChanged(int ID, int value)
         switch (value)
         {
             case 0:
-                if( nes->rom->GetDiskNo() > 0 ) 
+                if( nes->rom->GetDiskNo() > 0 )
                     nes->Command( NES::NESCMD_DISK_EJECT );
                 return true;
                 break;
@@ -946,15 +946,15 @@ bool impl3dsOnMenuSelectedChanged(int ID, int value)
 
 
 //---------------------------------------------------------
-// Initializes the default global settings. 
+// Initializes the default global settings.
 // This method is called everytime if the global settings
 // file does not exist.
 //---------------------------------------------------------
 void impl3dsInitializeDefaultSettingsGlobal()
 {
 	settings3DS.GlobalVolume = 4;
-	settings3DS.OtherOptions[SETTINGS_GLOBALINSERTCOIN1] = 0;	
-	settings3DS.OtherOptions[SETTINGS_GLOBALINSERTCOIN2] = 0;	
+	settings3DS.OtherOptions[SETTINGS_GLOBALINSERTCOIN1] = 0;
+	settings3DS.OtherOptions[SETTINGS_GLOBALINSERTCOIN2] = 0;
 }
 
 //---------------------------------------------------------
@@ -968,15 +968,15 @@ void impl3dsInitializeDefaultSettingsByGame()
 	settings3DS.ForceFrameRate = 0;
 	settings3DS.Volume = 4;
 
-	settings3DS.OtherOptions[SETTINGS_INSERTCOIN1] = 0;	
-	settings3DS.OtherOptions[SETTINGS_INSERTCOIN2] = 0;	
+	settings3DS.OtherOptions[SETTINGS_INSERTCOIN1] = 0;
+	settings3DS.OtherOptions[SETTINGS_INSERTCOIN2] = 0;
 }
 
 
 
 
 //----------------------------------------------------------------------
-// Read/write all possible game specific settings into a file 
+// Read/write all possible game specific settings into a file
 // created in this method.
 //
 // This must return true if the settings file exist.
@@ -1042,7 +1042,7 @@ bool impl3dsReadWriteSettingsByGame(bool writeMode)
 
 
 //----------------------------------------------------------------------
-// Read/write all possible global specific settings into a file 
+// Read/write all possible global specific settings into a file
 // created in this method.
 //
 // This must return true if the settings file exist.
@@ -1052,7 +1052,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
     bool success = config3dsOpenFile("./virtuanes_3ds.cfg", writeMode);
     if (!success)
         return false;
-    
+
     int deprecated = 0;
 
     config3dsReadWriteInt32("#v1\n", NULL, 0, 0);
@@ -1157,7 +1157,7 @@ bool impl3dsApplyAllSettings(bool updateGameSettings)
         settings3DS.GlobalVolume = 0;
     if (settings3DS.GlobalVolume > 8)
         settings3DS.GlobalVolume = 8;
-    
+
     int vol[9] = { 100, 125, 150, 175, 200, 250, 300, 350, 400 };
     Config.sound.nVolume[0] = vol[settings3DS.Volume];
     if (settings3DS.UseGlobalVolume)
@@ -1232,7 +1232,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
         for (int b = 0; b < 8; b++)
             UPDATE_SETTINGS(settings3DS.GlobalTurbo[b], -1, 13000 + b);
     }
-    if (!settings3DS.UseGlobalTurbo || copyMenuToSettings) 
+    if (!settings3DS.UseGlobalTurbo || copyMenuToSettings)
     {
         for (int b = 0; b < 8; b++)
             UPDATE_SETTINGS(settings3DS.Turbo[b], -1, 13000 + b);
@@ -1259,11 +1259,11 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
         UPDATE_SETTINGS(settings3DS.OtherOptions[SETTINGS_INSERTCOIN1], -1, 23003);
         UPDATE_SETTINGS(settings3DS.OtherOptions[SETTINGS_INSERTCOIN1], -1, 23004);
     }
-    
+
     UPDATE_SETTINGS(settings3DS.OtherOptions[SETTINGS_ALLSPRITES], -1, 19000);     // sprite flicker
 
     return settingsUpdated;
-	
+
 }
 
 
@@ -1282,7 +1282,7 @@ void impl3dsClearAllCheats()
 
 
 //----------------------------------------------------------------------
-// Adds cheats into the emulator core after being loaded up from 
+// Adds cheats into the emulator core after being loaded up from
 // the .CHX file.
 //
 // This method is called only when cheats are loaded.
@@ -1293,13 +1293,13 @@ void impl3dsClearAllCheats()
 //----------------------------------------------------------------------
 bool impl3dsAddCheat(bool cheatEnabled, char *name, char *code)
 {
-    return nes->GenieAdd(cheatEnabled, code);    
+    return nes->GenieAdd(cheatEnabled, code);
 }
 
 
 //----------------------------------------------------------------------
 // Enable/disables a cheat in the emulator core.
-// 
+//
 // This method will be triggered when the user enables/disables
 // cheats in the cheat menu.
 //----------------------------------------------------------------------

@@ -1,98 +1,18 @@
-//
-// �ݒ��ۑ��N���X
-//
 #ifndef	__CCONFIG_INCLUDED__
 #define	__CCONFIG_INCLUDED__
 
 #define	WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <stdlib.h>
 #define	DIRECTINPUT_VERSION	0x0700
-//#include <dinput.h>
 
 #include <string>
 using namespace std;
 
+#include <windows.h>
 #include "extsoundfile.h"
 
 #include "typedef.h"
 #include "macro.h"
-
-class	CCfgGeneral
-{
-public:
-	BOOL	bDoubleExecute;
-	BOOL	bStartupLauncher;
-
-	BOOL	bWindowSave;
-	BOOL	bWindowZoom;
-	RECT	rcWindowPos;
-
-	BOOL	bScreenMode;
-	BOOL	nScreenZoom;
-
-	RECT	rcSearchDlgPos;
-
-	RECT	rcPatternViewPos;
-	RECT	rcNameTableViewPos;
-	RECT	rcPaletteViewPos;
-	RECT	rcMemoryViewPos;
-
-	RECT	rcBarcodePos;
-	RECT	rcPaletteEditPos;
-
-	BOOL	bNoJoystickID;
-
-	WORD	JoyAxisSetting[16];
-
-	// �W���C�p�b�h�̎��̖�����
-	//  0 : All enable
-	//  1 : X���ȍ~�S��
-	//  2 : Y���ȍ~�S��
-	//  3 : Z���ȍ~�S��
-	//  4 : RX���ȍ~�S��
-	//  5 : RY���ȍ~�S��
-	//  6 : RZ���ȍ~�S��
-	INT	nJoyAxisDisable;
-
-	void	Default() {
-		bWindowSave = FALSE;
-		bWindowZoom = FALSE;
-		rcWindowPos.left = rcWindowPos.right =
-		rcWindowPos.top = rcWindowPos.bottom = 0;
-
-		bDoubleExecute = TRUE;
-		bStartupLauncher = FALSE;
-
-		bScreenMode = FALSE;
-		nScreenZoom = 0;
-
-		rcSearchDlgPos.left = rcSearchDlgPos.right =
-		rcSearchDlgPos.top = rcSearchDlgPos.bottom = 0;
-
-		rcPatternViewPos.left = rcPatternViewPos.right =
-		rcPatternViewPos.top = rcPatternViewPos.bottom = 0;
-		rcNameTableViewPos.left = rcNameTableViewPos.right =
-		rcNameTableViewPos.top = rcNameTableViewPos.bottom = 0;
-		rcPaletteViewPos.left = rcPaletteViewPos.right =
-		rcPaletteViewPos.top = rcPaletteViewPos.bottom = 0;
-		rcMemoryViewPos.left = rcMemoryViewPos.right =
-		rcMemoryViewPos.top = rcMemoryViewPos.bottom = 0;
-
-		rcBarcodePos.left = rcBarcodePos.right =
-		rcBarcodePos.top = rcBarcodePos.bottom = 0;
-
-		rcPaletteEditPos.left = rcPaletteEditPos.right =
-		rcPaletteEditPos.top = rcPaletteEditPos.bottom = 0;
-
-		bNoJoystickID = FALSE;
-		nJoyAxisDisable = 0;
-
-		for( INT i = 0; i < 16; i++ ) {
-			JoyAxisSetting[i] = 0;
-		}
-	}
-};
 
 class	CCfgPath
 {
@@ -121,16 +41,6 @@ public:
 		bMoviePath = bWavePath =
 		bCheatPath = bIpsPath = TRUE;
 
-		/*
-		::lstrcpy( szRomPath,      ".\\roms\\" );
-		::lstrcpy( szSavePath,     ".\\save\\" );
-		::lstrcpy( szStatePath,    ".\\state\\" );
-		::lstrcpy( szSnapshotPath, ".\\snapshot\\" );
-		::lstrcpy( szMoviePath,    ".\\movie\\" );
-		::lstrcpy( szWavePath,     ".\\wave\\" );
-		::lstrcpy( szCheatPath,    ".\\cheatcode\\" );
-		::lstrcpy( szIpsPath,      ".\\ips\\" );
-		*/
 		strcpy( szRomPath,      ".\\roms\\" );
 		strcpy( szSavePath,     ".\\save\\" );
 		strcpy( szStatePath,    ".\\state\\" );
@@ -607,53 +517,6 @@ public:
 	}
 };
 
-class	CCfgLauncher
-{
-public:
-	RECT	rcWindowPos;
-
-	BYTE	bHeaderView [16];
-	BYTE	nHeaderOrder[16];
-	SHORT	nHeaderWidth[16];
-
-	BOOL	bActivePause;
-
-	INT	nListSelect;
-
-	BOOL	bSortDir;
-	INT	nSortType;
-
-	BYTE	bFolderUse[16];
-	CHAR	szFolder[16][_MAX_PATH];
-
-	CHAR	szLastSelect[_MAX_PATH];
-
-	void	Default() {
-		rcWindowPos.left = rcWindowPos.right =
-		rcWindowPos.top = rcWindowPos.bottom = 0;
-
-		bActivePause = FALSE;
-
-		nListSelect = 0;
-
-		bSortDir = FALSE;
-		nSortType = 0;
-
-		INT	i;
-		for( i = 0; i < 16; i++ ) {
-			bHeaderView [i] = TRUE;
-			nHeaderOrder[i] = i;
-			nHeaderWidth[i] = (i==0)?160:48;
-		}
-
-		for( i = 0; i < 16; i++ ) {
-			bFolderUse[i] = FALSE;
-			szFolder[i][0] = '\0';
-		}
-
-		szLastSelect[0] = '\0';
-	}
-};
 
 class	CCfgExtraSound
 {
@@ -667,36 +530,6 @@ public:
 	}
 };
 
-class	CCfgNetPlay
-{
-public:
-	RECT	rcChatPos;
-
-	INT	nRecentPort, nRecentHost;
-	CHAR	szRecentPort[16][_MAX_PATH+1];
-	CHAR	szRecentHost[16][_MAX_PATH+1];
-	CHAR	szNick[_MAX_PATH+1];
-
-	void	Default() {
-		rcChatPos.left = rcChatPos.right =
-		rcChatPos.top = rcChatPos.bottom = 0;
-
-		//::lstrcpy( szNick, "NoName" );
-		strcpy( szNick, "NoName" );
-
-		for( INT i = 0; i < 16; i++ ) {
-			szRecentPort[i][0] = '\0';
-			szRecentHost[i][0] = '\0';
-		}
-		//::lstrcpy( szRecentPort[0], "10000" );
-		//::lstrcpy( szRecentHost[0], "localhost:10000" );
-		strcpy( szRecentPort[0], "10000" );
-		strcpy( szRecentHost[0], "localhost:10000" );
-
-		nRecentPort = 1;
-		nRecentHost = 1;
-	}
-};
 
 class	CConfig
 {
@@ -706,7 +539,6 @@ public:
 		Default();
 	}
 
-	CCfgGeneral	general;
 	CCfgPath	path;
 	CCfgEmulator	emulator;
 	CCfgGraphics	graphics;
@@ -715,12 +547,9 @@ public:
 	CCfgLanguage	language;
 	CCfgController	controller;
 	CCfgMovie	movie;
-	CCfgLauncher	launcher;
 	CCfgExtraSound	extsound;
-	CCfgNetPlay	netplay;
 
 	void	Default() {
-		general.Default();
 		path.Default();
 		emulator.Default();
 		graphics.Default();
@@ -729,9 +558,7 @@ public:
 		language.Default();
 		controller.Default();
 		movie.Default();
-		launcher.Default();
 		extsound.Default();
-		netplay.Default();
 	}
 
 	void	Load();

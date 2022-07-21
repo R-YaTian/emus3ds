@@ -9,12 +9,12 @@
 
 APU_VRC7::APU_VRC7()
 {
-    u8 new3DS = false;
+    bool new3DS = false;
     APT_CheckNew3DS(&new3DS);
 	int sampleRate = 32000;
 	if (!new3DS)
 		sampleRate = 20000;
-	
+
 	OPLL_init( 3579545, (uint32)sampleRate );	// ���̃T���v�����O���[�g
 	VRC7_OPLL = OPLL_new();
 

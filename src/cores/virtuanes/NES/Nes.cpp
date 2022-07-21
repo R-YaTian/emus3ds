@@ -17,7 +17,6 @@
 
 #include "VirtuaNESres.h"
 
-#include "DebugOut.h"
 #include "App.h"
 #include "Pathlib.h"
 #include "Config.h"
@@ -349,7 +348,7 @@ NES::NES( const char* fname )
 		SetIrqType     ( GameOption.nIRQtype );
 		SetFrameIRQmode( GameOption.bFrameIRQ );
 		SetVideoMode   ( GameOption.bVideoMode );
-	} 
+	}
 
 has_error:
 	if (error)
@@ -362,7 +361,7 @@ has_error:
 		DELETEPTR( mapper );
 		//throw	str;
 /*#ifndef	_DEBUG
-	} 
+	}
 	catch( ... )
 	{
 		DELETEPTR( cpu );
@@ -402,7 +401,7 @@ NES::~NES()
 }
 
 void	NES::SetVideoMode( BOOL bMode )
-{	
+{
 	bVideoMode = bMode;
 	if( !bVideoMode ) {
 		nescfg = &NESCONFIG_NTSC;
@@ -600,7 +599,7 @@ void	NES::EmulateFrame( BOOL bDraw )
 	// Cheat
 	CheatCodeProcess();
 	GenieCodeProcess();
-	
+
 	//
 	NES_scanline = scanline;
 
@@ -678,18 +677,18 @@ void	NES::EmulateFrame( BOOL bDraw )
 					EmulationCPU( FETCH_CYCLES*32 );
 					ppu->ScanlineStart();
 					*/
-					
+
 					ppu->ScanlineNext();
 					EmulationCPU( FETCH_CYCLES*10 );
 					mapper->HSync( scanline );
 					EmulationCPU( FETCH_CYCLES*22 );
 					ppu->ScanlineStart();
-					
+
 					EmulationCPU( FETCH_CYCLES*10+nescfg->ScanlineEndCycles );
 				}
 			} else if( scanline == 240 ) {
 				ResetPPU_MidScanline();
-				
+
 				mapper->VSync();
 				if( RenderMethod < POST_RENDER ) {
 					EmulationCPU( nescfg->ScanlineCycles );
@@ -814,9 +813,9 @@ void	NES::EmulateFrame( BOOL bDraw )
 				}
 			} else if( scanline == 240 ) {
 				ResetPPU_MidScanline();
-				
+
 			// �_�~�[�X�L�������C�� (Scanline 240)
-				//impl3dsRenderStep1TransferNESScreenToTexture();		
+				//impl3dsRenderStep1TransferNESScreenToTexture();
 
 				mapper->VSync();
 
@@ -1163,7 +1162,7 @@ void	NES::WriteReg( WORD addr, BYTE data )
 void	NES::LoadSRAM()
 {
 	error = NULL;
-	
+
 	if( rom->IsNSF() )
 		return;
 
@@ -1212,8 +1211,8 @@ void	NES::LoadSRAM()
 	}
 
 has_error:
-	//catch( CHAR* str ) 
-	if (error)	 
+	//catch( CHAR* str )
+	if (error)
 	{
 		FCLOSE( fp );
 		DEBUGOUT( "Loading SAVERAM Error.\n" );
@@ -1282,8 +1281,8 @@ void	NES::SaveSRAM()
 
 			DEBUGOUT( "Ok.\n" );
 			FCLOSE( fp );
-		} 
-		//catch( CHAR* str ) 
+		}
+		//catch( CHAR* str )
 
 has_error:
 		if (error)
@@ -1411,7 +1410,7 @@ void 	NES::LoadDISK()
 					}
 				}
 			}
-		} else 
+		} else
 		if( Version == 0x0200 || Version == 0x0210 ) {
 			// Ver0.30�ȍ~
 			DISKFILEHDR	dfh;
@@ -1463,10 +1462,10 @@ void 	NES::LoadDISK()
 			}
 		}
 		FCLOSE( fp );
-	} 
+	}
 
 has_error:
-	//catch( CHAR* str ) 
+	//catch( CHAR* str )
 	if (error)
 	{
 		FCLOSE( fp );
@@ -1490,7 +1489,7 @@ void	NES::SaveDISK()
 	// loaded.
 	if (!rom)
 		return;
-		
+
 	error = NULL;
 
 	if( rom->GetMapperNo() != 20 )
@@ -1561,10 +1560,10 @@ void	NES::SaveDISK()
 			}
 		}
 		FCLOSE( fp );
-	} 
+	}
 
 has_error:
-	//catch( CHAR* str ) 
+	//catch( CHAR* str )
 	if (error)
 	{
 		FCLOSE( fp );
@@ -1626,10 +1625,10 @@ void	NES::LoadTurboFile()
 
 		DEBUGOUT( "Ok.\n" );
 		FCLOSE( fp );
-	} 
+	}
 
 has_error:
-	//catch( CHAR* str ) 
+	//catch( CHAR* str )
 	if (error)
 	{
 		FCLOSE( fp );
@@ -1691,10 +1690,10 @@ void	NES::SaveTurboFile()
 
 			DEBUGOUT( "Ok.\n" );
 			FCLOSE( fp );
-		} 
+		}
 
 has_error:
-		//catch( CHAR* str ) 
+		//catch( CHAR* str )
 		if (error)
 		{
 			DEBUGOUT( "Writing TurboFile Error.\n" );
@@ -1759,7 +1758,7 @@ BOOL	bRet = FALSE;
 	if( rom->IsNSF() )
 		return	TRUE;
 
-	//try 
+	//try
 	{
 		if( !(fp = ::fopen( fname, "rb" )) ) {
 			// xxx �t�@�C�����J���܂���
@@ -1772,11 +1771,11 @@ BOOL	bRet = FALSE;
 		bRet = ReadState( fp );
 
 		FCLOSE( fp );
-	} 
+	}
 
 has_error:
 	//catch( CHAR* str )
-	if (error) 
+	if (error)
 	{
 		DEBUGOUT( "State load error.\n" );
 		DEBUGOUT( "%s\n", error );
@@ -1802,7 +1801,7 @@ BOOL	NES::SaveState( const char* fname )
 	if( rom->IsNSF() )
 		return	TRUE;
 
-	//try 
+	//try
 	{
 		if( !(fp = ::fopen( fname, "wb" )) ) {
 			// xxx �t�@�C�����J���܂���
@@ -1815,10 +1814,10 @@ BOOL	NES::SaveState( const char* fname )
 		WriteState( fp );
 
 		FCLOSE( fp );
-	} 
-	
+	}
+
 has_error:
-	//catch( CHAR* str ) 
+	//catch( CHAR* str )
 	if (error)
 	{
 		DEBUGOUT( "State save error.\n" );
@@ -1869,7 +1868,7 @@ BOOL	NES::ReadState( FILE* fp )
 						error = CApp::GetErrorString( IDS_ERROR_UNSUPPORTFORMAT );
 						goto has_error;
 					}
-				} else 
+				} else
 				if( Version == 0x0200 || Version == 0x0210 ) {
 				// Ver0.30�ȍ~ Ver0.60�ȍ~
 					FILEHDR2 hdr2;
@@ -1955,7 +1954,7 @@ BOOL	NES::ReadState( FILE* fp )
 //DEBUGOUT( "HEADER ID=%8s\n", hdr.ID );
 
 		type = -1;
-		if( ::memcmp( hdr.ID, "REG DATA", sizeof(hdr.ID) ) == 0 ) 
+		if( ::memcmp( hdr.ID, "REG DATA", sizeof(hdr.ID) ) == 0 )
 			type = 0;
 		if( ::memcmp( hdr.ID, "RAM DATA", sizeof(hdr.ID) ) == 0 )
 			type = 1;
@@ -2689,7 +2688,7 @@ void	NES::WriteState( FILE* fp )
 		}
 	}
 
-	// For 3DS: TODO: How about saving XRAM too? 
+	// For 3DS: TODO: How about saving XRAM too?
 	// This is required for MMC5 and possibly other mappers
 	// that use XRAM.
 	//
@@ -2931,7 +2930,7 @@ MOVIEFILEHDR	header;
 	if( ::memcmp( header.ID, "VirtuaNES MV", sizeof(header.ID) ) == 0 ) {
 		if( header.BlockVersion < 0x0300 ) {
 			return	IDS_ERROR_ILLEGALMOVIEOLD;
-		} else 
+		} else
 		if( header.BlockVersion >= 0x0300 ) {
 			if( rom->GetMapperNo() != 20 ) {
 			// FDS�ȊO
@@ -2970,7 +2969,7 @@ BOOL	NES::MoviePlay( const char* fname )
 
 DEBUGOUT( "NES::MoviePlay\n" );
 
-	//try 
+	//try
 	{
 		if( !(m_fpMovie = ::fopen( fname, "rb+" )) ) {
 			DEBUGOUT( "Movie play error. File not found.\n" );
@@ -3043,10 +3042,10 @@ DEBUGOUT( "NES::MoviePlay\n" );
 
 		m_bMoviePlay = TRUE;
 		m_MovieStep = 0;
-	} 
+	}
 
 has_error:
-	//catch( CHAR* str ) 
+	//catch( CHAR* str )
 	if (error)
 	{
 		DEBUGOUT( "Movie play error. %s\n", error );
@@ -3077,7 +3076,7 @@ BOOL	NES::MovieRec( const char* fname )
 
 DEBUGOUT( "NES::MovieRec\n" );
 
-	//try 
+	//try
 	{
 		if( !(m_fpMovie = ::fopen( fname, "wb" )) ) {
 			// xxx �t�@�C�����J���܂���
@@ -3140,10 +3139,10 @@ DEBUGOUT( "NES::MovieRec\n" );
 		m_MovieStep = m_MovieStepTotal = 0;
 //		m_MovieVersion = 0x0300;
 		m_MovieVersion = 0x0400;
-	} 
-	
+	}
+
 has_error:
-	//catch( CHAR* str ) 
+	//catch( CHAR* str )
 	if (error)
 	{
 		DEBUGOUT( "Movie record error. %s\n", error );
@@ -3179,7 +3178,7 @@ BOOL	NES::MovieRecAppend( const char* fname )
 
 DEBUGOUT( "NES::MovieAppendRec\n" );
 
-	//try 
+	//try
 	{
 		if( !(m_fpMovie = ::fopen( fname, "rb" )) ) {
 			// �t�@�C���������Ƃ�
@@ -3287,10 +3286,10 @@ DEBUGOUT( "NES::MovieAppendRec\n" );
 			}
 		}
 		m_bMovieRec = TRUE;
-	} 
-	
+	}
+
 has_error:
-	//catch( CHAR* str ) 
+	//catch( CHAR* str )
 	if (error)
 	{
 		DEBUGOUT( "Movie record error. %s\n", error );
@@ -3549,7 +3548,7 @@ void	NES::Movie()
 						// �g�����۰�
 						CommandParam( NESCMD_EXCONTROLLER, ((INT)wData) & 0x00FF );
 					}
-				} else 
+				} else
 				if( Data == 0xF3 ) {
 					// �ǂݍ���
 					if( ::fread( &dwData, sizeof(dwData), 1, m_fpMovie ) != 1 ) {
@@ -3779,7 +3778,7 @@ bool	NES::GenieAdd( bool enabled, char *buf )
 		m_GenieCode.push_back( code );
 
 		return true;
-	} 
+	}
 	else
 	if( no == 8 ) {
 		// Address
@@ -3916,7 +3915,7 @@ void	NES::GenieCodeProcess()
 {
 	WORD	addr;
 
-	for( INT i = 0; i < m_GenieCode.size(); i++ ) 
+	for( INT i = 0; i < m_GenieCode.size(); i++ )
 	{
 		if (!m_GenieCode[i].enabled)
 			continue;
@@ -4096,7 +4095,7 @@ void	NES::Tape( INT cycles )
 		if( data != EOF ) {
 			if( (data&0xFF) >= 0x8C ) {
 				m_TapeOut = 0x02;
-			} else 
+			} else
 			if( (data&0xFF) <= 0x74 ) {
 				m_TapeOut = 0x00;
 			}

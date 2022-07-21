@@ -16,7 +16,6 @@
 
 #include "VirtuaNESres.h"
 
-#include "DebugOut.h"
 #include "App.h"
 //#include "Plugin.h"
 #include "Pathlib.h"
@@ -63,7 +62,7 @@ static struct CHINF moo[] =
 ROM::ROM( const char* fname )
 {
 	error = NULL;
-	
+
 FILE	*fp = NULL;
 LPBYTE	temp = NULL;
 LPBYTE	bios = NULL;
@@ -89,7 +88,7 @@ LONG	FileSize;
 	mapper = 0;
 	diskno = 0;
 
-	//try 
+	//try
 	{
 		if( !(fp = ::fopen( fname, "rb" )) ) {
 			// xxx �t�@�C�����J���܂���
@@ -153,7 +152,7 @@ LONG	FileSize;
 			// �w�b�_�R�s�[
 			memcpy( &header, temp, sizeof(NESHEADER) );
 		} else {
-			
+
 			FREE( temp );
 
 			/*if( !UnCompress( fname, &temp, (LPDWORD)&FileSize ) ) {
@@ -258,12 +257,12 @@ LONG	FileSize;
 			//char name[100];
 			PRGsize = 0x00;
 			CHRsize = 0x00;
-			
+
 			header.ID[0] = 'N';
 			header.ID[1] = 'E';
 			header.ID[2] = 'S';
 			header.ID[3] = 0x1A;
-			
+
 			board = 0;
 			bUnif = TRUE;
 
@@ -274,7 +273,7 @@ LONG	FileSize;
 		//	header.control2 = 0x10;
 			header.control1 = 0;
 			header.control2 = 0;
-			
+
 			for (i = 0; i < 0x10; i++)
 			{
 				tPRG[i] = tCHR[i] = 0;
@@ -286,7 +285,7 @@ LONG	FileSize;
 				id = 0;
 				memcpy(&Signature,&pUnif[ipos],4);ipos+=4;
 				memcpy(&BlockLen,&pUnif[ipos],4);ipos+=4;
-				
+
 				switch(Signature)
 				{
 					case MKID('MAPR')://boardÃû×Ö
@@ -307,13 +306,13 @@ LONG	FileSize;
 
 					case MKID('BATR')://Ê¹ÓÃµç³Ø¼ÇÒä
 						header.control1 |=2;
-						ipos+=BlockLen;	break;						
+						ipos+=BlockLen;	break;
 
 					case MKID('FONT')://×Ö¿â
 //						memcpy( pFont, &pUnif[ipos], BlockLen>65536?65536:BlockLen );
 						memcpy( pFont, &pUnif[ipos], BlockLen );
 						ipos+=BlockLen;	break;
-						
+
 					case MKID('MIRR'):
 						if (pUnif[ipos]==0)
 							header.control1 &=14;
@@ -321,7 +320,7 @@ LONG	FileSize;
 							header.control1 |=1;
 						ipos+=BlockLen;
 						break;
-					
+
 					case MKID('PRGF'):	id++;
 					case MKID('PRGE'):	id++;
 					case MKID('PRGD'):	id++;
@@ -367,7 +366,7 @@ LONG	FileSize;
 						ipos+=BlockLen;
 						CHRsize += BlockLen;
 						break;
-						
+
 					default:
 						ipos+=BlockLen;	break;
 				}
@@ -378,7 +377,7 @@ LONG	FileSize;
 			//fl.chr_size = 0;
 
 			board = NES_ROM_get_unifBoardID(pboardname);
-			
+
 			header.PRG_PAGE_SIZE = PRGsize/(16*1024);
 			header.CHR_PAGE_SIZE = CHRsize/(8*1024);
 
@@ -583,7 +582,7 @@ LONG	FileSize;
 				else
 					memset((char *)(&header)+0xA,0,0x6);
 			}
-						
+
 			mapper = (header.control1>>4)|(header.control2&0xF0);
 			crc = crcall = crcvrom = 0;
 
@@ -621,10 +620,10 @@ LONG	FileSize;
 		}
 
 		FREE( temp );
-	} 
+	}
 
 has_error:
-	//catch( CHAR* str ) 
+	//catch( CHAR* str )
 	if (error)
 	{
 		// �������킩���Ă����G���[����
@@ -639,7 +638,7 @@ has_error:
 		FREE( lpDisk );
 
 		//throw	str;
-		
+
 /*#ifndef	_DEBUG
 	} catch(...) {
 		// ���ʕی��G���[�Ƃ��o�����������̂�...(^^;
@@ -695,7 +694,7 @@ NESHEADER	header;
 	FCLOSE( fp );
 
 	if( header.ID[0] == 'N' && header.ID[1] == 'E'
-	 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) 
+	 && header.ID[2] == 'S' && header.ID[3] == 0x1A )
 	 {
 		/*for( INT i = 0; i < 8; i++ ) {
 			header.reserved[i] = 0;
@@ -780,4 +779,3 @@ void	ROM::FilenameCheck( const char* fname )
 	*/
 
 }
-
