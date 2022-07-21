@@ -333,7 +333,7 @@ INT	i;
 	pad = padold = 0;
 	repcnt = 0;
 
-	BGPAL[0] = BGPAL[1] = BGPAL[2] = BGPAL[3] = 
+	BGPAL[0] = BGPAL[1] = BGPAL[2] = BGPAL[3] =
 	SPPAL[0] = SPPAL[1] = SPPAL[2] = SPPAL[3] = 0x0F;
 
 	PAL_Changed = true;
@@ -405,7 +405,7 @@ INT	i;
 	WRAM[0xA713] = 0x4c;	// jmp
 	WRAM[0xA714] = 0x00;
 	WRAM[0xA715] = 0x47;
-	
+
 	// $4720��Play���[�`�����Ă񂾌㖳�����[�v��
 #if	NSF_PROFILE
 	WRAM[0xA720] = 0x8D;	// sta
@@ -926,7 +926,7 @@ LPBYTE	pScn = nes->ppu->GetScreenPtr()+8;
 	}*/
 }
 
-void	MapperNSF::DrawString( INT x, INT y, LPSTR str, BYTE col )
+void	MapperNSF::DrawString( INT x, INT y, LPCSTR str, BYTE col )
 {
 	while( *str ) {
 		DrawFont( x, y, *str, col );
@@ -1037,4 +1037,3 @@ void	MapperNSF::Star()
 		DrawBitmap( x, y, StarBitmapTbl[z] );
 	}
 }
-

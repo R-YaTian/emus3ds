@@ -63,9 +63,9 @@ extern SGPU3DSExtended GPU3DSExt;
 
 
 inline void __attribute__((always_inline)) gpu3dsAddQuadVertexes(
-    int x0, int y0, int x1, int y1,
+    int16 x0, int16 y0, int16 x1, int16 y1,
     float tx0, float ty0, float tx1, float ty1,
-    int data)
+    int16 data)
 {
     SVertexTexCoord *vertices = &((SVertexTexCoord *) GPU3DSExt.quadVertexes.List)[GPU3DSExt.quadVertexes.Count];
 
@@ -91,8 +91,8 @@ inline void __attribute__((always_inline)) gpu3dsAddQuadVertexes(
 
 
 
-void gpu3dsDrawRectangle(int x0, int y0, int x1, int y1, int depth, u32 color);
-void gpu3dsAddRectangleVertexes(int x0, int y0, int x1, int y1, int depth, u32 color);
+void gpu3dsDrawRectangle(int16 x0, int16 y0, int16 x1, int16 y1, int16 depth, u32 color);
+void gpu3dsAddRectangleVertexes(int16 x0, int16 y0, int16 x1, int16 y1, int16 depth, u32 color);
 void gpu3dsDrawVertexes(bool repeatLastDraw = false, int storeIndex = -1);
 void gpu3dsBindTextureMainScreen(SGPUTexture *texture, GPU_TEXUNIT unit);
 

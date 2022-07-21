@@ -7,14 +7,14 @@
 SGPU3DSExtended GPU3DSExt;
 
 
-void gpu3dsDrawRectangle(int x0, int y0, int x1, int y1, int depth, u32 color)
+void gpu3dsDrawRectangle(int16 x0, int16 y0, int16 x1, int16 y1, int16 depth, u32 color)
 {
     gpu3dsAddRectangleVertexes (x0, y0, x1, y1, depth, color);
     gpu3dsDrawVertexList(&GPU3DSExt.rectangleVertexes, GPU_TRIANGLES, false, -1, -1);
 }
 
 
-void gpu3dsAddRectangleVertexes(int x0, int y0, int x1, int y1, int depth, u32 color)
+void gpu3dsAddRectangleVertexes(int16 x0, int16 y0, int16 x1, int16 y1, int16 depth, u32 color)
 {
     /*if (emulator.isReal3DS)
     {

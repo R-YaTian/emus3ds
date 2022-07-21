@@ -355,7 +355,7 @@ public:
 	CHAR	szLanguage[256];
 
 	void	Default() {
-		lcID = NULL;
+		lcID = 0;
 		szLanguage[0] = 0;
 	}
 };

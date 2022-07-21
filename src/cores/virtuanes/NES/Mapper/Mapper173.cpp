@@ -5,7 +5,7 @@
 void	Mapper173::Reset()
 {
 //	nes->ppu->SetExtLatchMode( TRUE );
-	for(INT i=0;i<11;i++) reg[i] = 0x00;
+	for(INT i=0;i<10;i++) reg[i] = 0x00;
 
 	irq_enable = irq_repeat = 0;
 	irq_counter = irq_latch = 0;
@@ -27,20 +27,20 @@ BYTE Mapper173::ExRead ( WORD addr )
 			//
 			break;
 		case 0x4033:
-		//D7: 
-		//D6: 
-		//D5: 
-		//D4: 
-		//D3: 
-		//D2: 
-		//D1: 
-		//D0: 
+		//D7:
+		//D6:
+		//D5:
+		//D4:
+		//D3:
+		//D2:
+		//D1:
+		//D0:
 			//
 			break;
-		case 0x4204:	//FDCÖ÷×´Ì¬¼Ä´æÆ÷(STATUS)
+		case 0x4204:	//FDCï¿½ï¿½×´Ì¬ï¿½Ä´ï¿½ï¿½ï¿½(STATUS)
 			//
 			break;
-		case 0x4205:	//FDCÊý¾Ý¼Ä´æÆ÷(DATA)(¶Á???)
+		case 0x4205:	//FDCï¿½ï¿½ï¿½Ý¼Ä´ï¿½ï¿½ï¿½(DATA)(ï¿½ï¿½???)
 			//
 			break;
 	}
@@ -113,7 +113,7 @@ void Mapper173::ExWrite( WORD addr, BYTE data )
 			SetPROM_4K_Bank(0xf000, data&0x7F);
 			break;
 
-		case 0x4205:	//FDCÊý¾Ý¼Ä´æÆ÷(DATA)(Ð´???)
+		case 0x4205:	//FDCï¿½ï¿½ï¿½Ý¼Ä´ï¿½ï¿½ï¿½(DATA)(Ð´???)
 			//
 			break;
 	}

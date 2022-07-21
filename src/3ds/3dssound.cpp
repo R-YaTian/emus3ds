@@ -7,6 +7,7 @@
 #include "3dssound.h"
 #include "3dsopt.h"
 #include "3dsimpl.h"
+#include "3dsinterface.h"
 #include <string.h>
 
 #define LEFT_CHANNEL        10

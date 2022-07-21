@@ -12,10 +12,10 @@
 class CApp {
 public:
 	static	void	LoadErrorString();
-	static	CHAR*	GetErrorString( INT nID );
+	static	const CHAR*	GetErrorString( INT nID );
 
 protected:
-	
+
 	static	INT	m_ErrorStringTableID[ERRORSTRING_MAX];
 	static	CHAR	m_ErrorString[ERRORSTRING_MAX][256];
 private:

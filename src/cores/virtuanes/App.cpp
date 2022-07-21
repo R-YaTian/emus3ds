@@ -43,7 +43,7 @@ void	CApp::LoadErrorString()
 {
 }
 
-CHAR*	CApp::GetErrorString( INT nID )
+const CHAR*	CApp::GetErrorString( INT nID )
 {
 	return	"";
 }

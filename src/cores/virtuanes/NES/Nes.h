@@ -73,7 +73,7 @@ public:
 	Mapper*	mapper;
 
 	NESCONFIG* nescfg;
-	char	*error;
+	const char	*error;
 public:
 	NES( const char* fname );
 	virtual	~NES();
@@ -100,7 +100,7 @@ public:
 	BOOL	IsNsfPlaying() { return m_bNsfPlaying; };
 
 	// IRQ type contorol
-	enum IRQMETHOD { 
+	enum IRQMETHOD {
 		IRQ_HSYNC = 0,
 		IRQ_CLOCK = 1
 	};
@@ -157,17 +157,17 @@ public:
 //	BOOL	IsBraking() { return m_bBrake; }	// Debugger
 
 	// •`‰æ•ûŽ®
-	enum RENDERMETHOD { 
+	enum RENDERMETHOD {
 		POST_ALL_RENDER = 0, // ƒXƒLƒƒƒ“ƒ‰ƒCƒ“•ª‚Ì–½—ßŽÀsŒãCƒŒƒ“ƒ_ƒŠƒ“ƒO
 		PRE_ALL_RENDER  = 1, // ƒŒƒ“ƒ_ƒŠƒ“ƒO‚ÌŽÀsŒãCƒXƒLƒƒƒ“ƒ‰ƒCƒ“•ª‚Ì–½—ßŽÀs
 		POST_RENDER     = 2, // •\Ž¦ŠúŠÔ•ª‚Ì–½—ßŽÀsŒãCƒŒƒ“ƒ_ƒŠƒ“ƒO
 		PRE_RENDER      = 3, // ƒŒƒ“ƒ_ƒŠƒ“ƒOŽÀsŒãC•\Ž¦ŠúŠÔ•ª‚Ì–½—ßŽÀs
 		TILE_RENDER     = 4  // ƒ^ƒCƒ‹ƒx[ƒXƒŒƒ“ƒ_ƒŠƒ“ƒO
 	};
-	void		SetRenderMethod( RENDERMETHOD type )	
-	{ 
+	void		SetRenderMethod( RENDERMETHOD type )
+	{
 		if (type == TILE_RENDER) type = POST_RENDER;
-		RenderMethod = type; 
+		RenderMethod = type;
 	}
 	RENDERMETHOD	GetRenderMethod()			{ return RenderMethod; }
 
@@ -403,4 +403,3 @@ private:
 };
 
 #endif	// !__NES_INCLUDED__
-

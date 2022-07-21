@@ -38,11 +38,17 @@ BOOL g_bSan2;
 unsigned char pFont[256*1024];
 
 INT	 g_UnfTVMode = -1;
+// #define MKID(a) ((unsigned long) \
+// 	(((a) >> 24) & 0x000000FF) | \
+// 	(((a) >>  8) & 0x0000FF00) | \
+// 	(((a) <<  8) & 0x00FF0000) | \
+// 	(((a) << 24) & 0xFF000000))
+
 #define MKID(a) ((unsigned long) \
-	(((a) >> 24) & 0x000000FF) | \
-	(((a) >>  8) & 0x0000FF00) | \
-	(((a) <<  8) & 0x00FF0000) | \
-	(((a) << 24) & 0xFF000000))
+	(a[0]) | \
+	(a[1] << 8) | \
+	(a[2] << 16) | \
+	(a[3] << 24))
 
 struct CHINF {
 	u32 crc32;
@@ -288,32 +294,32 @@ LONG	FileSize;
 
 				switch(Signature)
 				{
-					case MKID('MAPR')://boardÃû×Ö
+					case MKID("MAPR")://boardÃû×Ö
 						memcpy( pboardname, &pUnif[ipos], BlockLen);
 						pboardname[BlockLen]=0;
 						//memcpy( info, &pUnif[ipos], BlockLen);
 						//fl.info = info;
 						ipos+=BlockLen;	break;
 
-					case MKID('NAME'):
+					case MKID("NAME"):
 						//memcpy( pboardname, &pUnif[ipos], BlockLen);
 						//fl.title = name;
 						ipos+=BlockLen;	break;
 
-					case MKID('TVCI')://µçÊÓÖÆÊ½
+					case MKID("TVCI")://µçÊÓÖÆÊ½
 						g_UnfTVMode = pUnif[ipos];
 						ipos+=BlockLen;	break;
 
-					case MKID('BATR')://Ê¹ÓÃµç³Ø¼ÇÒä
+					case MKID("BATR")://Ê¹ÓÃµç³Ø¼ÇÒä
 						header.control1 |=2;
 						ipos+=BlockLen;	break;
 
-					case MKID('FONT')://×Ö¿â
+					case MKID("FONT")://×Ö¿â
 //						memcpy( pFont, &pUnif[ipos], BlockLen>65536?65536:BlockLen );
 						memcpy( pFont, &pUnif[ipos], BlockLen );
 						ipos+=BlockLen;	break;
 
-					case MKID('MIRR'):
+					case MKID("MIRR"):
 						if (pUnif[ipos]==0)
 							header.control1 &=14;
 						else if (pUnif[ipos]==1)
@@ -321,22 +327,22 @@ LONG	FileSize;
 						ipos+=BlockLen;
 						break;
 
-					case MKID('PRGF'):	id++;
-					case MKID('PRGE'):	id++;
-					case MKID('PRGD'):	id++;
-					case MKID('PRGC'):	id++;
-					case MKID('PRGB'):	id++;
-					case MKID('PRGA'):	id++;
-					case MKID('PRG9'):	id++;
-					case MKID('PRG8'):	id++;
-					case MKID('PRG7'):	id++;
-					case MKID('PRG6'):	id++;
-					case MKID('PRG5'):	id++;
-					case MKID('PRG4'):	id++;
-					case MKID('PRG3'):	id++;
-					case MKID('PRG2'):	id++;
-					case MKID('PRG1'):	id++;
-					case MKID('PRG0'):
+					case MKID("PRGF"):	id++;
+					case MKID("PRGE"):	id++;
+					case MKID("PRGD"):	id++;
+					case MKID("PRGC"):	id++;
+					case MKID("PRGB"):	id++;
+					case MKID("PRGA"):	id++;
+					case MKID("PRG9"):	id++;
+					case MKID("PRG8"):	id++;
+					case MKID("PRG7"):	id++;
+					case MKID("PRG6"):	id++;
+					case MKID("PRG5"):	id++;
+					case MKID("PRG4"):	id++;
+					case MKID("PRG3"):	id++;
+					case MKID("PRG2"):	id++;
+					case MKID("PRG1"):	id++;
+					case MKID("PRG0"):
 						sizePRG[id] = BlockLen;
 						tPRG[id] = (BYTE*)malloc(BlockLen);
 						memcpy( tPRG[id], &pUnif[ipos], BlockLen );
@@ -344,22 +350,22 @@ LONG	FileSize;
 						PRGsize += BlockLen;
 						break;
 
-					case MKID('CHRF'):	id++;
-					case MKID('CHRE'):	id++;
-					case MKID('CHRD'):	id++;
-					case MKID('CHRC'):	id++;
-					case MKID('CHRB'):	id++;
-					case MKID('CHRA'):	id++;
-					case MKID('CHR9'):	id++;
-					case MKID('CHR8'):	id++;
-					case MKID('CHR7'):	id++;
-					case MKID('CHR6'):	id++;
-					case MKID('CHR5'):	id++;
-					case MKID('CHR4'):	id++;
-					case MKID('CHR3'):	id++;
-					case MKID('CHR2'):	id++;
-					case MKID('CHR1'):	id++;
-					case MKID('CHR0'):
+					case MKID("CHRF"):	id++;
+					case MKID("CHRE"):	id++;
+					case MKID("CHRD"):	id++;
+					case MKID("CHRC"):	id++;
+					case MKID("CHRB"):	id++;
+					case MKID("CHRA"):	id++;
+					case MKID("CHR9"):	id++;
+					case MKID("CHR8"):	id++;
+					case MKID("CHR7"):	id++;
+					case MKID("CHR6"):	id++;
+					case MKID("CHR5"):	id++;
+					case MKID("CHR4"):	id++;
+					case MKID("CHR3"):	id++;
+					case MKID("CHR2"):	id++;
+					case MKID("CHR1"):	id++;
+					case MKID("CHR0"):
 						sizeCHR[id] = BlockLen;
 						tCHR[id] = (BYTE*)malloc(BlockLen);
 						memcpy( tCHR[id], &pUnif[ipos], BlockLen );

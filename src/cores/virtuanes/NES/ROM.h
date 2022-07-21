@@ -117,7 +117,7 @@ public:
 	// 0:ERROR 1:HEADER OK -1:BAD HEADER
 	static	INT	IsRomFile( const char* fname );
 
-	char*	error;
+	const char*	error;
 
 protected:
 	NESHEADER	header;

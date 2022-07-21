@@ -487,7 +487,7 @@ bool impl3dsLoadROM(char *romFilePath)
 		return false;
 
 	//nes->ppu->SetScreenPtr( NULL, linecolor );
-	nes->ppu->SetScreenRGBAPtr( video3dsGetCurrentSoftwareBuffer(), linecolor );
+	nes->ppu->SetScreenRGBAPtr((WORD*) video3dsGetCurrentSoftwareBuffer(), linecolor );
 
 	// compute a sample rate closes to 32000 kHz.
 	//
@@ -752,7 +752,7 @@ if (frameCount60 == 59)
 		}
 		else
 		{
-            nes->ppu->SetScreenRGBAPtr( video3dsGetCurrentSoftwareBuffer(), linecolor );
+            nes->ppu->SetScreenRGBAPtr((WORD*) video3dsGetCurrentSoftwareBuffer(), linecolor );
 			nes->EmulateFrame(true);
 		}
 	}
@@ -1020,7 +1020,7 @@ bool impl3dsReadWriteSettingsByGame(bool writeMode)
     //
     config3dsReadWriteInt32("TurboZL=%d\n", &settings3DS.Turbo[6], 0, 10);
     config3dsReadWriteInt32("TurboZR=%d\n", &settings3DS.Turbo[7], 0, 10);
-    static char *buttonName[10] = {"A", "B", "X", "Y", "L", "R", "ZL", "ZR", "SELECT","START"};
+    static char const* buttonName[10] = {"A", "B", "X", "Y", "L", "R", "ZL", "ZR", "SELECT","START"};
     char buttonNameFormat[50];
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 2; ++j) {
@@ -1087,7 +1087,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
     config3dsReadWriteInt32("AutoSavestate=%d\n", &settings3DS.AutoSavestate, 0, 1);
     config3dsReadWriteInt32("TurboZL=%d\n", &settings3DS.GlobalTurbo[6], 0, 10);
     config3dsReadWriteInt32("TurboZR=%d\n", &settings3DS.GlobalTurbo[7], 0, 10);
-    static char *buttonName[10] = {"A", "B", "X", "Y", "L", "R", "ZL", "ZR", "SELECT","START"};
+    static char const* buttonName[10] = {"A", "B", "X", "Y", "L", "R", "ZL", "ZR", "SELECT","START"};
     char buttonNameFormat[50];
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 2; ++j) {

@@ -8,7 +8,7 @@
 // stubs
 typedef char *LPSTR;
 
-typedef char *LPCSTR;
+typedef const char *LPCSTR;
 
 typedef char *LPCTSTR;
 

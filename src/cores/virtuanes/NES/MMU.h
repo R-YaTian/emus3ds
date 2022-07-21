@@ -128,12 +128,12 @@ extern	void	SetPROM_32K_Bank( INT bank0, INT bank1, INT bank2, INT bank3 );
 extern	void	ResetPPU_MidScanline ();
 extern	void 	UpdatePPU_MidScanline (int page);
 
-#define CHANGE_PPU_MEM_BANK(v)  						\
-	if (PPU_MEM_BANK[page] != (v)) 						\	
-	{ 													\
-	 	PPU_MEM_BANK[page] = (v); 						\
-		UpdatePPU_MidScanline(page); 					\
-	}													\
+#define CHANGE_PPU_MEM_BANK(v) \
+	if (PPU_MEM_BANK[page] != (v)) \
+	{ \
+	 	PPU_MEM_BANK[page] = (v); \
+		UpdatePPU_MidScanline(page); \
+	} \
 
 extern	void	SetVROM_Bank( BYTE page, LPBYTE ptr, BYTE type );
 extern	void	SetVROM_1K_Bank( BYTE page, INT bank );
@@ -204,4 +204,3 @@ extern	void	SetOBCRAM_1K_Bank( BYTE page, INT bank );
 #define	VRAM_MIRROR3H	0x05
 
 #endif	// !__MMU_INCLUDED__
-
