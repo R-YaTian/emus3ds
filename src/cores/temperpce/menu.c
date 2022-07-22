@@ -407,7 +407,7 @@ s32 load_file(char **wildcards, char *result, u16 *screen_bg)
           if(seek_characters < SEEK_MAX_CHARACTERS)
           {
             seek_string[seek_characters] = gui_input.key_letter;
-            seek_characters++;        
+            seek_characters++;
 
             seek_string[seek_characters + 1] = 0;
 
@@ -817,7 +817,7 @@ u32 action_input(menu_state_struct *menu_state,
   menu_option_input_struct *input = (menu_option_input_struct *)menu_option;
   s32 segment_position = input->segment_position;
   s32 segment_position_mod = 0;
-  s32 segment_value = input->segment_values[segment_position];  
+  s32 segment_value = input->segment_values[segment_position];
   s32 segment_value_mod = 0;
 
   switch(gui_input->action_type)
@@ -826,7 +826,7 @@ u32 action_input(menu_state_struct *menu_state,
     case CURSOR_PAGE_UP:
       segment_value_mod = -1;
       break;
-      
+
     case CURSOR_PAGE_DOWN:
       segment_value_mod = 1;
       break;
@@ -842,7 +842,7 @@ u32 action_input(menu_state_struct *menu_state,
     case CURSOR_LEFT:
       segment_value_mod = -1;
       break;
-      
+
     case CURSOR_RIGHT:
       segment_value_mod = 1;
       break;
@@ -901,7 +901,7 @@ u32 action_input(menu_state_struct *menu_state,
         segment_position_mod = 1;
       }
       break;
-      
+
     default:
       return gui_input->action_type;
   }
@@ -1026,7 +1026,7 @@ void focus_multi_input_int(menu_state_struct *menu_state,
  menu_option_struct *menu_option, u32 focus_type)
 {
   if(focus_type == FOCUS_TYPE_EXIT)
-  {  
+  {
     menu_option_multi_input_int_struct *multi_input_int =
      (menu_option_multi_input_int_struct *)menu_option;
     menu_option_input_int_struct *current_input_int;
@@ -1059,7 +1059,7 @@ void destroy_multi_input_int(menu_state_struct *menu_state,
   for(i = 0; i < multi_input_int->num_input_ints; i++)
   {
     current_input_int = multi_input_int->input_ints[i];
-    free(current_input_int);    
+    free(current_input_int);
   }
 
   free(multi_input_int->input_ints);
@@ -1106,7 +1106,7 @@ menu_option_select_struct *create_select(menu_option_select_struct
   create_allocate(select, menu_option_select_struct);
   create_menu_option(&(select->base), name, line_number, draw_menu_option,
    action_select, NULL, NULL);
-  
+
   select->select_function = select_function;
   return select;
 }
@@ -1145,9 +1145,9 @@ menu_option_numeric_select_struct *create_numeric_select(
   create_allocate(numeric_select, menu_option_numeric_select_struct);
   create_numeric(&(numeric_select->base), name, line_number, value,
    lower_limit, upper_limit);
- 
-  numeric_select->base.base.action_function = action_numeric_select; 
-  numeric_select->base.base.focus_function = focus_function; 
+
+  numeric_select->base.base.action_function = action_numeric_select;
+  numeric_select->base.base.focus_function = focus_function;
   numeric_select->select_function = select_function;
   numeric_select->modify_function = modify_function;
   return numeric_select;
@@ -1175,10 +1175,10 @@ menu_option_input_struct *create_input(menu_option_input_struct *input,
  u32 wrap_position)
 {
   create_allocate(input, menu_option_input_struct);
-  
+
   create_menu_option(&(input->base), name, line_number, draw_input,
    action_input, NULL, NULL);
-  
+
   input->segment_values = segment_values;
   input->segment_lower_limit = segment_lower_limit;
   input->segment_upper_limit = segment_upper_limit;
@@ -1217,7 +1217,7 @@ menu_option_input_int_struct *create_input_int(menu_option_input_int_struct
 }
 
 menu_option_multi_input_int_struct *create_multi_input_int(
- menu_option_multi_input_int_struct *multi_input_int, char *name, 
+ menu_option_multi_input_int_struct *multi_input_int, char *name,
  u32 line_number, u32 num_input_ints, u32 spacing, u32 separator, s32 *value,
  u32 component_base)
 {
@@ -1246,7 +1246,7 @@ menu_option_multi_input_int_struct *create_multi_input_int(
   for(i = num_input_ints - 1; i >= 0; i--)
   {
     current_component_value = _value % component_base;
-    
+
     multi_input_int->component_values[i] = current_component_value;
     current_input_int = create_input_int(NULL, "", line_number,
      &(multi_input_int->component_values[i]), spacing, 0,
@@ -1522,7 +1522,7 @@ void select_save_config_global(menu_state_struct *menu_state,
 
 
 menu_struct *create_menu(u32 num_options, menu_struct *parent_menu,
- draw_menu_function_type draw_function, focus_menu_function_type 
+ draw_menu_function_type draw_function, focus_menu_function_type
  focus_function)
 {
   menu_struct *menu = malloc(sizeof(menu_struct));
@@ -1625,7 +1625,7 @@ menu_struct *create_menu_options(menu_state_struct *menu_state,
    current_line_number, &(config.ram_timings), 0, 1, yes_no_labels));
 #endif
 
-  add_menu_option(create_numeric_labeled(NULL, "Patch idle loops        ", 
+  add_menu_option(create_numeric_labeled(NULL, "Patch idle loops        ",
    current_line_number, &(config.patch_idle_loops), 0, 1, yes_no_labels));
   add_menu_option(create_numeric_labeled(NULL, "Snapshot in saves       ",
    current_line_number, &(config.snapshot_format), 0, 1, yes_no_labels));
@@ -1735,7 +1735,7 @@ menu_struct *create_menu_netplay(menu_state_struct *menu_state,
   return menu;
 }
 
-menu_struct *create_menu_main(menu_state_struct *menu_state) 
+menu_struct *create_menu_main(menu_state_struct *menu_state)
 {
   menu_struct *menu = create_menu(11, NULL, draw_menu_main, NULL);
   menu_struct *options_menu = create_menu_options(menu_state, menu);
@@ -1748,9 +1748,9 @@ menu_struct *create_menu_main(menu_state_struct *menu_state)
 
   add_menu_option(create_select_menu(NULL, "Change options",
    current_line_number, options_menu));
-  add_menu_option(create_select_menu(NULL, "Configure pad ", 
+  add_menu_option(create_select_menu(NULL, "Configure pad ",
    current_line_number, pad_menu));
-  add_menu_option(create_select_menu(NULL, "Netplay       ", 
+  add_menu_option(create_select_menu(NULL, "Netplay       ",
    current_line_number, netplay_menu));
 
   current_line_number++;
@@ -1761,21 +1761,21 @@ menu_struct *create_menu_main(menu_state_struct *menu_state)
   add_menu_option(create_numeric_select(NULL, "Save state   ",
    current_line_number, &(config.savestate_number), 0, 9, select_save_state,
    modify_snapshot_bg, focus_savestate));
-  add_menu_option(create_select(NULL, "Save snapshot ", current_line_number, 
+  add_menu_option(create_select(NULL, "Save snapshot ", current_line_number,
    select_save_snapshot));
 
   current_line_number++;
 
   add_menu_option(create_select(NULL, "Load new game ",
    current_line_number, select_load_game));
-  add_menu_option(create_select(NULL, "Restart game  ", 
+  add_menu_option(create_select(NULL, "Restart game  ",
    current_line_number, select_restart));
 
   current_line_number++;
 
-  add_menu_option(create_select(NULL, "Swap CD       ", 
+  add_menu_option(create_select(NULL, "Swap CD       ",
    current_line_number, select_swap_cd));
-  add_menu_option(create_select(NULL, "Return to game",  
+  add_menu_option(create_select(NULL, "Return to game",
    current_line_number, select_return));
 
   current_line_number++;
@@ -1927,7 +1927,7 @@ void menu(u32 start_file_dialog)
   free(menu_state.load_state_snapshot_bg);
   free(menu_state.screen_bg_quarter);
   free(menu_state.screen_bg);
-  
+
    #ifdef SDL_TRIPLEBUF
    unsigned char i;
    for(i=0;i<3;i++)
@@ -1937,4 +1937,3 @@ void menu(u32 start_file_dialog)
    }
    #endif
 }
-

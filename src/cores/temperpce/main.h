@@ -165,7 +165,7 @@ typedef struct
 
 #ifdef EXTERN_C_START
 EXTERN_C_START
-#endif 
+#endif
 
 void synchronize();
 void initialize_pce();
@@ -176,8 +176,8 @@ void platform_quit();
 
 void get_ticks_us(u64 *ticks_return);
 
-void save_state(char *file_name, u16 *snapshot);
-savestate_extension_enum load_state(char *file_name, u8 *in_memory_state,
+void save_state(const char *file_name, u16 *snapshot);
+savestate_extension_enum load_state(const char *file_name, u8 *in_memory_state,
  u32 in_memory_state_size);
 savestate_extension_enum load_state_snapshot(char *file_name, u16 *buffer,
  char *state_date);
@@ -224,7 +224,7 @@ void delay_us(u32 us_count);
 
 #ifdef EXTERN_C_END
 EXTERN_C_END
-#endif 
+#endif
 
 
 #endif

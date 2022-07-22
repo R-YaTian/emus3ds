@@ -86,7 +86,7 @@ s32 load_config_file(char *file_name)
 
 #define SAVESTATE_MAX_SIZE ((1024 * 256 * 3) + (1024 * 1024 * 2))
 
-void save_state(char *file_name, u16 *snapshot)
+void save_state(const char *file_name, u16 *snapshot)
 {
   char path[MAX_PATH];
   sprintf(path, "%s", file_name);
@@ -215,7 +215,7 @@ void save_state(char *file_name, u16 *snapshot)
 
 
 
-savestate_extension_enum load_state(char *file_name, u8 *in_memory_state,
+savestate_extension_enum load_state(const char *file_name, u8 *in_memory_state,
  u32 in_memory_state_size)
 {
   char path[MAX_PATH];
@@ -300,7 +300,7 @@ savestate_extension_enum load_state(char *file_name, u8 *in_memory_state,
     {
       u32 read_length = SAVESTATE_MAX_SIZE;
       BZ2_bzBuffToBuffDecompress((char *)savestate_file->buffer, &read_length,
-       (char *)savestate_file->memory_file, savestate_file->memory_file_size, 
+       (char *)savestate_file->memory_file, savestate_file->memory_file_size,
        0, 0);
       savestate_file->buffer_ptr = savestate_file->buffer;
     }

@@ -47,14 +47,14 @@ extern memory_struct memory;
 
 #ifdef EXTERN_C_START
 EXTERN_C_START
-#endif 
+#endif
 
 // At least mpr and io_buffer must be saved in a save state. For now they're
 // not in a struct, but this should probably be changed.
 
 char *get_mpr_region_name(u32 mpr_number);
-u32 mpr_read(u32 mpr_regs);
-void mpr_write(u32 mpr_regs, u32 mpr_value);
+u32 mpr_read(u8 mpr_regs);
+void mpr_write(u8 mpr_regs, u32 mpr_value);
 u8 io_read(u32 address);
 void io_write(u32 address, u32 value);
 s32 load_rom(char *path);
@@ -95,7 +95,7 @@ void reset_memory();
 
 #ifdef EXTERN_C_END
 EXTERN_C_END
-#endif 
+#endif
 
 #define load_mem_zp(dest, address)                                            \
   dest = zero_page[address]                                                   \
@@ -230,40 +230,40 @@ EXTERN_C_END
 
   #define memory_map_set(type, offset, ptr)                                   \
     memory.memory_map_##type[offset] = (u8 *)((u64)(ptr) >> 1)                \
-  
+
   #define memory_map_get(type, offset)                                        \
     (u8 *)((u64)memory.memory_map_##type[offset] << 1)                        \
 
   #define memory_map_check_ext(type, offset)                                  \
     ((u64)memory.memory_map_##type[offset] & 0x8000000000000000ULL)           \
-  
+
   #define memory_map_set_ext(type, offset, ptr)                               \
     memory.memory_map_##type[offset] =                                        \
      (u8 *)(((u64)(ptr) >> 1) | 0x8000000000000000ULL)                        \
-  
+
   #define mpr_check_ext(mpr_value)                                            \
     ((u64)mpr_value & 0x8000000000000000ULL)                                  \
-  
+
   #define mpr_translate(_mpr_translated_value, __address)                     \
     (((u8 *)((u64)_mpr_translated_value << 1))[__address])                    \
-  
+
   #define mpr_translate_offset(_mpr_translated_value, __address)              \
     (((u8 *)((u64)_mpr_translated_value << 1)) + (__address))                 \
-  
+
   #define mpr_translate_ext_read(_mpr_translated_value, __address, dest)      \
     dest = ((io_read_function_ptr *)((u64)(_mpr_translated_value)             \
      << 1))[__address]()                                                      \
-  
+
   #define mpr_translate_ext_write(_mpr_translated_value, __address, src)      \
     (((io_write_function_ptr *)((u64)(_mpr_translated_value)                  \
      << 1))[__address])(src)                                                  \
-  
+
   #define mpr_translate_ext_offset(_mpr_translated_value, __address)          \
     (((u64)(_mpr_translated_value) << 1) + (__address * sizeof(void *)))      \
 
   #define mpr_translated_set_read_ext(mpr_value, offset)                      \
     memory.mpr_translated[offset] = (mpr_value) - ((offset) << 15)            \
-  
+
   #define mpr_translated_set_write_ext(mpr_value, offset)                     \
     memory.mpr_translated[(offset + 0x8)] = (mpr_value) - ((offset) << 15)    \
 
@@ -271,39 +271,39 @@ EXTERN_C_END
 
   #define memory_map_set(type, offset, ptr)                                   \
     memory.memory_map_##type[offset] = (u8 *)((u32)(ptr) >> 1)                \
-  
+
   #define memory_map_get(type, offset)                                        \
     (u8 *)((u32)memory.memory_map_##type[offset] << 1)                        \
-  
+
   #define memory_map_check_ext(type, offset)                                  \
     ((u32)memory.memory_map_##type[offset] & 0x80000000)                      \
-  
+
   #define memory_map_set_ext(type, offset, ptr)                               \
     memory.memory_map_##type[offset] = (u8 *)(((u32)(ptr) >> 1) | 0x80000000) \
-  
+
   #define mpr_check_ext(mpr_value)                                            \
     ((u32)mpr_value & 0x80000000)                                             \
-  
+
   #define mpr_translate(_mpr_translated_value, __address)                     \
     (((u8 *)((u32)_mpr_translated_value << 1))[__address])                    \
-  
+
   #define mpr_translate_offset(_mpr_translated_value, __address)              \
     (((u8 *)((u32)_mpr_translated_value << 1)) + (__address))                 \
-  
+
   #define mpr_translate_ext_read(_mpr_translated_value, __address, dest)      \
     dest = ((io_read_function_ptr *)((u32)(_mpr_translated_value)             \
       << 1))[__address]()                                                     \
-  
+
   #define mpr_translate_ext_write(_mpr_translated_value, __address, src)      \
     (((io_write_function_ptr *)((u32)(_mpr_translated_value)                  \
      << 1))[__address])(src)                                                  \
-  
+
   #define mpr_translate_ext_offset(_mpr_translated_value, __address)          \
     (((u32)(_mpr_translated_value) << 1) + (__address * sizeof(void *)))      \
 
   #define mpr_translated_set_read_ext(mpr_value, offset)                      \
     memory.mpr_translated[offset] = (mpr_value) - ((offset) << 14)            \
-  
+
   #define mpr_translated_set_write_ext(mpr_value, offset)                     \
     memory.mpr_translated[(offset + 0x8)] = (mpr_value) - ((offset) << 14)    \
 
@@ -318,4 +318,3 @@ EXTERN_C_END
 
 
 #endif
-
