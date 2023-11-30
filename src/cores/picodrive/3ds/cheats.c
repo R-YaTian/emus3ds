@@ -50,6 +50,7 @@ typedef struct
   char text[MAX_DESC_LENGTH];
   u8 enable;
   u16 data;
+  u8 data_size;
   u16 old;
   u32 address;
   u8 *prev;
@@ -205,8 +206,8 @@ u32 decode_cheat(char *string, int index)
     if (!(PicoIn.AHW & PAHW_SMS))
     {
       /* 16-bit code (AAAAAA:DDDD) */
-      if (strlen(string) < 11) return 0;
-
+      //if (strlen(string) < 11) return 0;
+      int strl = strlen(string);
       /* decode 24-bit address */
       for (i=0; i<6; i++)
       {
@@ -216,18 +217,36 @@ u32 decode_cheat(char *string, int index)
         address |= (n << ((5 - i) * 4));
       }
 
-      /* decode 16-bit data */
-      string++;
-      for (i=0; i<4; i++)
+      if (strl == 11)
       {
-        p = strchr (arvalidchars, *string++);
-        if (p == NULL) return 0;
-        n = (p - arvalidchars) & 0xF;
-        data |= (n << ((3 - i) * 4));
-      }
+        /* decode 16-bit data */
+        string++;
+        for (i=0; i<4; i++)
+        {
+          p = strchr (arvalidchars, *string++);
+          if (p == NULL) return 0;
+          n = (p - arvalidchars) & 0xF;
+          data |= (n << ((3 - i) * 4));
+        }
 
-      /* code length */
-      len = 11;
+        /* code length */
+        len = 11;
+      }
+      if (strl == 9)
+      {
+         /* decode 8-bit data */
+        string++;
+        for (i=2; i<4; i++)
+        {
+          p = strchr (arvalidchars, *string++);
+          if (p == NULL) return 0;
+          n = (p - arvalidchars) & 0xF;
+          data |= (n << ((3 - i) * 4));
+        }
+
+        /* code length */
+        len = 9;
+      }
     }
     else
     {
@@ -279,9 +298,10 @@ u32 decode_cheat(char *string, int index)
     /* update cheat address & data values */
     cheatlist[index].address = address;
     cheatlist[index].data = data;
+    cheatlist[index].data_size = len == 11?16:8; //if the length is 11, it's 16 bits. otherwise, assume 8 to play it safe
 
-    if (!(PicoIn.AHW & PAHW_SMS))
-      cheatlist[index].old = *(u16 *)(Pico.rom + (cheatlist[index].address & 0xFFFFFE));
+    //if (!(PicoIn.AHW & PAHW_SMS))
+      //cheatlist[index].old = *(u16 *)(Pico.rom + (cheatlist[index].address & 0xFFFFFE));
 
     maxcheats++;
   }
@@ -296,12 +316,7 @@ u32 enable_cheat(int index, u8 enable)
 
     if (!enable)
     {
-      if (!(PicoIn.AHW & PAHW_SMS))
-      {
-        *(u16 *)(Pico.rom + (cheatlist[index].address & 0xFFFFFE)) = cheatlist[index].old;
-      }
-      else
-      {
+      if ((PicoIn.AHW & PAHW_SMS)) {
           // LATER
           /* check if previous banked ROM address has been patched */
           if (cheatlist[index-1].prev != NULL)
@@ -344,7 +359,7 @@ void apply_cheats(void)
           cheatIndexes[MAX_CHEATS - maxROMcheats] = i;
 
           /* get current banked ROM address */
-          u8 *addr = (u8 *)(z80_read_map[(cheatlist[i].address) >> Z80_MEM_SHIFT] << 1);
+          u8 *addr = z80_read_map[(cheatlist[i].address) >> Z80_MEM_SHIFT] << 1;
           ptr = &addr[cheatlist[i].address];
 
           /* check if reference matches original ROM data */
@@ -409,7 +424,7 @@ void ROMCheatUpdate(void)
     }
 
     /* get current banked ROM address */
-    u8 *addr = (u8 *)(z80_read_map[(cheatlist[index].address) >> Z80_MEM_SHIFT] << 1);
+    u8 *addr = z80_read_map[(cheatlist[index].address) >> Z80_MEM_SHIFT] << 1;
     ptr = &addr[cheatlist[index].address];
 
     //ptr = &z80_readmap[(cheatlist[index].address) >> 10][cheatlist[index].address & 0x03FF];
@@ -445,15 +460,19 @@ void RAMCheatUpdate(void)
     index = cheatIndexes[--cnt];
 
     /* apply RAM patch */
-    if (cheatlist[index].data & 0xFF00)
+    // if (cheatlist[index].data & 0xFF00) no more assuming. this would have said that if I wanted to write 16 bits of zeroes, I should only write 8 bit of zeroes
+    if (cheatlist[index].data_size == 16)
     {
       /* word patch */
-      *(u16 *)(PicoMem.zram + (cheatlist[index].address & 0xFFFE)) = cheatlist[index].data;
+      //*(u16 *)(PicoMem.zram + (cheatlist[index].address & 0xFFFE)) = cheatlist[index].data;
+      *(u16 *)(PicoMem.ram + (cheatlist[index].address & 0xFFFE)) = cheatlist[index].data;
     }
     else
     {
       /* byte patch */
-      PicoMem.zram[cheatlist[index].address & 0xFFFF] = cheatlist[index].data;
+      //PicoMem.zram[cheatlist[index].address & 0xFFFF] = cheatlist[index].data;
+      int swap = (cheatlist[index].address % 2) == 1 ? -1 : 1; //fixing the big endian swap
+      PicoMem.ram[ (cheatlist[index].address & 0xFFFF) + swap ] = (cheatlist[index].data & 0x00FF);
     }
   }
 }
