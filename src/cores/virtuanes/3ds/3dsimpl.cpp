@@ -77,6 +77,18 @@ SMenuItem optionsForStretch[] = {
     MENU_MAKE_LASTITEM  ()
 };
 
+SMenuItem optionsForPalette[] = {
+    MENU_MAKE_DIALOG_ACTION (0, "FCEUX", "Default"),
+    MENU_MAKE_DIALOG_ACTION (1, "Composite Direct (FBX)", "direct capture palette"),
+    MENU_MAKE_DIALOG_ACTION (2, "NES Classic (FBX)", "taken from NES Classic"),
+    MENU_MAKE_DIALOG_ACTION (3, "PC-10", "Playchoice 10 arcade"),
+    MENU_MAKE_DIALOG_ACTION (4, "PVM Style D93 (FBX)", "Sony PVM with D93 color temp"),
+    MENU_MAKE_DIALOG_ACTION (5, "Smooth (FBX)", "Firebrandx's premiere final palette"),
+    MENU_MAKE_DIALOG_ACTION (6, "Sony CXA", "consumer-grade Sony TV sets"),
+    MENU_MAKE_DIALOG_ACTION (7, "Wavebeam", "Nakedarthur's final aprox palette"),
+    MENU_MAKE_LASTITEM  ()
+};
+
 SMenuItem optionsForFrameskip[] = {
     MENU_MAKE_DIALOG_ACTION (0, "Disabled",                 ""),
     MENU_MAKE_DIALOG_ACTION (1, "Enabled (max 1 frame)",    ""),
@@ -149,6 +161,8 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_CHECKBOX  (15001, "  Hide text in bottom screen", 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_CHECKBOX  (21000, "  Automatically save state on exit and load state on start", 0),
+    MENU_MAKE_DISABLED  (""),
+    MENU_MAKE_PICKER    (69696, "  Palette", "Choose which NES color palette you prefer.", optionsForPalette, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER1   ("GAME-SPECIFIC SETTINGS"),
     MENU_MAKE_PICKER    (10000, "  Frameskip", "Try changing this if the game runs slow. Skipping frames help it run faster but less smooth.", optionsForFrameskip, DIALOGCOLOR_CYAN),
@@ -273,7 +287,7 @@ SMenuItem emulatorMenu[] = {
     MENU_MAKE_ACTION    (5001, "  Reset Console"),  // Do not modify
     MENU_MAKE_ACTION    (6001, "  Exit"),           // Do not modify
     MENU_MAKE_LASTITEM  ()
-    };
+};
 
 
 
@@ -365,7 +379,8 @@ u32 input3dsDefaultButtonMappings[10] = { BTNNES_A, BTNNES_B, BTNNES_A, BTNNES_B
 //---------------------------------------------------------
 bool impl3dsInitializeCore()
 {
-	nespalInitialize();
+    // Original call to nespalInitialize()
+    nespalInitialize(settings3DS.NESPalette);
 
 	// Initialize our GPU.
 	// Load up and initialize any shaders
@@ -1071,6 +1086,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
     config3dsReadWriteInt32("ScreenStretch=%d\n", &settings3DS.ScreenStretch, 0, 7);
     config3dsReadWriteInt32("HideUnnecessaryBottomScrText=%d\n", &settings3DS.HideUnnecessaryBottomScrText, 0, 1);
     config3dsReadWriteInt32("Font=%d\n", &settings3DS.Font, 0, 2);
+    config3dsReadWriteInt32("NESPalette=%d\n", &settings3DS.NESPalette, 0, 7);
     config3dsReadWriteInt32("UseGlobalButtonMappings=%d\n", &settings3DS.UseGlobalButtonMappings, 0, 1);
     config3dsReadWriteInt32("UseGlobalTurbo=%d\n", &settings3DS.UseGlobalTurbo, 0, 1);
     config3dsReadWriteInt32("UseGlobalVolume=%d\n", &settings3DS.UseGlobalVolume, 0, 1);
@@ -1130,6 +1146,11 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
 bool impl3dsApplyAllSettings(bool updateGameSettings)
 {
     bool settingsChanged = false;
+
+    // Update color palette
+    nespalInitialize(settings3DS.NESPalette);
+    // Must also update this for DuckHunt, Castlevania, MegaMan2, DrMario,...
+    PAL_Changed = true;
 
     // update screen stretch
     //
@@ -1223,6 +1244,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
     UPDATE_SETTINGS(settings3DS.UseGlobalTurbo, -1, 20001);
     UPDATE_SETTINGS(settings3DS.UseGlobalVolume, -1, 20002);
     UPDATE_SETTINGS(settings3DS.AutoSavestate, -1, 21000);
+    UPDATE_SETTINGS(settings3DS.NESPalette, -1, 69696);
 
     UPDATE_SETTINGS(settings3DS.UseGlobalEmuControlKeys, -1, 50003);
     if (settings3DS.UseGlobalButtonMappings || copyMenuToSettings)
