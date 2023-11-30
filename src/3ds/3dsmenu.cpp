@@ -48,13 +48,13 @@ bool                swapBuffer = true;
 // Common options
 //-------------------------------------------------------
 SMenuItem optionsForNoYes[] = {
-    MENU_MAKE_ACTION(0, "No"),
-    MENU_MAKE_ACTION(1, "Yes"),
+    MENU_MAKE_ACTION(0, "否"),
+    MENU_MAKE_ACTION(1, "是"),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForOk[] = {
-    MENU_MAKE_ACTION(0, "OK"),
+    MENU_MAKE_ACTION(0, "确定"),
     MENU_MAKE_LASTITEM  ()
 };
 

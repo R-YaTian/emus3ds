@@ -20,6 +20,7 @@
 #include "3dsmenu.h"
 #include "3dsui.h"
 #include "3dsfont.h"
+#include "3dsgbk.h"
 #include "3dsconfig.h"
 #include "3dsfiles.h"
 #include "3dsinput.h"
@@ -83,7 +84,7 @@ void clearTopScreenWithLogo()
 // Start up menu.
 //----------------------------------------------------------------------
 SMenuItem emulatorNewMenu[] = {
-    MENU_MAKE_ACTION(6001, "  Exit"),
+    MENU_MAKE_ACTION(6001, "  退出"),
     MENU_MAKE_LASTITEM  ()
     };
 
@@ -101,7 +102,7 @@ bool emulatorLoadRom()
 {
     impl3dsClearAllCheats();
 
-    menu3dsShowDialog("Load ROM", "Loading... this may take a while.", DIALOGCOLOR_CYAN, NULL);
+    menu3dsShowDialog("加载 ROM", "加载中... 请稍后.", DIALOGCOLOR_CYAN, NULL);
 
     char romFileNameFullPathOriginal[_MAX_PATH];
     strncpy(romFileNameFullPathOriginal, romFileNameFullPath, _MAX_PATH - 1);
@@ -251,7 +252,7 @@ bool emulatorSettingsSave(bool includeGlobalSettings, bool includeGameSettings, 
     {
         consoleClear();
         ui3dsDrawRect(50, 140, 270, 154, 0x000000);
-        ui3dsDrawStringWithNoWrapping(50, 140, 270, 154, 0x3f7fff, HALIGN_CENTER, "Saving settings to SD card...");
+        ui3dsDrawStringWithNoWrapping(50, 140, 270, 154, 0x3f7fff, HALIGN_CENTER, "保存设置到SD卡...");
     }
 
     if (includeGameSettings)
@@ -284,8 +285,8 @@ void menuSelectFile(void)
     fileGetAllFiles();
     int previousFileID = fileFindLastSelectedFile();
     menu3dsClearMenuTabs();
-    menu3dsAddTab("Emulator", emulatorNewMenu);
-    menu3dsAddTab("Select ROM", fileMenu);
+    menu3dsAddTab("模拟器", emulatorNewMenu);
+    menu3dsAddTab("选择 ROM", fileMenu);
     menu3dsSetTabSubTitle(0, NULL);
     menu3dsSetTabSubTitle(1, file3dsGetCurrentDir());
     menu3dsSetCurrentMenuTab(1);
@@ -319,8 +320,8 @@ void menuSelectFile(void)
 
                 fileGetAllFiles();
                 menu3dsClearMenuTabs();
-                menu3dsAddTab("Emulator", emulatorNewMenu);
-                menu3dsAddTab("Select ROM", fileMenu);
+                menu3dsAddTab("模拟器", emulatorNewMenu);
+                menu3dsAddTab("选择 ROM", fileMenu);
                 menu3dsSetCurrentMenuTab(1);
                 menu3dsSetTabSubTitle(1, file3dsGetCurrentDir());
                 selection = -1;
@@ -329,7 +330,7 @@ void menuSelectFile(void)
             {
                 if (!emulatorLoadRom())
                 {
-                    menu3dsShowDialog("Load ROM", "Hmm... unable to load ROM.", DIALOGCOLOR_RED, optionsForOk);
+                    menu3dsShowDialog("加载 ROM", "无法加载 ROM.", DIALOGCOLOR_RED, optionsForOk);
                     menu3dsHideDialog();
                 }
                 else
@@ -343,7 +344,7 @@ void menuSelectFile(void)
         }
         else if (selection == 6001)
         {
-            int result = menu3dsShowDialog("Exit",  "Leaving so soon?", DIALOGCOLOR_RED, optionsForNoYes);
+            int result = menu3dsShowDialog("退出",  "立即退出?", DIALOGCOLOR_RED, optionsForNoYes);
             menu3dsHideDialog();
 
             if (result == 1)
@@ -406,11 +407,11 @@ void menuPause()
 
 
     menu3dsClearMenuTabs();
-    menu3dsAddTab("Emulator", emulatorMenu);
-    menu3dsAddTab("Options", optionMenu);
-    menu3dsAddTab("Controls", controlsMenu);
-    menu3dsAddTab("Cheats", cheatMenu);
-    menu3dsAddTab("Select ROM", fileMenu);
+    menu3dsAddTab("模拟器", emulatorMenu);
+    menu3dsAddTab("设置", optionMenu);
+    menu3dsAddTab("控制", controlsMenu);
+    menu3dsAddTab("金手指", cheatMenu);
+    menu3dsAddTab("选择ROM", fileMenu);
 
     impl3dsCopyMenuToOrFromSettings(false);
 
@@ -460,11 +461,11 @@ void menuPause()
 
                 fileGetAllFiles();
                 menu3dsClearMenuTabs();
-                menu3dsAddTab("Emulator", emulatorMenu);
-                menu3dsAddTab("Options", optionMenu);
-                menu3dsAddTab("Controls", controlsMenu);
-                menu3dsAddTab("Cheats", cheatMenu);
-                menu3dsAddTab("Select ROM", fileMenu);
+                menu3dsAddTab("模拟器", emulatorMenu);
+                menu3dsAddTab("设置", optionMenu);
+                menu3dsAddTab("控制", controlsMenu);
+                menu3dsAddTab("金手指", cheatMenu);
+                menu3dsAddTab("选择ROM", fileMenu);
                 menu3dsSetCurrentMenuTab(4);
                 menu3dsSetTabSubTitle(4, file3dsGetCurrentDir());
             }
@@ -474,12 +475,12 @@ void menuPause()
 
                 bool loadRom = true;
                 if (settings3DS.AutoSavestate) {
-                    menu3dsShowDialog("Save State", "Autosaving state...", DIALOGCOLOR_RED, NULL);
+                    menu3dsShowDialog("即时存档", "自动保存...", DIALOGCOLOR_RED, NULL);
                     bool result = impl3dsSaveState(0);
                     menu3dsHideDialog();
 
                     if (!result) {
-                        int choice = menu3dsShowDialog("Autosave failure", "Automatic savestate writing failed.\nLoad chosen game anyway?", DIALOGCOLOR_RED, optionsForNoYes);
+                        int choice = menu3dsShowDialog("自动保存失败", "自动保存失败.\n强制加载?", DIALOGCOLOR_RED, optionsForNoYes);
                         if (choice != 1) {
                             loadRom = false;
                         }
@@ -503,7 +504,7 @@ void menuPause()
 
                     if (!emulatorLoadRom())
                     {
-                        menu3dsShowDialog("Load ROM", "Hmm... unable to load ROM.", DIALOGCOLOR_RED, optionsForOk);
+                        menu3dsShowDialog("选择ROM", "无法加载ROM.", DIALOGCOLOR_RED, optionsForOk);
                         menu3dsHideDialog();
                     }
                     else
@@ -516,21 +517,21 @@ void menuPause()
             int slot = selection - 2000;
             char text[200];
 
-            sprintf(text, "Saving into slot %d...\nThis may take a while", slot);
-            menu3dsShowDialog("Savestates", text, DIALOGCOLOR_CYAN, NULL);
+            sprintf(text, "保存到存档位 %d...\n请稍后", slot);
+            menu3dsShowDialog("即时存档", text, DIALOGCOLOR_CYAN, NULL);
             bool result = impl3dsSaveState(slot);
             menu3dsHideDialog();
 
             if (result)
             {
-                sprintf(text, "Slot %d save completed.", slot);
-                result = menu3dsShowDialog("Savestates", text, DIALOGCOLOR_GREEN, optionsForOk);
+                sprintf(text, "存档位 %d 保存完成.", slot);
+                result = menu3dsShowDialog("即时存档", text, DIALOGCOLOR_GREEN, optionsForOk);
                 menu3dsHideDialog();
             }
             else
             {
-                sprintf(text, "Oops. Unable to save slot %d!", slot);
-                result = menu3dsShowDialog("Savestates", text, DIALOGCOLOR_RED, optionsForOk);
+                sprintf(text, "无法保存到存档位 %d!", slot);
+                result = menu3dsShowDialog("即时存档", text, DIALOGCOLOR_RED, optionsForOk);
                 menu3dsHideDialog();
             }
 
@@ -550,14 +551,14 @@ void menuPause()
             }
             else
             {
-                sprintf(text, "Oops. Unable to load slot %d!", slot);
-                menu3dsShowDialog("Savestates", text, DIALOGCOLOR_RED, optionsForOk);
+                sprintf(text, "无法加载存档位 %d!", slot);
+                menu3dsShowDialog("即时存档", text, DIALOGCOLOR_RED, optionsForOk);
                 menu3dsHideDialog();
             }
         }
         else if (selection == 4001)
         {
-            menu3dsShowDialog("Screenshot", "Now taking a screenshot...\nThis may take a while.", DIALOGCOLOR_CYAN, NULL);
+            menu3dsShowDialog("截屏", "开始截屏...\n请稍后.", DIALOGCOLOR_CYAN, NULL);
 
             char ext[256];
             const char *path = NULL;
@@ -586,19 +587,19 @@ void menuPause()
             if (success)
             {
                 char text[600];
-                snprintf(text, 600, "Done! File saved to %s", path);
-                menu3dsShowDialog("Screenshot", text, DIALOGCOLOR_GREEN, optionsForOk);
+                snprintf(text, 600, "完成! 文件已保存到 %s", path);
+                menu3dsShowDialog("截屏", text, DIALOGCOLOR_GREEN, optionsForOk);
                 menu3dsHideDialog();
             }
             else
             {
-                menu3dsShowDialog("Screenshot", "Oops. Unable to take screenshot!", DIALOGCOLOR_RED, optionsForOk);
+                menu3dsShowDialog("截屏", "截屏时发生错误!", DIALOGCOLOR_RED, optionsForOk);
                 menu3dsHideDialog();
             }
         }
         else if (selection == 5001)
         {
-            int result = menu3dsShowDialog("Reset Console", "Are you sure?", DIALOGCOLOR_RED, optionsForNoYes);
+            int result = menu3dsShowDialog("重置控制台", "确定吗?", DIALOGCOLOR_RED, optionsForNoYes);
             menu3dsHideDialog();
 
             if (result == 1)
@@ -613,7 +614,7 @@ void menuPause()
         }
         else if (selection == 6001)
         {
-            int result = menu3dsShowDialog("Exit",  "Leaving so soon?", DIALOGCOLOR_RED, optionsForNoYes);
+            int result = menu3dsShowDialog("退出",  "立即退出?", DIALOGCOLOR_RED, optionsForNoYes);
             if (result == 1)
             {
                 emulator.emulatorState = EMUSTATE_END;
@@ -1010,6 +1011,7 @@ int main()
     emulatorInitialize();
     clearTopScreenWithLogo();
 
+    gbk3dsLoadGBKImage();
     menuSelectFile();
 
     while (true)

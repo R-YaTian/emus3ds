@@ -22,7 +22,7 @@ typedef struct
 
     int     Font = 0;                       // 0 - Tempesta, 1 - Ronda, 2 - Arial
 
-    int 	NESPalette = 0;					// 0 - FCEUX default
+    int     NESPalette = 0;					// 0 - FCEUX default
 
     int     HideUnnecessaryBottomScrText = 0;
                                             // Feature: add new option to disable unnecessary bottom screen text.

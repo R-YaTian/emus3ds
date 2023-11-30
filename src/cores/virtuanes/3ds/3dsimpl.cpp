@@ -155,23 +155,23 @@ SMenuItem optionsForSpriteFlicker[] =
 };
 
 SMenuItem optionMenu[] = {
-    MENU_MAKE_HEADER1   ("GLOBAL SETTINGS"),
-    MENU_MAKE_PICKER    (11000, "  Screen Stretch", "How would you like the final screen to appear?", optionsForStretch, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (18000, "  Font", "The font used for the user interface.", optionsForFont, DIALOGCOLOR_CYAN),
-    MENU_MAKE_CHECKBOX  (15001, "  Hide text in bottom screen", 0),
+    MENU_MAKE_HEADER1   ("全局设置"),
+    MENU_MAKE_PICKER    (11000, "  屏幕比例", "您希望屏幕最后如何显示?", optionsForStretch, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体.", optionsForFont, DIALOGCOLOR_CYAN),
+    MENU_MAKE_CHECKBOX  (15001, "  隐藏下屏幕的文本", 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_CHECKBOX  (21000, "  Automatically save state on exit and load state on start", 0),
+    MENU_MAKE_CHECKBOX  (21000, "  退出时自动保存即时存档并在启动时自动加载", 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_PICKER    (69696, "  Palette", "Choose which NES color palette you prefer.", optionsForPalette, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (69696, "  调色板", "选取一个您中意 NES 色彩调色板", optionsForPalette, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER1   ("GAME-SPECIFIC SETTINGS"),
-    MENU_MAKE_PICKER    (10000, "  Frameskip", "Try changing this if the game runs slow. Skipping frames help it run faster but less smooth.", optionsForFrameskip, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (12000, "  Framerate", "Some games run at 50 or 60 FPS by default. Override if required.", optionsForFrameRate, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (19000, "  Flickering Sprites", "Sprites on real hardware flicker. You can disable for better visuals.", optionsForSpriteFlicker, DIALOGCOLOR_CYAN),
+    MENU_MAKE_HEADER1   ("游戏设置"),
+    MENU_MAKE_PICKER    (10000, "  跳帧", "跳帧可以加快游戏速度，但可能会导致画面不平滑", optionsForFrameskip, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (12000, "  帧率", "某些游戏默认运行于 50 或 60 FPS. 可在需要时覆盖帧率设置.", optionsForFrameRate, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (19000, "  精灵闪烁", "精灵在实机上将会闪烁. 您可以禁用以获得更好的视觉效果.", optionsForSpriteFlicker, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER1   ("AUDIO"),
-    MENU_MAKE_CHECKBOX  (20002, "  Apply volume to all games", 0),
-    MENU_MAKE_GAUGE     (14000, "  Volume Amplification", 0, 8, 4),
+    MENU_MAKE_HEADER1   ("音频"),
+    MENU_MAKE_CHECKBOX  (20002, "  将音量设置应用于所有游戏", 0),
+    MENU_MAKE_GAUGE     (14000, "  音量扩增", 0, 8, 4),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -262,30 +262,30 @@ SMenuItem optionsForDisk[] =
 // marked 'do not modify'.
 //-------------------------------------------------------
 SMenuItem emulatorMenu[] = {
-    MENU_MAKE_HEADER2   ("Emulator"),               // Do not modify
-    MENU_MAKE_ACTION    (1000, "  Resume Game"),    // Do not modify
-    MENU_MAKE_PICKER2   (30000,"  Choose Disk", "", optionsForDisk, DIALOGCOLOR_CYAN),
+    MENU_MAKE_HEADER2   ("模拟器"),               // Do not modify
+    MENU_MAKE_ACTION    (1000, "  返回游戏"),    // Do not modify
+    MENU_MAKE_PICKER2   (30000,"  选择磁盘", "", optionsForDisk, DIALOGCOLOR_CYAN),
     MENU_MAKE_HEADER2   (""),
 
-    MENU_MAKE_HEADER2   ("Savestates"),
-    MENU_MAKE_ACTION    (2001, "  Save Slot #1"),   // Do not modify
-    MENU_MAKE_ACTION    (2002, "  Save Slot #2"),   // Do not modify
-    MENU_MAKE_ACTION    (2003, "  Save Slot #3"),   // Do not modify
-    MENU_MAKE_ACTION    (2004, "  Save Slot #4"),   // Do not modify
-    MENU_MAKE_ACTION    (2005, "  Save Slot #5"),   // Do not modify
+    MENU_MAKE_HEADER2   ("即时存档"),
+    MENU_MAKE_ACTION    (2001, "  保存存档位 #1"),   // Do not modify
+    MENU_MAKE_ACTION    (2002, "  保存存档位 #2"),   // Do not modify
+    MENU_MAKE_ACTION    (2003, "  保存存档位 #3"),   // Do not modify
+    MENU_MAKE_ACTION    (2004, "  保存存档位 #4"),   // Do not modify
+    MENU_MAKE_ACTION    (2005, "  保存存档位 #5"),   // Do not modify
     MENU_MAKE_HEADER2   (""),
 
-    MENU_MAKE_ACTION    (3001, "  Load Slot #1"),   // Do not modify
-    MENU_MAKE_ACTION    (3002, "  Load Slot #2"),   // Do not modify
-    MENU_MAKE_ACTION    (3003, "  Load Slot #3"),   // Do not modify
-    MENU_MAKE_ACTION    (3004, "  Load Slot #4"),   // Do not modify
-    MENU_MAKE_ACTION    (3005, "  Load Slot #5"),   // Do not modify
+    MENU_MAKE_ACTION    (3001, "  加载存档位 #1"),   // Do not modify
+    MENU_MAKE_ACTION    (3002, "  加载存档位 #2"),   // Do not modify
+    MENU_MAKE_ACTION    (3003, "  加载存档位 #3"),   // Do not modify
+    MENU_MAKE_ACTION    (3004, "  加载存档位 #4"),   // Do not modify
+    MENU_MAKE_ACTION    (3005, "  加载存档位 #5"),   // Do not modify
     MENU_MAKE_HEADER2   (""),
 
-    MENU_MAKE_HEADER2   ("Others"),                 // Do not modify
-    MENU_MAKE_ACTION    (4001, "  Take Screenshot"),// Do not modify
-    MENU_MAKE_ACTION    (5001, "  Reset Console"),  // Do not modify
-    MENU_MAKE_ACTION    (6001, "  Exit"),           // Do not modify
+    MENU_MAKE_HEADER2   ("其他"),                 // Do not modify
+    MENU_MAKE_ACTION    (4001, "  截屏"),// Do not modify
+    MENU_MAKE_ACTION    (5001, "  重置控制台"),  // Do not modify
+    MENU_MAKE_ACTION    (6001, "  退出"),           // Do not modify
     MENU_MAKE_LASTITEM  ()
 };
 
