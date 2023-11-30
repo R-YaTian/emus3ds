@@ -52,14 +52,13 @@ INCLUDES	:=	include \
 
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
-CFLAGS	:= -g -O3 -mword-relocations -finline-limit=20000 \
+CFLAGS	:=  -g -O3 -mword-relocations -finline-limit=20000 \
             -D_ASM_DRAW_C -D_ASM_MEMORY_C -D_ASM_MISC_C -D_ASM_YM2612_C -D_ASM_CD_MEMORY_C -D_ASM_32X_DRAW \
 			-DEMU_C68K -D_USE_DRZ80 -D__arm__ -DDRC_SH2 -D_SVP_DRC \
-			-fomit-frame-pointer -ffunction-sections \
+			-ffunction-sections \
 			$(ARCH)
 
-#CFLAGS	+=	$(INCLUDE) -D__3DS__ -D__GNUC__ -DUSE_FILE32API -DLIBCTRU_1_0_0 -DLSB_FIRST -DARM_ARCH
-CFLAGS	+=	$(INCLUDE) -D__3DS__ -DARM_ARCH
+CFLAGS	+=	$(INCLUDE) -D__3DS__ -DUSE_FILE32API -DLSB_FIRST -DARM_ARCH
 
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fpermissive -fno-exceptions -std=gnu++11
 
@@ -201,7 +200,10 @@ endif
 ifeq ($(findstring CYGWIN_NT, $(UNAME_S)),CYGWIN_NT)
 	MAKEROM := ./makerom/windows_x86_64/makerom.exe
 endif
-ifeq ($(findstring MINGW32_NT, $(UNAME_S)), MINGW32_NT)
+ifeq ($(findstring MINGW64_NT, $(UNAME_S)), MINGW64_NT)
+	MAKEROM := ./makerom/windows_x86_64/makerom.exe
+endif
+ifeq ($(findstring MSYS_NT, $(UNAME_S)), MSYS_NT)
 	MAKEROM := ./makerom/windows_x86_64/makerom.exe
 endif
 #---------------------------------------------------------------------------------
@@ -252,7 +254,7 @@ endif
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(TARGET).elf
+	@rm -fr $(BUILD) $(TARGET).3dsx $(TARGET).cia $(OUTPUT).smdh $(TARGET).elf
 
 
 #---------------------------------------------------------------------------------
