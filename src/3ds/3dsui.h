@@ -29,7 +29,7 @@ void ui3dsPushViewport(int x1, int y1, int x2, int y2);
 
 
 //---------------------------------------------------------------
-// Pop the global viewport 
+// Pop the global viewport
 //---------------------------------------------------------------
 void ui3dsPopViewport();
 
@@ -54,8 +54,8 @@ int ui3dsApplyAlphaToColor(int color, float alpha);
 
 
 //---------------------------------------------------------------
-// Draws a rectangle with the back colour 
-// 
+// Draws a rectangle with the back colour
+//
 // Note: x0,y0 are inclusive. x1,y1 are exclusive.
 //---------------------------------------------------------------
 void ui3dsDrawRect(int x0, int y0, int x1, int y1);
@@ -63,7 +63,7 @@ void ui3dsDrawRect(int x0, int y0, int x1, int y1);
 
 //---------------------------------------------------------------
 // Draws a rectangle with the colour (in RGB888 format).
-// 
+//
 // Note: x0,y0 are inclusive. x1,y1 are exclusive.
 //---------------------------------------------------------------
 void ui3dsDrawRect(int x0, int y0, int x1, int y1, int color, float alpha = 1.0f);
@@ -72,13 +72,13 @@ void ui3dsDrawRect(int x0, int y0, int x1, int y1, int color, float alpha = 1.0f
 //---------------------------------------------------------------
 // Draws a string with the forecolor, with wrapping
 //---------------------------------------------------------------
-void ui3dsDrawStringWithWrapping(int x0, int y0, int x1, int y1, int color, int horizontalAlignment, char *buffer);
+void ui3dsDrawStringWithWrapping(int x0, int y0, int x1, int y1, int color, int horizontalAlignment, const char *buffer);
 
 
 //---------------------------------------------------------------
 // Draws a string with the forecolor, with no wrapping
 //---------------------------------------------------------------
-void ui3dsDrawStringWithNoWrapping(int x0, int y0, int x1, int y1, int color, int horizontalAlignment, char *buffer);
+void ui3dsDrawStringWithNoWrapping(int x0, int y0, int x1, int y1, int color, int horizontalAlignment, const char *buffer);
 
 
 //---------------------------------------------------------------

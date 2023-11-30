@@ -1,13 +1,6 @@
-//
-// �ݒ��ۑ��N���X
-//
 #include "VirtuaNESres.h"
-#include "DebugOut.h"
 
 #include "Config.h"
-//#include "Registry.h"
-
-//#include "DirectInput.h"
 #include "extsoundfile.h"
 
 // Global instance
@@ -843,4 +836,3 @@ void	CGameOption::Save( LPCSTR name, DWORD gid, DWORD mid )
 	CRegistry::WriteProfileInt( szSection, "IRQtype",         nIRQtype );
 	CRegistry::WriteProfileInt( szSection, "FrameIRQ",        (INT)bFrameIRQ );*/
 }
-

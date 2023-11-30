@@ -15,7 +15,6 @@
 #include "typedef.h"
 #include "macro.h"
 
-#include "DebugOut.h"
 #include "App.h"
 
 #include "nes.h"
@@ -36,7 +35,7 @@ BYTE	PPU::VSColorMap[5][64] = {
 		0xFF, 0x31, 0xFF, 0x2A, 0x2C, 0x0C, 0xFF, 0xFF,
 		0xFF, 0x07, 0x34, 0x06, 0x13, 0xFF, 0x26, 0x0F,
 		0xFF, 0x19, 0x10, 0x0A, 0xFF, 0xFF, 0xFF, 0x17,
-		0xFF, 0x11, 0x09, 0xFF, 0xFF, 0x25, 0x18, 0xFF 
+		0xFF, 0x11, 0x09, 0xFF, 0xFF, 0x25, 0x18, 0xFF
 	},
 	{	0xFF, 0x27, 0x18, 0xFF, 0x3A, 0x25, 0xFF, 0x31,
 ////		0x16, 0x13, 0x38, 0x34, 0x20, 0x23, 0xFF, 0x0B,
@@ -47,7 +46,7 @@ BYTE	PPU::VSColorMap[5][64] = {
 		0xFF, 0x36, 0x26, 0x33, 0x11, 0xFF, 0x10, 0x02,
 		0x14, 0xFF, 0x00, 0x09, 0x12, 0x0F, 0xFF, 0x30,
 		0xFF, 0xFF, 0x2A, 0x17, 0x0C, 0x01, 0x15, 0x19,
-		0xFF, 0x2C, 0x07, 0x37, 0xFF, 0x05, 0xFF, 0xFF 
+		0xFF, 0x2C, 0x07, 0x37, 0xFF, 0x05, 0xFF, 0xFF
 	},
 #if	1
 	{	0xFF, 0xFF, 0xFF, 0x10, 0x1A, 0x30, 0x31, 0x09,
@@ -57,7 +56,7 @@ BYTE	PPU::VSColorMap[5][64] = {
 		0x23, 0xFF, 0x8B, 0xF7, 0xFF, 0x27, 0x26, 0x20,
 		0x29, 0xFF, 0x21, 0x24, 0x11, 0xFF, 0xEF, 0xFF,
 		0x2C, 0xFF, 0xFF, 0xFF, 0x07, 0xF9, 0x28, 0xFF,
-		0x0A, 0xFF, 0x32, 0x37, 0x13, 0xFF, 0xFF, 0x0C 
+		0x0A, 0xFF, 0x32, 0x37, 0x13, 0xFF, 0xFF, 0x0C
 	},
 #else
 	{	0xFF, 0xFF, 0xFF, 0x10, 0x0B, 0x30, 0x31, 0x09,	// 00-07
@@ -78,7 +77,7 @@ BYTE	PPU::VSColorMap[5][64] = {
 		0x05, 0x0A, 0x07, 0xC2, 0x13, 0xFF, 0x00, 0x15,
 		0x0C, 0xFF, 0x11, 0xFF, 0xFF, 0x38, 0xFF, 0xFF,
 		0xFF, 0xFF, 0x08, 0x45, 0xFF, 0xFF, 0x30, 0x3C,
-		0x0F, 0x27, 0xFF, 0x60, 0x29, 0xFF, 0x30, 0x09 
+		0x0F, 0x27, 0xFF, 0x60, 0x29, 0xFF, 0x30, 0x09
 	},
 #else
 	{	0x18, 0xFF, 0x1C, 0x89, 0x0F, 0xFF, 0x01, 0x17,	// 00-07
@@ -244,7 +243,7 @@ void	PPU::Write( WORD addr, BYTE data )
 		case	0x201F:
 			nes->mapper->WriteExPPU(addr, data);
 			break;
-			
+
 			// Read only Register
 		case	0x2002: // PPU Status register(R)
 			break;
@@ -470,7 +469,7 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 
 	// Deemphasis / Grayscale (4-bits)
 	//   0000rgbx   (x = grayscale)
-	//    
+	//
 	int deemph = ((PPUREG[1]&PPU_BGCOLOR_BIT)>>4) | ((PPUREG[1]&PPU_COLORMODE_BIT));
 
 	if (DEEMPH_Previous != deemph || PAL_Changed)
@@ -527,7 +526,7 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 	//	printf ("bExtLatch=%d, bExtNameTable=%d, R=%d\n", bExtLatch, bExtNameTable, nes->GetRenderMethod());
 
 	// Render BG
-	if( !(PPUREG[1]&PPU_BGDISP_BIT) ) 
+	if( !(PPUREG[1]&PPU_BGDISP_BIT) )
 	{
 		//::memset( lpScanline, BGPAL[0], SCREEN_WIDTH );
 		for (int i = 0; i < 256 + 8; i++)
@@ -570,15 +569,15 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 
 				if (!bChrLatch)
 				{
-					for( INT i = 0; i < 33; i++ ) 
+					for( INT i = 0; i < 33; i++ )
 					{
 						// This allows mid-scanline CHR bank switching
 						//
 						if (nes->GetRenderMethod() == NES::POST_RENDER)
 						{
 							TPPU_UPDATE_QUEUE *nextQ = &PPU_UPDATE_QUEUE[PPU_UPDATE_QUEUE_RPTR];
-							
-							if (PPU_UPDATE_QUEUE_RPTR != PPU_UPDATE_QUEUE_WPTR && 
+
+							if (PPU_UPDATE_QUEUE_RPTR != PPU_UPDATE_QUEUE_WPTR &&
 								nextQ->TILE_NO == i)
 							{
 								currentQ = nextQ;
@@ -589,7 +588,7 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 								cache_tile = 0xFFFF0000;
 								//if (scanline < 24)
 								//printf ("  R: %3d, %2d / %2d %2d\n", scanline, i, PPU_UPDATE_QUEUE_RPTR, PPU_UPDATE_QUEUE_WPTR);
-									
+
 							}
 						}
 
@@ -627,7 +626,7 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 				}
 				else
 				{
-					for( INT i = 0; i < 33; i++ ) 
+					for( INT i = 0; i < 33; i++ )
 					{
 						tileadr = tileofs+pNTBL[ntbladr&0x03FF]*0x10+loopy_y;
 						attr = ((pNTBL[attradr+(ntbl_x>>2)]>>((ntbl_x&2)+attrsft))&3)<<2;
@@ -662,7 +661,7 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 						} else {
 							ntbladr++;
 						}
-					}					
+					}
 				}
 			} else {
 				// With Extension Latch(For MMC5)
@@ -707,7 +706,7 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 						{
 							RENDER_BG_TILES
 						}
-					} 
+					}
 					cache_tile_attr_2 = cache_tile_attr_1;
 					cache_tile_attr_1 = cur_tile_attr;
 
@@ -937,7 +936,7 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 	LPBYTE	pBit2Rev = Bit2Rev;
 
 
-	// Construct a list of sprite indexes that are visible 
+	// Construct a list of sprite indexes that are visible
 	// in this line
 	//
 	INT		spriteCount = 0;
@@ -948,7 +947,7 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 		sp_y = scanline - (sp->y+1);
 		if( sp_y != (sp_y & sp_h) )
 			continue;
-		
+
 		//visibleSprites[spriteCount++] = i;
 		spriteCount = 1;
 		break;
@@ -1031,7 +1030,7 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 		pSPw[SPpos+1] |= SPwrt & 0xFF;
 		SPpat &= ~SPmsk;
 
-		if( sp->attr&SP_PRIORITY_BIT ) 
+		if( sp->attr&SP_PRIORITY_BIT )
 		{
 		// BG > SP priority
 			INT	BGpos = ((sp->x&0xF8)+((loopy_shift+(sp->x&7))&8))>>3;
@@ -1067,10 +1066,10 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 			{ \
 				if( (SPpat >> 4)&0x80 ) pScnRGBA[0] = objPalette[(c1>>6)]; \
 				if( (SPpat >> 4)&0x40 ) pScnRGBA[1] = objPalette[(c2>>6)]; \
-				if( (SPpat >> 4)&0x20 ) pScnRGBA[2] = objPalette[(c1>>4)&3]; \ 
+				if( (SPpat >> 4)&0x20 ) pScnRGBA[2] = objPalette[(c1>>4)&3]; \
 				if( (SPpat >> 4)&0x10 ) pScnRGBA[3] = objPalette[(c2>>4)&3]; \
 				break; \
-			} 
+			}
 
 			switch ((SPpat >> 4) & 0xf)
 			{
@@ -1122,7 +1121,7 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 
 			}
 			*/
-			
+
 			if (SPpat & 0xf0)
 			{
 				if (SPpat & 0xc0)
@@ -1149,9 +1148,9 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 				if( SPpat&0x01 ) pScnRGBA[7] = objPalette[c2&3];
 				}
 			}
-			
-		} 
-		else 
+
+		}
+		else
 		{
 		// Monocrome effect (for Final Fantasy)
 			//BYTE	mono = BGmono[((sp->x&0xF8)+((loopy_shift+(sp->x&7))&8))>>3];
@@ -1187,7 +1186,7 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 	}
 	}
 
-	t3dsEndTiming(31);	
+	t3dsEndTiming(31);
 }
 
 // �X�v���C�g�O���q�b�g���邩���m���Ȃ����C���H
@@ -1248,4 +1247,3 @@ LPSPRITE sp;
 		}
 	}
 }
-

@@ -17,13 +17,13 @@ void	Mapper199::Reset()
 	irq_enable=irq_counter=irq_latch=irq_request=0;
 
 	JMaddr = 0;
-	JMaddrDAT[0] = JMaddrDAT[1] = JMaddrDAT[2] = 0;	
+	JMaddrDAT[0] = JMaddrDAT[1] = JMaddrDAT[2] = 0;
 
 	we_sram = 0;
 	nes->SetSAVERAM_SIZE( 32*1024 );
 	nes->SetVideoMode( 1 );
-	
-//	DWORD	crcP = nes->rom->GetPROM_CRC();	
+
+//	DWORD	crcP = nes->rom->GetPROM_CRC();
 //	DWORD	crcV = nes->rom->GetVROM_CRC();
 /*
 	if( (crcP==0xE80D8741)||(crcV==0x3846520D))
@@ -170,8 +170,8 @@ void	Mapper199::Write( WORD addr, BYTE data )
 			irq_enable = 1;
 			irq_request = 0;
 			break;
-	}	
-	
+	}
+
 }
 
 void	Mapper199::HSync( INT scanline )
@@ -212,7 +212,7 @@ void	Mapper199::SetBank_PPU()
 			SetCRAM_1K_Bank( x^bank, chr[x] );
 		else
 			SetVROM_1K_Bank( x^bank, chr[x] );
-	}	
+	}
 }
 
 void	Mapper199::SaveState( LPBYTE p )
@@ -243,10 +243,10 @@ void	Mapper199::LoadState( LPBYTE p )
 		reg[i] = p[i];
 	}
 	for( INT i = 8; i < 12; i++ ) {
-		prg[i] = p[i];
+		prg[i-8] = p[i];
 	}
-	for( INT i = 8; i < 20; i++ ) {
-		chr[i] = p[i];
+	for( INT i = 12; i < 20; i++ ) {
+		chr[i-12] = p[i];
 	}
 	we_sram = p[20];
 	JMaddr = p[21];

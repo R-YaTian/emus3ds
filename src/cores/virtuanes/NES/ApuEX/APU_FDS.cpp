@@ -5,8 +5,6 @@
 //                                               written     2002/06/30 //
 //                                               last modify ----/--/-- //
 //////////////////////////////////////////////////////////////////////////
-#include "DebugOut.h"
-
 #include "APU_FDS.h"
 #include "state.h"
 
@@ -381,4 +379,3 @@ void	APU_FDS::LoadState( LPBYTE p )
 	GETBLOCK( p, &fds, sizeof(fds) );
 	GETBLOCK( p, &fds_sync, sizeof(fds_sync) );
 }
-

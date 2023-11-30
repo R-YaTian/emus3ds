@@ -6,8 +6,8 @@
 #include <3ds.h>
 
 #include "3dsemu.h"
- 
-extern char *t3dsClockName[100];
+
+extern char *const t3dsClockName[100];
 extern int t3dsTotalCount[100];
 extern uint64 t3dsStartTicks[100];
 extern uint64 t3dsTotalTicks[100];
@@ -34,10 +34,10 @@ void t3dsShowTotalTiming(int bucket);
 //---------------------------------------------------------------
 // Starts the timer.
 //---------------------------------------------------------------
-inline void t3dsStartTiming(int bucket, char *clockName)
+inline void t3dsStartTiming(int bucket, const char *clockName)
 {
 #ifndef EMU_RELEASE
-    t3dsStartTicks[bucket] = svcGetSystemTick(); 
+    t3dsStartTicks[bucket] = svcGetSystemTick();
     t3dsClockName[bucket] = clockName;
 #endif
 }
@@ -49,7 +49,7 @@ inline void t3dsStartTiming(int bucket, char *clockName)
 inline void t3dsEndTiming(int bucket)
 {
 #ifndef EMU_RELEASE
-    u64 endTicks = svcGetSystemTick(); 
+    u64 endTicks = svcGetSystemTick();
     t3dsTotalTicks[bucket] += (endTicks - (u64)t3dsStartTicks[bucket]);
     t3dsTotalCount[bucket]++;
 #endif

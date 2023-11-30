@@ -43,7 +43,7 @@ protected:
 	// For Drawing
 	void	DrawRect( INT x, INT y, INT w, INT h, BYTE col );
 	void	DrawFont( INT x, INT y, BYTE chr, BYTE col );
-	void	DrawString( INT x, INT y, LPSTR str, BYTE col );
+	void	DrawString( INT x, INT y, LPCSTR str, BYTE col );
 	void	DrawWave( INT x, INT y, INT col );
 
 	void	DrawBitmap( INT x, INT y, LPBYTE lpBitmap );
@@ -71,7 +71,7 @@ protected:
 	static	BYTE	StarBitmapD[];
 	static	LPBYTE	StarBitmapTbl[];
 
-	// ‚¨‚Ü‚¯
+	// ï¿½ï¿½ï¿½Ü‚ï¿½
 	enum	{ STAR_MAX = 128 };
 
 	struct	STAR	{

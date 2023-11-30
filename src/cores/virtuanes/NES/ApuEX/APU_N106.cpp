@@ -8,16 +8,14 @@
 #include "APU_N106.h"
 #include "state.h"
 
-#include "DebugOut.h"
-
 #define	CHANNEL_VOL_SHIFT	6
 
 APU_N106::APU_N106()
 {
-	// Å‰‚¾‚¯TONE‚Ì‰Šú‰»‚ğs‚¤
+	// ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½TONEï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½
 	::ZeroMemory( tone, sizeof(tone) );
 
-	// ‰¼İ’è
+	// ï¿½ï¿½ï¿½İ’ï¿½
 	cpu_clock = APU_CLOCK;
 	cycle_rate = (DWORD)(cpu_clock*12.0f*(1<<20)/(45.0f*22050.0f));
 }
@@ -39,7 +37,7 @@ void	APU_N106::Reset( FLOAT fClock, INT nRate )
 
 	Setup( fClock, nRate );
 
-	// TONE‚Ì‰Šú‰»‚Í‚µ‚È‚¢...
+	// TONEï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½È‚ï¿½...
 }
 
 void	APU_N106::Setup( FLOAT fClock, INT nRate )
@@ -188,4 +186,3 @@ void	APU_N106::LoadState( LPBYTE p )
 	GETBLOCK( p, op, sizeof(op) );
 	GETBLOCK( p, tone, sizeof(tone) );
 }
-

@@ -5,8 +5,6 @@
 //                                               written     2001/09/18 //
 //                                               last modify ----/--/-- //
 //////////////////////////////////////////////////////////////////////////
-#include "DebugOut.h"
-
 #include "APU_MMC5.h"
 #include "state.h"
 
@@ -29,7 +27,7 @@ INT	APU_MMC5::vbl_lut[32];
 
 APU_MMC5::APU_MMC5()
 {
-	// âºê›íË
+	// ÔøΩÔøΩÔøΩ›íÔøΩ
 	Reset( APU_CLOCK, 22050 );
 }
 
@@ -327,7 +325,7 @@ INT	APU_MMC5::RectangleRender( RECTANGLE& ch )
 		else
 			ch.output_vol = -output;
 	} else {
-	// â¡èdïΩãœ
+	// ÔøΩÔøΩÔøΩdÔøΩÔøΩÔøΩÔøΩ
 		INT	num_times, total;
 		num_times = total = 0;
 		while( ch.phaseacc < 0 ) {
@@ -377,4 +375,3 @@ void	APU_MMC5::LoadState( LPBYTE p )
 	GETBLOCK( p, &sch0, sizeof(sch0) );
 	GETBLOCK( p, &sch1, sizeof(sch1) );
 }
-

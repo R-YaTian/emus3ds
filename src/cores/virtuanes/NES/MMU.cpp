@@ -9,7 +9,6 @@
 #include <windows.h>
 #include "typedef.h"
 #include "macro.h"
-#include "DebugOut.h"
 
 #include "mmu.h"
 #include "nes.h"
@@ -223,7 +222,7 @@ void	ResetPPU_MidScanline ()
 	PPU_UPDATE_QUEUE_WPTR = 1;
 
 	TPPU_UPDATE_QUEUE *wq = &PPU_UPDATE_QUEUE[0];
-	
+
 	wq->TILE_NO = 0;
 	wq->PPU_MEM_BANK[0] = PPU_MEM_BANK[0];
 	wq->PPU_MEM_BANK[1] = PPU_MEM_BANK[1];
@@ -238,7 +237,7 @@ void	ResetPPU_MidScanline ()
 	wq->PPU_MEM_BANK[10] = PPU_MEM_BANK[10];
 	wq->PPU_MEM_BANK[11] = PPU_MEM_BANK[11];
 
-	wq->PPUREG = PPUREG[0];	
+	wq->PPUREG = PPUREG[0];
 
 	if (nes != NULL && nes->ppu != NULL)
 		nes->ppu->currentQ = wq;
@@ -255,16 +254,16 @@ void 	UpdatePPU_MidScanline (int page)
 		if (nes->ppu->GetChrLatchMode())
 			return;
 
-	u64 cycles_diff = 
+	u64 cycles_diff =
 		cycles_current - cycles_at_scanline_start;
-	int pixel = cycles_diff * 3; 
+	int pixel = cycles_diff * 3;
 	int tile = pixel / 8 + 1;
 
 	if (tile > 32)
 		tile = 0;
 	if (nes == NULL)
 		return;
-	
+
 	int scanline = nes->GetScanline();
 	if (scanline == 0 || scanline >= 240)
 		tile = 0;
@@ -316,7 +315,7 @@ void 	UpdatePPU_MidScanline (int page)
 	if (page >= 0)
 		wq->PPU_MEM_BANK[page] = PPU_MEM_BANK[page];
 	wq->PPUREG = PPUREG[0];
-	
+
 }
 
 
@@ -334,7 +333,7 @@ void	SetVROM_1K_Bank( BYTE page, INT bank )
 	bank %= VROM_1K_SIZE;
 	//PPU_MEM_BANK[page] = VROM+0x0400*bank;
 	CHANGE_PPU_MEM_BANK(VROM+0x0400*bank);
-	
+
 	PPU_MEM_TYPE[page] = BANKTYPE_VROM;
 	PPU_MEM_PAGE[page] = bank;
 }

@@ -17,19 +17,19 @@ typedef struct
     int     Type;               // -1 - Disabled
                                 // 0 - Header
                                 // 1 - Header 2
-                                // 2 - Action 
+                                // 2 - Action
                                 // 3 - Checkbox
                                 // 4 - Gauge
                                 // 5 - Picker
                                 // 6 - Picker 2 (doesn't show the selected item)
 
-    int     ID;                 
-    
-    char    *Text;
+    int     ID;
 
-    char    *Description;
+    const char    *Text;
 
-    int     Value;              
+    const char    *Description;
+
+    int     Value;
                                 // Type = Gauge:
                                 //   Value = Gauge Value
                                 // Type = Checkbox:
@@ -44,7 +44,7 @@ typedef struct
     // All these fields are used if this is a picker.
     // (ID = 100000)
     //
-    char    *PickerDescription;
+    const char    *PickerDescription;
     int     PickerItemCount;
     void    *PickerItems;
     int     PickerBackColor;
@@ -77,13 +77,13 @@ void menu3dsSetTabSubTitle(int tabIndex, char *subtitle);
 
 
 //-------------------------------------------------------
-// Adds a new tab to the menu. 
+// Adds a new tab to the menu.
 //-------------------------------------------------------
-void menu3dsAddTab(char *title, SMenuItem *menuItems);
+void menu3dsAddTab(const char *title, SMenuItem *menuItems);
 
 
 //-------------------------------------------------------
-// Clear and remove all tabs and menus. 
+// Clear and remove all tabs and menus.
 //-------------------------------------------------------
 void menu3dsClearMenuTabs();
 
@@ -119,7 +119,7 @@ SMenuItem* menu3dsGetMenuItemByID(int tabIndex, int ID);
 
 
 //-------------------------------------------------------
-// Slides the menu up and runs it until an action is 
+// Slides the menu up and runs it until an action is
 // selected, or the user quits by pressing B.
 //
 // NOTE: You must call menu3dsHideMenu to transit
@@ -135,13 +135,13 @@ void menu3dsHideMenu();
 
 
 //-------------------------------------------------------
-// Slides the dialog up and runs it until an action is 
+// Slides the dialog up and runs it until an action is
 // selected, or the user quits by pressing B.
 //
 // NOTE: You must call menu3dsHideMenu to transit
 //       the menu away.
 //-------------------------------------------------------
-int menu3dsShowDialog(char *title, char *dialogText, int dialogBackColor, SMenuItem *menuItems, int selectedID = -1);
+int menu3dsShowDialog(const char *title, const char *dialogText, int dialogBackColor, SMenuItem *menuItems, int selectedID = -1);
 
 
 //-------------------------------------------------------

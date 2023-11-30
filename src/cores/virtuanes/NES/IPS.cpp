@@ -2,7 +2,6 @@
 #include "App.h"
 #include "Pathlib.h"
 #include "Config.h"
-#include "Debugout.h"
 
 //#include "unzip.h"
 #include "ips.h"
@@ -18,7 +17,7 @@ static	BOOL	PatchIPS( LPBYTE pIPS, LPBYTE pROM, LONG imagesize, LONG ipssize )
 	if( ::strncmp( (const char *)pIPS, "PATCH", 5 ) != 0 ) {
 		return	FALSE;
 	}
-	
+
 	index += 5;
 
 	INT	offset, length;

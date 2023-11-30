@@ -138,28 +138,28 @@ SMenuItem optionsForSpriteFlicker[] =
 {
     MENU_MAKE_DIALOG_ACTION (0, "Hardware Accurate",   "Flickers like real hardware"),
     MENU_MAKE_DIALOG_ACTION (1, "Better Visuals",      "Looks better, less accurate"),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForIdleLoopPatch[] =
 {
     MENU_MAKE_DIALOG_ACTION (1, "Enabled",              "Faster but some games may freeze"),
     MENU_MAKE_DIALOG_ACTION (0, "Disabled",             "Slower but better compatibility"),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForCPUCore[] =
 {
     MENU_MAKE_DIALOG_ACTION (1, "Fast",                 "Faster, heavily optimized CPU core."),
     MENU_MAKE_DIALOG_ACTION (2, "Compatible",           "More compatible, but slower CPU core."),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForRendering[] =
 {
     MENU_MAKE_DIALOG_ACTION (0, "Hardware",             "Faster"),
     MENU_MAKE_DIALOG_ACTION (1, "Software",             "More accurate"),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForBIOS[] =
@@ -169,7 +169,7 @@ SMenuItem optionsForBIOS[] =
     MENU_MAKE_DIALOG_ACTION (0, "CD-ROM v3",             "syscard3.pce"),
     MENU_MAKE_DIALOG_ACTION (3, "Arcade CD",             "syscard3.pce"),
     MENU_MAKE_DIALOG_ACTION (4, "Games Express",         "games_express.pce"),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 
@@ -177,7 +177,7 @@ SMenuItem optionsForPaletteFix[] =
 {
     MENU_MAKE_DIALOG_ACTION (0, "Enabled",              "Best, but slower"),
     MENU_MAKE_DIALOG_ACTION (1, "Disabled",             "Fastest, less accurate"),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 
@@ -277,7 +277,7 @@ SMenuItem optionsForDisk[] =
     MENU_MAKE_DIALOG_ACTION (6, "Change to Disk 3 Side B",  ""),
     MENU_MAKE_DIALOG_ACTION (7, "Change to Disk 4 Side A",  ""),
     MENU_MAKE_DIALOG_ACTION (8, "Change to Disk 4 Side B",  ""),
-    MENU_MAKE_LASTITEM  ()  
+    MENU_MAKE_LASTITEM  ()
 };
 
 
@@ -297,8 +297,8 @@ SMenuItem emulatorMenu[] = {
     MENU_MAKE_ACTION    (2003, "  Save Slot #3"),   // Do not modify
     MENU_MAKE_ACTION    (2004, "  Save Slot #4"),   // Do not modify
     MENU_MAKE_ACTION    (2005, "  Save Slot #5"),   // Do not modify
-    MENU_MAKE_HEADER2   (""),   
-    
+    MENU_MAKE_HEADER2   (""),
+
     MENU_MAKE_ACTION    (3001, "  Load Slot #1"),   // Do not modify
     MENU_MAKE_ACTION    (3002, "  Load Slot #2"),   // Do not modify
     MENU_MAKE_ACTION    (3003, "  Load Slot #3"),   // Do not modify
@@ -359,31 +359,31 @@ extern SSettings3DS settings3DS;
 //---------------------------------------------------------
 // Provide a comma-separated list of file extensions
 //---------------------------------------------------------
-char *impl3dsRomExtensions = "pce,cue";
+const char *impl3dsRomExtensions = "pce,cue";
 
 
 //---------------------------------------------------------
 // The title image .PNG filename.
 //---------------------------------------------------------
-char *impl3dsTitleImage = "./temperpce_3ds_top.png";
+const char *impl3dsTitleImage = "./temperpce_3ds_top.png";
 
 
 //---------------------------------------------------------
 // The title that displays at the bottom right of the
 // menu.
 //---------------------------------------------------------
-char *impl3dsTitleText = "TemperPCE for 3DS v1.02";
+const char *impl3dsTitleText = "TemperPCE for 3DS v1.02";
 
 
 //---------------------------------------------------------
-// The bitmaps for the emulated console's UP, DOWN, LEFT, 
+// The bitmaps for the emulated console's UP, DOWN, LEFT,
 // RIGHT keys.
 //---------------------------------------------------------
 u32 input3dsDKeys[4] = { IO_BUTTON_UP, IO_BUTTON_DOWN, IO_BUTTON_LEFT, IO_BUTTON_RIGHT };
 
 
 //---------------------------------------------------------
-// The list of valid joypad bitmaps for the emulated 
+// The list of valid joypad bitmaps for the emulated
 // console.
 //
 // This should NOT include D-keys.
@@ -423,7 +423,7 @@ bool impl3dsInitializeCore()
 
     config.per_game_bram = 1;
     snprintf(config.main_path, MAX_PATH, ".");
-    
+
     initialize_video();
     initialize_memory();
     initialize_io();
@@ -435,7 +435,7 @@ bool impl3dsInitializeCore()
     initialize_adpcm();
     initialize_arcade_card();
     initialize_debug();
-    
+
 	// Initialize our GPU.
 	// Load up and initialize any shaders
 	//
@@ -453,13 +453,13 @@ bool impl3dsInitializeCore()
 	gpu3dsInitializeShaderRegistersForRenderTarget(0, 10);
 	gpu3dsInitializeShaderRegistersForTexture(4, 14);
 	gpu3dsInitializeShaderRegistersForTextureOffset(6);
-	
-	
+
+
     // Create all the necessary textures
     //
     emuTileCacheTexture = gpu3dsCreateTextureInLinearMemory(1024, 1024, GPU_RGBA5551);
 
-    // Main screen 
+    // Main screen
     emuMainScreenHWTarget = gpu3dsCreateTextureInVRAM(512, 256, GPU_RGBA8);               // 0.250 MB
     emuMainScreenTarget[0] = gpu3dsCreateTextureInLinearMemory(512, 256, GPU_RGBA8);      // 0.250 MB
     emuMainScreenTarget[1] = gpu3dsCreateTextureInLinearMemory(512, 256, GPU_RGBA8);      // 0.250 MB
@@ -472,11 +472,11 @@ bool impl3dsInitializeCore()
 	//bufferRGBA[0] = linearMemAlign(512*256*4, 0x80);
 	//bufferRGBA[1] = linearMemAlign(512*256*4, 0x80);
 
-    if (emuTileCacheTexture == NULL || 
+    if (emuTileCacheTexture == NULL ||
         emuMainScreenHWTarget == NULL ||
-        emuMainScreenTarget[0] == NULL || 
-        emuMainScreenTarget[1] == NULL || 
-        emuDepthForScreens == NULL  /*|| 
+        emuMainScreenTarget[0] == NULL ||
+        emuMainScreenTarget[1] == NULL ||
+        emuDepthForScreens == NULL  /*||
 		nesDepthForOtherTextures == NULL*/)
     {
         printf ("Unable to allocate textures\n");
@@ -529,7 +529,7 @@ void impl3dsFinalize()
 	//if (bufferRGBA[0]) linearFree(bufferRGBA[0]);
 	//if (bufferRGBA[1]) linearFree(bufferRGBA[1]);
 
-	
+
 }
 
 
@@ -555,7 +555,7 @@ void impl3dsGenerateSoundSamples(int numberOfSamples)
 // This gives time for the sound generation to execute
 // from the 2nd core before copying it to the actual
 // output buffer.
-// 
+//
 // For a console with only MONO output, simply copy
 // the samples into the leftSamples buffer.
 //---------------------------------------------------------
@@ -582,7 +582,7 @@ void impl3dsOutputSoundSamples(int numberOfSamples, short *leftSamples, short *r
         adpcm_write_index_diff += ADPCM_AUDIO_BUFFER_SIZE;
     adpcm_write_index_diff /= 2;
     int adpcm_read_ctr = 0;
-    
+
     for (int i = 0; i < soundSamplesPerGeneration; i++)
     {
         int leftSample = 0;
@@ -679,7 +679,7 @@ bool impl3dsLoadROM(char *romFilePath)
         else
             menuItem->Type = MENUITEM_DISABLED;
     }
-    
+
     /*
     CLEAR_BOTTOM_SCREEN
         aptOpenSession();
@@ -687,20 +687,20 @@ bool impl3dsLoadROM(char *romFilePath)
         //APT_SetAppCpuTimeLimit(100); // enables syscore usage
         APT_GetAppCpuTimeLimit(&t); // enables syscore usage
     printf ("Time limit: %d\n", t);
-        aptCloseSession();   
+        aptCloseSession();
         svcSetThreadPriority(0x18, 0xFFFF8000);
         svcGetThreadPriority(&t, 0xFFFF8000);
     printf ("Thread priority %d\n", t);
-        
+
     DEBUG_WAIT_L_KEY
     */
-    
+
     impl3dsResetConsole();
 
 	snd3dsSetSampleRate(
 		true,
-		44100, 
-		60, 
+		44100,
+		60,
 		true);
 
 	return true;
@@ -723,14 +723,14 @@ int impl3dsGetROMFrameRate()
 // console
 //---------------------------------------------------------
 void impl3dsResetConsole()
-{	
+{
     cache3dsInit();
 
     if(config.cd_loaded)
     {
         load_syscard();
     }
-        
+
     reset_video();
     reset_video_hw();
     reset_memory();
@@ -750,7 +750,7 @@ void impl3dsResetConsole()
 //---------------------------------------------------------
 // This is called when preparing to start emulating
 // a new frame. Use this to do any preparation of data,
-// the hardware, swap any vertex list buffers, etc, 
+// the hardware, swap any vertex list buffers, etc,
 // before the frame is emulated
 //---------------------------------------------------------
 void impl3dsPrepareForNewFrame()
@@ -790,7 +790,7 @@ void impl3dsEmulationBegin()
 	gpu3dsDisableStencilTest();
 	gpu3dsSetTextureEnvironmentReplaceTexture0();
 	gpu3dsSetRenderTargetToTopFrameBuffer();
-	gpu3dsFlush();	
+	gpu3dsFlush();
 	//if (emulator.isReal3DS)
 	//	gpu3dsWaitForPreviousFlush();
 }
@@ -808,7 +808,7 @@ void impl3dsEmulationPollInput()
 
 
 //---------------------------------------------------------
-// The following pipeline is used if the 
+// The following pipeline is used if the
 // emulation engine does software rendering.
 //
 // You can potentially 'hide' the wait latencies by
@@ -922,8 +922,8 @@ void impl3dsRenderDrawTextureToTopFrameBuffer(SGPUTexture *texture, int tx_offse
 
 /*    // Software rendering:
     gpu3dsAddQuadVertexes(
-        sideBorderWidth, 0, 400 - sideBorderWidth, 240, 
-        0, 0, 
+        sideBorderWidth, 0, 400 - sideBorderWidth, 240,
+        0, 0,
         256, 240, 0);
     gpu3dsDrawVertexes();
 */
@@ -954,7 +954,7 @@ void impl3dsRenderDrawTextureToTopFrameBuffer(SGPUTexture *texture, int tx_offse
         if (cropped)
         {
             tx0 += 8; ty0 += 8;
-            tx1 -= 8; ty1 -= 8;            
+            tx1 -= 8; ty1 -= 8;
         }
         if (scrWidth == 320)
         {
@@ -963,8 +963,8 @@ void impl3dsRenderDrawTextureToTopFrameBuffer(SGPUTexture *texture, int tx_offse
         }
 
         gpu3dsAddQuadVertexes(
-            sideBorderWidth + xOffset, startY, 400 - sideBorderWidth - xOffset, endY + 1, 
-            tx0 + tx_offset, ty0 + ty_offset, 
+            sideBorderWidth + xOffset, startY, 400 - sideBorderWidth - xOffset, endY + 1,
+            tx0 + tx_offset, ty0 + ty_offset,
             tx1 + tx_offset, ty1 + ty_offset, 0);
     }
     vsectReset(&screenWidthVerticalSection);
@@ -1021,12 +1021,12 @@ printf ("%d\n", emulatorFrame);
         // the CPU emulation is running too slow. Then we force the
         // CPU emulation to avoid syncing to 60fps.
         //
-        #define SYNC_SAMPLES  (735 * 2 * 2)     
+        #define SYNC_SAMPLES  (735 * 2 * 2)
 
-        emulator.waitBehavior = WAIT_FULL;
+        emulator.waitBehavior = FPS_WAIT_FULL;
         if (config.cd_loaded)
         {
-            // If we are running too slowly for the CD / ADPCM audio, 
+            // If we are running too slowly for the CD / ADPCM audio,
             // we will have to ask the main loop to avoid waits.
             //
             if (cd.has_samples)
@@ -1035,7 +1035,7 @@ printf ("%d\n", emulatorFrame);
                 if (cd_write_index_diff < 0)
                     cd_write_index_diff += CD_AUDIO_BUFFER_SIZE;
                 if (cd_write_index_diff < SYNC_SAMPLES)
-                    emulator.waitBehavior = WAIT_NONE;
+                    emulator.waitBehavior = FPS_WAIT_NONE;
             }
 
             if (adpcm.has_samples)
@@ -1047,11 +1047,11 @@ printf ("%d\n", emulatorFrame);
                 if (adpcm_write_index_diff < 0)
                     adpcm_write_index_diff += ADPCM_AUDIO_BUFFER_SIZE;
                 if (adpcm_write_index_diff < SYNC_SAMPLES)
-                    emulator.waitBehavior = WAIT_NONE;
+                    emulator.waitBehavior = FPS_WAIT_NONE;
             }
 
-            //if (emulator.waitBehavior == WAIT_NONE)
-            //    printf ("WAIT_NONE\n");
+            //if (emulator.waitBehavior == FPS_WAIT_NONE)
+            //    printf ("FPS_WAIT_NONE\n");
             cd.has_samples = false;
             adpcm.has_samples = false;
         }
@@ -1067,7 +1067,7 @@ printf ("%d\n", emulatorFrame);
             if (adpcm_diff < 0)
                 adpcm_diff += ADPCM_AUDIO_BUFFER_SIZE;
 
-            printf ("ad: %d (%d) cd:%d (%d)\n", 
+            printf ("ad: %d (%d) cd:%d (%d)\n",
                 adpcm.audio_read_buffer_index, adpcm_diff,
                 cd.cdda_audio_read_buffer_index, cd_diff);
         }
@@ -1084,8 +1084,8 @@ printf ("%d\n", emulatorFrame);
         }
         printf ("---------------------------\n\n");
 */
-        /*printf ("%10llx - %10llx = %10lld\n", 
-            cpu.global_cycles, psg.cpu_sync_cycles >> step_fractional_bits_clock, 
+        /*printf ("%10llx - %10llx = %10lld\n",
+            cpu.global_cycles, psg.cpu_sync_cycles >> step_fractional_bits_clock,
             cpu.global_cycles - (psg.cpu_sync_cycles >> step_fractional_bits_clock));
         */
 	}
@@ -1103,13 +1103,13 @@ printf ("%d\n", emulatorFrame);
 
 	if (!skipDrawingFrame)
 	{
-		impl3dsRenderDrawTextureToTopFrameBuffer(emuMainScreenHWTarget, 32, 0);	
+		impl3dsRenderDrawTextureToTopFrameBuffer(emuMainScreenHWTarget, 32, 0);
 	}
 
 	if (!skipDrawingPreviousFrame)
 	{
 		t3dsStartTiming(16, "Transfer");
-		gpu3dsTransferToScreenBuffer();	
+		gpu3dsTransferToScreenBuffer();
 		t3dsEndTiming(16);
 
 		t3dsStartTiming(19, "SwapBuffers");
@@ -1123,7 +1123,7 @@ printf ("%d\n", emulatorFrame);
 
 	skipDrawingPreviousFrame = skipDrawingFrame;
 	t3dsEndTiming(1);
-    
+
     /*
     // Software rendering:
     //
@@ -1143,7 +1143,7 @@ printf ("%d\n", emulatorFrame);
 	if (!skipDrawingPreviousFrame)
 	{
 		t3dsStartTiming(16, "Transfer");
-		gpu3dsTransferToScreenBuffer();	
+		gpu3dsTransferToScreenBuffer();
 		t3dsEndTiming(16);
 
 		t3dsStartTiming(19, "SwapBuffers");
@@ -1161,7 +1161,7 @@ printf ("%d\n", emulatorFrame);
 	if (!skipDrawingPreviousFrame)
 	{
 		// emuMainScreenTarget[prev] -> GPU3DS.framebuffer (not flushed)
-		impl3dsRenderDrawTextureToTopFrameBuffer(emuMainScreenTarget[currentFrameIndex ^ 1], 32, 16);	
+		impl3dsRenderDrawTextureToTopFrameBuffer(emuMainScreenTarget[currentFrameIndex ^ 1], 32, 16);
         gpu3dsFlush();
 	}
 
@@ -1173,7 +1173,7 @@ printf ("%d\n", emulatorFrame);
 
 //---------------------------------------------------------
 // Finalize any variables or state of the GPU
-// before the emulation loop ends and control 
+// before the emulation loop ends and control
 // goes into the menu.
 //---------------------------------------------------------
 void impl3dsEmulationEnd()
@@ -1184,7 +1184,7 @@ void impl3dsEmulationEnd()
 	{
 		if (lastWait == WAIT_PPF)
 			gspWaitForPPF();
-		else 
+		else
 		if (lastWait == WAIT_P3D)
 			gpu3dsWaitForPreviousFlush();
 	}*/
@@ -1264,7 +1264,7 @@ bool impl3dsLoadState(int slotNumber)
 // This function will be called everytime the user
 // selects an action on the menu.
 //
-// Returns true if the menu should close and the game 
+// Returns true if the menu should close and the game
 // should resume
 //---------------------------------------------------------
 bool impl3dsOnMenuSelected(int ID)
@@ -1275,10 +1275,10 @@ bool impl3dsOnMenuSelected(int ID)
 
 
 //---------------------------------------------------------
-// This function will be called everytime the user 
+// This function will be called everytime the user
 // changes the value in the specified menu item.
 //
-// Returns true if the menu should close and the game 
+// Returns true if the menu should close and the game
 // should resume
 //---------------------------------------------------------
 bool impl3dsOnMenuSelectedChanged(int ID, int value)
@@ -1312,14 +1312,14 @@ bool impl3dsOnMenuSelectedChanged(int ID, int value)
             return true;
         }
     }
-    
+
     return false;
 }
 
 
 
 //---------------------------------------------------------
-// Initializes the default global settings. 
+// Initializes the default global settings.
 // This method is called everytime if the global settings
 // file does not exist.
 //---------------------------------------------------------
@@ -1340,8 +1340,8 @@ void impl3dsInitializeDefaultSettingsByGame()
 	settings3DS.ForceFrameRate = 0;
 	settings3DS.Volume = 4;
 
-    settings3DS.OtherOptions[SETTINGS_IDLELOOPPATCH] = 0;	
-    settings3DS.OtherOptions[SETTINGS_SOFTWARERENDERING] = 0;	
+    settings3DS.OtherOptions[SETTINGS_IDLELOOPPATCH] = 0;
+    settings3DS.OtherOptions[SETTINGS_SOFTWARERENDERING] = 0;
     settings3DS.OtherOptions[SETTINGS_BIOS] = 0;
     settings3DS.OtherOptions[SETTINGS_CPUCORE] = 1;
 }
@@ -1349,7 +1349,7 @@ void impl3dsInitializeDefaultSettingsByGame()
 
 
 //----------------------------------------------------------------------
-// Read/write all possible game specific settings into a file 
+// Read/write all possible game specific settings into a file
 // created in this method.
 //
 // This must return true if the settings file exist.
@@ -1396,7 +1396,7 @@ bool impl3dsReadWriteSettingsByGame(bool writeMode)
     config3dsReadWriteInt32("IdleLoopPatch=%d\n", &settings3DS.OtherOptions[SETTINGS_IDLELOOPPATCH], 0, 1);
     config3dsReadWriteInt32("TurboZL=%d\n", &settings3DS.Turbo[6], 0, 10);
     config3dsReadWriteInt32("TurboZR=%d\n", &settings3DS.Turbo[7], 0, 10);
-    static char *buttonName[10] = {"A", "B", "X", "Y", "L", "R", "ZL", "ZR", "SELECT","START"};
+    static char const* buttonName[10] = {"A", "B", "X", "Y", "L", "R", "ZL", "ZR", "SELECT","START"};
     char buttonNameFormat[50];
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 2; ++j) {
@@ -1414,7 +1414,7 @@ bool impl3dsReadWriteSettingsByGame(bool writeMode)
 
 
 //----------------------------------------------------------------------
-// Read/write all possible global specific settings into a file 
+// Read/write all possible global specific settings into a file
 // created in this method.
 //
 // This must return true if the settings file exist.
@@ -1424,7 +1424,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
     bool success = config3dsOpenFile("./temperpce_3ds.cfg", writeMode);
     if (!success)
         return false;
-    
+
     int deprecated = 0;
 
     config3dsReadWriteInt32("#v1\n", NULL, 0, 0);
@@ -1463,7 +1463,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
     config3dsReadWriteInt32("AutoSavestate=%d\n", &settings3DS.AutoSavestate, 0, 1);
     config3dsReadWriteInt32("TurboZL=%d\n", &settings3DS.GlobalTurbo[6], 0, 10);
     config3dsReadWriteInt32("TurboZR=%d\n", &settings3DS.GlobalTurbo[7], 0, 10);
-    static char *buttonName[10] = {"A", "B", "X", "Y", "L", "R", "ZL", "ZR", "SELECT","START"};
+    static char const* buttonName[10] = {"A", "B", "X", "Y", "L", "R", "ZL", "ZR", "SELECT","START"};
     char buttonNameFormat[50];
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 2; ++j) {
@@ -1619,7 +1619,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
         for (int b = 0; b < 8; b++)
             UPDATE_SETTINGS(settings3DS.GlobalTurbo[b], -1, 13000 + b);
     }
-    if (!settings3DS.UseGlobalTurbo || copyMenuToSettings) 
+    if (!settings3DS.UseGlobalTurbo || copyMenuToSettings)
     {
         for (int b = 0; b < 8; b++)
             UPDATE_SETTINGS(settings3DS.Turbo[b], -1, 13000 + b);
@@ -1653,7 +1653,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
     UPDATE_SETTINGS(settings3DS.OtherOptions[SETTINGS_CPUCORE], -1, 22000);
 
     return settingsUpdated;
-	
+
 }
 
 
@@ -1670,7 +1670,7 @@ void impl3dsClearAllCheats()
 
 
 //----------------------------------------------------------------------
-// Adds cheats into the emulator core after being loaded up from 
+// Adds cheats into the emulator core after being loaded up from
 // the .CHX file.
 //
 // This method is called only when cheats are loaded.
@@ -1681,12 +1681,13 @@ void impl3dsClearAllCheats()
 //----------------------------------------------------------------------
 bool impl3dsAddCheat(bool cheatEnabled, char *name, char *code)
 {
+  return false;
 }
 
 
 //----------------------------------------------------------------------
 // Enable/disables a cheat in the emulator core.
-// 
+//
 // This method will be triggered when the user enables/disables
 // cheats in the cheat menu.
 //----------------------------------------------------------------------

@@ -54,7 +54,7 @@ struct SFORMAT
 	uint32 s;
 
 	//a string description of the element
-	char *desc;
+	const char *desc;
 };
 
 

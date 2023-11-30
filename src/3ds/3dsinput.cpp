@@ -9,8 +9,29 @@
 
 #include "3dsinterface.h"
 
+#include "inputRedirect.h"
+
 static u32 currKeysHeld = 0;
 static u32 lastKeysHeld = 0;
+
+int sock2p = -1;
+ControlIRED control2P = {.buttons = 0};
+
+void initIRED() {
+  static int initedIRED = -1;
+
+  if (initedIRED == -1) initedIRED = initSysIRED();
+  if ((initedIRED == 1) && (sock2p == -1)) sock2p = createUDPIRED();
+}
+
+void input3dsScanInputForEmulation2P() {
+  if (sock2p != -1) recvUDPPackIRED(sock2p, &control2P);
+}
+
+u16 input3dsGetCurrentKeysHeld2P()
+{
+    return control2P.buttons;
+}
 
 //int adjustableValue = 0x70;
 
@@ -66,9 +87,9 @@ u32 input3dsScanInputForEmulation()
     // -----------------------------------------------
 #endif
 
-    if ((keysDown & KEY_TOUCH) || 
+    if ((keysDown & KEY_TOUCH) ||
         (settings3DS.UseGlobalEmuControlKeys && (keysDown & settings3DS.GlobalButtonHotkeyOpenMenu)) ||
-        (!settings3DS.UseGlobalEmuControlKeys && (keysDown & settings3DS.ButtonHotkeyOpenMenu)) 
+        (!settings3DS.UseGlobalEmuControlKeys && (keysDown & settings3DS.ButtonHotkeyOpenMenu))
         )
     {
         snd3dsStopPlaying();
@@ -145,7 +166,7 @@ u32 input3dsProcess3dsKeys()
     int *turbo = settings3DS.Turbo;
     if (settings3DS.UseGlobalTurbo)
         turbo = settings3DS.GlobalTurbo;
-    
+
     #define HANDLE_TURBO(i, buttonMapping) 										\
 		if (turbo[i] && buttons3dsPressed[i]) { 		\
 			if (!prevConsoleButtonPressed[i]) 						\
@@ -195,10 +216,10 @@ u32 input3dsProcess3dsKeys()
 //---------------------------------------------------------
 // Sets the default buttons / turbo values.
 //
-// Pass the settings3DS.GlobalButtonMapping or 
+// Pass the settings3DS.GlobalButtonMapping or
 // settings3DS.ButtonMapping into the first parameter.
 //
-// Pass the settings3DS.GlobalTurbo or 
+// Pass the settings3DS.GlobalTurbo or
 // settings3DS.Turbo into the second parameter.
 //---------------------------------------------------------
 void input3dsSetDefaultButtonMappings(int buttonMapping[10][4], int turbo[8], bool overwrite)

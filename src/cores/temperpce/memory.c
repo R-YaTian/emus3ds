@@ -7,7 +7,7 @@ memory_struct memory;
 #endif
 
 #ifdef CRC_CHECK
-const u32 sgx_table[6] = 
+const u32 sgx_table[6] =
 {
 	0xbebfe042,
 	0x4c2126b0,
@@ -77,7 +77,7 @@ char *get_mpr_region_name(u32 mpr_number)
   return "???";
 }
 
-u32 mpr_read(u32 mpr_regs)
+u32 mpr_read(u8 mpr_regs)
 {
   u32 mpr_value;
   u32 i;
@@ -102,7 +102,7 @@ u32 mpr_read(u32 mpr_regs)
   return mpr_value;
 }
 
-void mpr_write(u32 mpr_regs, u32 mpr_value)
+void mpr_write(u8 mpr_regs, u32 mpr_value)
 {
   u8 *mpr_translated_value_read = memory.memory_map_read[mpr_value];
   u8 *mpr_translated_value_write = memory.memory_map_write[mpr_value];
@@ -1389,7 +1389,7 @@ s32 load_rom(char *path)
 
   config.cd_loaded = 0;
   config.sgx_mode = 0;
-  
+
   if(dot_ptr != NULL)
   {
     // bin eh? Bet you meant cue, didn't you.
@@ -1415,7 +1415,7 @@ s32 load_rom(char *path)
 
     if(strstr(path, "sgx") || strstr(path, "SGX"))
       config.sgx_mode = 1;
-      
+
     #ifdef CRC_CHECK
     result = Crc32_ComputeFile(rom_file, &crc32);
     for (i=0;i<6;i++)
@@ -1425,9 +1425,9 @@ s32 load_rom(char *path)
 			config.sgx_mode = 1;
 			break;
 		}
-	}  
+	}
 	#endif
-      
+
     if(strstr(path, ".bz2"))
     {
       if((strlen(path) > 4) && (strstr(path, ".sgx.bz2")))

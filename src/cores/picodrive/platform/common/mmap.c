@@ -1,5 +1,7 @@
 #include "3ds.h"
 #include "3dshack.h"
+#include <stdlib.h>
+#include <errno.h>
 
 int ctr_svchack_successful = 0;
 
@@ -12,7 +14,7 @@ typedef struct
 pico_mmap_t pico_mmaps[] = {
    {0x02000000, 0},
    {0x06000000, 0},
-   {NULL,       0}
+   {0,       0}
 };
 
 void ctr_flush_invalidate_cache()
@@ -30,7 +32,7 @@ void cache_flush_d_inval_i(void *start, void *end)
 #elif defined(__MACH__)
    sys_dcache_flush(start, len);
    sys_icache_invalidate(start, len);
-#elif defined(_3DS)
+#elif defined(__3DS__)
    ctr_flush_invalidate_cache();
 #elif defined(VITA)
    sceKernelSyncVMDomain(sceBlock, start, len);
@@ -53,7 +55,7 @@ void *plat_mmap(unsigned long addr, size_t size, int need_exec, int is_fixed)
          if ((pico_mmap->requested_map == addr))
          {
             unsigned int ptr_aligned, tmp;
-            unsigned int currentHandle;
+            long unsigned int currentHandle;
             unsigned int perm = 0b011;
 
             if (need_exec)
@@ -89,13 +91,13 @@ void *plat_mremap(void *ptr, size_t oldsize, size_t newsize)
       {
          if ((pico_mmap->requested_map == (unsigned int)ptr))
          {
-            unsigned int ptr_aligned;
-            unsigned int currentHandle;
+            u32 ptr_aligned;
+            long unsigned int currentHandle;
             void* tmp;
 
             oldsize = (oldsize + 0xFFF) & ~0xFFF;
             newsize = (newsize + 0xFFF) & ~0xFFF;
-            ptr_aligned = (((unsigned int)pico_mmap->buffer) + 0xFFF) & ~0xFFF;
+            ptr_aligned = (((u32)pico_mmap->buffer) + 0xFFF) & ~0xFFF;
 
             svcDuplicateHandle(&currentHandle, 0xFFFF8001);
 
@@ -106,7 +108,7 @@ void *plat_mremap(void *ptr, size_t oldsize, size_t newsize)
                return NULL;
 
             pico_mmap->buffer = tmp;
-            ptr_aligned = (((unsigned int)pico_mmap->buffer) + 0xFFF) & ~0xFFF;
+            ptr_aligned = (((u32)pico_mmap->buffer) + 0xFFF) & ~0xFFF;
 
             svcControlProcessMemory(currentHandle, pico_mmap->requested_map, ptr_aligned, newsize, MEMOP_MAP, 0x3);
 
@@ -130,15 +132,15 @@ void plat_munmap(void *ptr, size_t size)
       {
          if ((pico_mmap->requested_map == (unsigned int)ptr))
          {
-            unsigned int ptr_aligned;
-            unsigned int currentHandle;
+            u32 ptr_aligned;
+            long unsigned int currentHandle;
 
             size = (size + 0xFFF) & ~0xFFF;
-            ptr_aligned = (((unsigned int)pico_mmap->buffer) + 0xFFF) & ~0xFFF;
+            ptr_aligned = (((u32)pico_mmap->buffer) + 0xFFF) & ~0xFFF;
 
             svcDuplicateHandle(&currentHandle, 0xFFFF8001);
 
-            svcControlProcessMemory(currentHandle, (void*)pico_mmap->requested_map, (void*)ptr_aligned, size, MEMOP_UNMAP, 0b011);
+            svcControlProcessMemory(currentHandle, pico_mmap->requested_map, ptr_aligned, size, MEMOP_UNMAP, 0b011);
 
             svcCloseHandle(currentHandle);
 
@@ -170,13 +172,13 @@ int plat_mem_set_exec(void *ptr, size_t size)
    if (ret == 0 && log_cb)
       log_cb(RETRO_LOG_ERROR, "VirtualProtect(%p, %d) failed: %d\n", ptr, (int)size,
              GetLastError());
-#elif defined(_3DS)
+#elif defined(__3DS__)
 
    if (ctr_svchack_successful)
    {
-      unsigned int currentHandle;
+      long unsigned int currentHandle;
       svcDuplicateHandle(&currentHandle, 0xFFFF8001);
-      ret = svcControlProcessMemory(currentHandle, ptr, 0x0,
+      ret = svcControlProcessMemory(currentHandle, (u32)ptr, 0x0,
                               size, MEMOP_PROT, 0b111);
       svcCloseHandle(currentHandle);
       ctr_flush_invalidate_cache();

@@ -162,7 +162,7 @@ void PsndRerate(int preserve_state)
   if (PicoIn.AHW & PAHW_PICO)
     PicoReratePico();
 
-    // Calculate the sampled PCM/CDDA indexes for 
+    // Calculate the sampled PCM/CDDA indexes for
     // rates != 44100khz.
     //
     int samplesPerFrameBasedOn44100 = 44100 / target_fps;
@@ -258,7 +258,7 @@ void cdda_raw_update(int *buffer, int length)
   //if (PicoIn.sndRate <  22050 - 100) mult = 4;
   //cdda_bytes *= mult;
 
-  if (Pico.m.pal) 
+  if (Pico.m.pal)
     cdda_bytes = (44100 / 50) * 4;
   else
     cdda_bytes = (44100 / 60) * 4;
@@ -278,7 +278,7 @@ void cdda_raw_update(int *buffer, int length)
       buffer[i*2] += cdda_out_buffer[i*2] >> 1;
       buffer[i*2+1] += cdda_out_buffer[i*2+1] >> 1;
     }
-    //mix_16h_to_32(buffer, cdda_out_buffer, length*2); 
+    //mix_16h_to_32(buffer, cdda_out_buffer, length*2);
   }
   else
   {
@@ -290,7 +290,7 @@ void cdda_raw_update(int *buffer, int length)
       buffer[i*2+1] += cdda_out_buffer[(idx / 16384)*2+1] >> 1;
       idx = idx + incr;
     }
-    /*    
+    /*
     for (int i = 0; i < length; i++)
     {
       buffer[i*2] += cdda_out_buffer[sampleCurrentTo44100[i]*2] >> 1;
@@ -421,7 +421,7 @@ int PsndRender3DS(short *leftBuffer, short *rightBuffer, int length)
     if ( val > max )      val = max; \
     else if ( val < min ) val = min; \
   }
-  
+
   int l, r;
   int count = length;
   int *src = buf32;
@@ -453,7 +453,7 @@ int PsndRender3DS(short *leftBuffer, short *rightBuffer, int length)
       Limit( r, MAXOUT, MINOUT );                                           \
       *leftBuffer++ = l;                                                    \
       *rightBuffer++ = r;                                                   \
-  
+
 
   if (PicoIn.lowPassFilter == 0)
   {
@@ -490,10 +490,10 @@ int PsndRender3DS(short *leftBuffer, short *rightBuffer, int length)
         prev_r2 = cur_r;
         lowpass_counter = 0;
       }
-      
+
       WRITE_SAMPLE
     }
-  } 
+  }
   else if (PicoIn.lowPassFilter == 4)
   {
     // Low pass filter for New 3DS (44 KHz)
@@ -524,9 +524,9 @@ int PsndRender3DS(short *leftBuffer, short *rightBuffer, int length)
         prev_r3 = cur_r;
         lowpass_counter = 0;
       }
-      
+
       WRITE_SAMPLE
-    }    
+    }
   }
 
   pprof_end(sound);
@@ -609,7 +609,7 @@ PICO_INTERNAL void PsndGetSamples(int y)
   {
     if (PicoIn.AHW & (PAHW_MCD | PAHW_32X))
       memset32(PsndBufferPCM, 0, length * 2);
-    
+
     if ((PicoIn.AHW & PAHW_32X) && (PicoIn.opt & POPT_EN_PWM))
       p32x_pwm_update(PsndBufferPCM, length / 2, true);
   }
@@ -637,7 +637,7 @@ PICO_INTERNAL void PsndGetSamples(int y)
 
     if ((PicoIn.AHW & PAHW_32X) && (PicoIn.opt & POPT_EN_PWM))
       p32x_pwm_update(&PsndBufferPCM[(length / 2) * 2], length - length / 2, true);
-  
+
     /*if (Pico.m.status & 2)
          curr_pos += PsndRender(curr_pos, Pico.snd.len-Pico.snd.len/2);
     else curr_pos  = PsndRender(0, Pico.snd.len_use);

@@ -8,7 +8,7 @@
 #ifndef	__TYPEDEF_INCLUDED__
 #define	__TYPEDEF_INCLUDED__
 
-#include "3ds.h"
+#include <3ds.h>
 
 typedef	int		BOOL;
 

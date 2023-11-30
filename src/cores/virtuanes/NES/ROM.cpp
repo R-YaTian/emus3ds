@@ -16,7 +16,6 @@
 
 #include "VirtuaNESres.h"
 
-#include "DebugOut.h"
 #include "App.h"
 //#include "Plugin.h"
 #include "Pathlib.h"
@@ -39,11 +38,17 @@ BOOL g_bSan2;
 unsigned char pFont[256*1024];
 
 INT	 g_UnfTVMode = -1;
+// #define MKID(a) ((unsigned long) \
+// 	(((a) >> 24) & 0x000000FF) | \
+// 	(((a) >>  8) & 0x0000FF00) | \
+// 	(((a) <<  8) & 0x00FF0000) | \
+// 	(((a) << 24) & 0xFF000000))
+
 #define MKID(a) ((unsigned long) \
-	(((a) >> 24) & 0x000000FF) | \
-	(((a) >>  8) & 0x0000FF00) | \
-	(((a) <<  8) & 0x00FF0000) | \
-	(((a) << 24) & 0xFF000000))
+	(a[0]) | \
+	(a[1] << 8) | \
+	(a[2] << 16) | \
+	(a[3] << 24))
 
 struct CHINF {
 	u32 crc32;
@@ -63,7 +68,7 @@ static struct CHINF moo[] =
 ROM::ROM( const char* fname )
 {
 	error = NULL;
-	
+
 FILE	*fp = NULL;
 LPBYTE	temp = NULL;
 LPBYTE	bios = NULL;
@@ -89,7 +94,7 @@ LONG	FileSize;
 	mapper = 0;
 	diskno = 0;
 
-	//try 
+	//try
 	{
 		if( !(fp = ::fopen( fname, "rb" )) ) {
 			// xxx �t�@�C�����J���܂���
@@ -153,7 +158,7 @@ LONG	FileSize;
 			// �w�b�_�R�s�[
 			memcpy( &header, temp, sizeof(NESHEADER) );
 		} else {
-			
+
 			FREE( temp );
 
 			/*if( !UnCompress( fname, &temp, (LPDWORD)&FileSize ) ) {
@@ -258,12 +263,12 @@ LONG	FileSize;
 			//char name[100];
 			PRGsize = 0x00;
 			CHRsize = 0x00;
-			
+
 			header.ID[0] = 'N';
 			header.ID[1] = 'E';
 			header.ID[2] = 'S';
 			header.ID[3] = 0x1A;
-			
+
 			board = 0;
 			bUnif = TRUE;
 
@@ -274,7 +279,7 @@ LONG	FileSize;
 		//	header.control2 = 0x10;
 			header.control1 = 0;
 			header.control2 = 0;
-			
+
 			for (i = 0; i < 0x10; i++)
 			{
 				tPRG[i] = tCHR[i] = 0;
@@ -286,58 +291,58 @@ LONG	FileSize;
 				id = 0;
 				memcpy(&Signature,&pUnif[ipos],4);ipos+=4;
 				memcpy(&BlockLen,&pUnif[ipos],4);ipos+=4;
-				
+
 				switch(Signature)
 				{
-					case MKID('MAPR')://boardÃû×Ö
+					case MKID("MAPR")://boardÃû×Ö
 						memcpy( pboardname, &pUnif[ipos], BlockLen);
 						pboardname[BlockLen]=0;
 						//memcpy( info, &pUnif[ipos], BlockLen);
 						//fl.info = info;
 						ipos+=BlockLen;	break;
 
-					case MKID('NAME'):
+					case MKID("NAME"):
 						//memcpy( pboardname, &pUnif[ipos], BlockLen);
 						//fl.title = name;
 						ipos+=BlockLen;	break;
 
-					case MKID('TVCI')://µçÊÓÖÆÊ½
+					case MKID("TVCI")://µçÊÓÖÆÊ½
 						g_UnfTVMode = pUnif[ipos];
 						ipos+=BlockLen;	break;
 
-					case MKID('BATR')://Ê¹ÓÃµç³Ø¼ÇÒä
+					case MKID("BATR")://Ê¹ÓÃµç³Ø¼ÇÒä
 						header.control1 |=2;
-						ipos+=BlockLen;	break;						
+						ipos+=BlockLen;	break;
 
-					case MKID('FONT')://×Ö¿â
+					case MKID("FONT")://×Ö¿â
 //						memcpy( pFont, &pUnif[ipos], BlockLen>65536?65536:BlockLen );
 						memcpy( pFont, &pUnif[ipos], BlockLen );
 						ipos+=BlockLen;	break;
-						
-					case MKID('MIRR'):
+
+					case MKID("MIRR"):
 						if (pUnif[ipos]==0)
 							header.control1 &=14;
 						else if (pUnif[ipos]==1)
 							header.control1 |=1;
 						ipos+=BlockLen;
 						break;
-					
-					case MKID('PRGF'):	id++;
-					case MKID('PRGE'):	id++;
-					case MKID('PRGD'):	id++;
-					case MKID('PRGC'):	id++;
-					case MKID('PRGB'):	id++;
-					case MKID('PRGA'):	id++;
-					case MKID('PRG9'):	id++;
-					case MKID('PRG8'):	id++;
-					case MKID('PRG7'):	id++;
-					case MKID('PRG6'):	id++;
-					case MKID('PRG5'):	id++;
-					case MKID('PRG4'):	id++;
-					case MKID('PRG3'):	id++;
-					case MKID('PRG2'):	id++;
-					case MKID('PRG1'):	id++;
-					case MKID('PRG0'):
+
+					case MKID("PRGF"):	id++;
+					case MKID("PRGE"):	id++;
+					case MKID("PRGD"):	id++;
+					case MKID("PRGC"):	id++;
+					case MKID("PRGB"):	id++;
+					case MKID("PRGA"):	id++;
+					case MKID("PRG9"):	id++;
+					case MKID("PRG8"):	id++;
+					case MKID("PRG7"):	id++;
+					case MKID("PRG6"):	id++;
+					case MKID("PRG5"):	id++;
+					case MKID("PRG4"):	id++;
+					case MKID("PRG3"):	id++;
+					case MKID("PRG2"):	id++;
+					case MKID("PRG1"):	id++;
+					case MKID("PRG0"):
 						sizePRG[id] = BlockLen;
 						tPRG[id] = (BYTE*)malloc(BlockLen);
 						memcpy( tPRG[id], &pUnif[ipos], BlockLen );
@@ -345,29 +350,29 @@ LONG	FileSize;
 						PRGsize += BlockLen;
 						break;
 
-					case MKID('CHRF'):	id++;
-					case MKID('CHRE'):	id++;
-					case MKID('CHRD'):	id++;
-					case MKID('CHRC'):	id++;
-					case MKID('CHRB'):	id++;
-					case MKID('CHRA'):	id++;
-					case MKID('CHR9'):	id++;
-					case MKID('CHR8'):	id++;
-					case MKID('CHR7'):	id++;
-					case MKID('CHR6'):	id++;
-					case MKID('CHR5'):	id++;
-					case MKID('CHR4'):	id++;
-					case MKID('CHR3'):	id++;
-					case MKID('CHR2'):	id++;
-					case MKID('CHR1'):	id++;
-					case MKID('CHR0'):
+					case MKID("CHRF"):	id++;
+					case MKID("CHRE"):	id++;
+					case MKID("CHRD"):	id++;
+					case MKID("CHRC"):	id++;
+					case MKID("CHRB"):	id++;
+					case MKID("CHRA"):	id++;
+					case MKID("CHR9"):	id++;
+					case MKID("CHR8"):	id++;
+					case MKID("CHR7"):	id++;
+					case MKID("CHR6"):	id++;
+					case MKID("CHR5"):	id++;
+					case MKID("CHR4"):	id++;
+					case MKID("CHR3"):	id++;
+					case MKID("CHR2"):	id++;
+					case MKID("CHR1"):	id++;
+					case MKID("CHR0"):
 						sizeCHR[id] = BlockLen;
 						tCHR[id] = (BYTE*)malloc(BlockLen);
 						memcpy( tCHR[id], &pUnif[ipos], BlockLen );
 						ipos+=BlockLen;
 						CHRsize += BlockLen;
 						break;
-						
+
 					default:
 						ipos+=BlockLen;	break;
 				}
@@ -378,7 +383,7 @@ LONG	FileSize;
 			//fl.chr_size = 0;
 
 			board = NES_ROM_get_unifBoardID(pboardname);
-			
+
 			header.PRG_PAGE_SIZE = PRGsize/(16*1024);
 			header.CHR_PAGE_SIZE = CHRsize/(8*1024);
 
@@ -583,7 +588,7 @@ LONG	FileSize;
 				else
 					memset((char *)(&header)+0xA,0,0x6);
 			}
-						
+
 			mapper = (header.control1>>4)|(header.control2&0xF0);
 			crc = crcall = crcvrom = 0;
 
@@ -621,10 +626,10 @@ LONG	FileSize;
 		}
 
 		FREE( temp );
-	} 
+	}
 
 has_error:
-	//catch( CHAR* str ) 
+	//catch( CHAR* str )
 	if (error)
 	{
 		// �������킩���Ă����G���[����
@@ -639,7 +644,7 @@ has_error:
 		FREE( lpDisk );
 
 		//throw	str;
-		
+
 /*#ifndef	_DEBUG
 	} catch(...) {
 		// ���ʕی��G���[�Ƃ��o�����������̂�...(^^;
@@ -695,7 +700,7 @@ NESHEADER	header;
 	FCLOSE( fp );
 
 	if( header.ID[0] == 'N' && header.ID[1] == 'E'
-	 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) 
+	 && header.ID[2] == 'S' && header.ID[3] == 0x1A )
 	 {
 		/*for( INT i = 0; i < 8; i++ ) {
 			header.reserved[i] = 0;
@@ -780,4 +785,3 @@ void	ROM::FilenameCheck( const char* fname )
 	*/
 
 }
-

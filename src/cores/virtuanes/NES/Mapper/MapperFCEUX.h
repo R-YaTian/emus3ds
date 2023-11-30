@@ -10,14 +10,14 @@ protected:
 	void (*_power)(void);
 	void (*_reset)(void);
 	void (*_restore)(int);
-	void (*_clock)(void);
+	void (*_clock)(int);
 
 public:
-	MapperFCEUX( NES* parent, void (*power)(void), void (*reset)(void), void (*restore)(int), void (*clock)(int), SFORMAT *stateRegs ) : Mapper(parent) 
+	MapperFCEUX( NES* parent, void (*power)(void), void (*reset)(void), void (*restore)(int), void (*clock)(int), SFORMAT *stateRegs ) : Mapper(parent)
     {
         SetReadHandler(0x0000, 0xFFFF, ANull);
         SetWriteHandler(0x0000, 0xFFFF, BNull);
-        
+
         _power = power;
         _reset = reset;
         _restore = restore;
@@ -49,27 +49,27 @@ public:
     }
 
 	// $4018-$40FF Extention register read/write
-	BYTE	ExRead ( WORD addr )	
-    { 
-        return ARead[addr](addr); 
+	BYTE	ExRead ( WORD addr )
+    {
+        return ARead[addr](addr);
     }
-	void	ExWrite( WORD addr, BYTE data ) 
+	void	ExWrite( WORD addr, BYTE data )
     {
         BWrite[addr](addr, data);
     }
-    
-	void	Clock( INT cycles ) 
+
+	void	Clock( INT cycles )
     {
         if (_clock)
-            _clock();
+            _clock(cycles);
     }
-    
+
 
 	// For state save
-	BOOL	IsStateSave() 
-    { 
+	BOOL	IsStateSave()
+    {
         if (_stateRegs)
-            return TRUE; 
+            return TRUE;
         else
             return FALSE;
     }
@@ -80,7 +80,7 @@ public:
         int pIndex = 0;
         while (t->v)
         {
-            u8 *bptr = t->v;
+            u8 *bptr = (u8 *) t->v;
             s32 size = t->s & 0xff;
 
             while (size > 0)
@@ -98,7 +98,7 @@ public:
         int pIndex = 0;
         while (t->v)
         {
-            u8 *bptr = t->v;
+            u8 *bptr = (u8 *) t->v;
             s32 size = t->s & 0xff;
 
             while (size > 0)

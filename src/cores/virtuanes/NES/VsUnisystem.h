@@ -10,7 +10,7 @@
 
 struct VSDIPSWITCH
 {
-	char*	name;
+	const char*	name;
 	WORD	value;
 };
 

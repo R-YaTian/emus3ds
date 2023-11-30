@@ -6,7 +6,7 @@
 
 #ifdef EXTERN_C_START
 EXTERN_C_START
-#endif 
+#endif
 
 void *get_screen_ptr();
 u32 get_screen_pitch();
@@ -27,7 +27,7 @@ void set_font_narrow();
 void clear_screen();
 void clear_line_edges(u32 line_number, u32 color, u32 edge, u32 middle);
 void copy_screen(u32 *dest);
-void blit_screen(u32 *src);
+void blit_screen(u16 *src);
 void copy_screen_half_intensity(u16 *dest);
 void copy_screen_quarter_intensity(u16 *dest);
 void buffer_quarter_intensity(u16 *_dest, u16 *_pixels, u32 pitch);
@@ -41,4 +41,3 @@ EXTERN_C_END
 #endif
 
 #endif
-

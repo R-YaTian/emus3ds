@@ -14,6 +14,7 @@
 #include "3dsfiles.h"
 #include "3dsmain.h"
 #include "3dsemu.h"
+#include "gpulib.h"
 
 #include "3dsinterface.h"
 
@@ -24,9 +25,8 @@
 bool somethingWasDrawn = false;
 bool somethingWasFlushed = false;
 
-extern u8* gfxTopRightFramebuffers[2];
-extern u8* gfxTopLeftFramebuffers[2];
-u8* gfxOldTopRightFramebuffers[2];
+extern "C" u32 __ctru_linear_heap;
+extern "C" u32 __ctru_linear_heap_size;
 
 extern "C" void gfxSetFramebufferInfo(gfxScreen_t screen, u8 id);
 extern "C" void gfxWriteFramebufferInfo(gfxScreen_t screen);
@@ -160,37 +160,22 @@ void gpu3dsSetParallaxBarrier(bool enable)
 float prevSliderVal = -1;
 void gpu3dsCheckSlider()
 {
-    float sliderVal = *(float*)0x1FF81080;
+  float sliderVal = *(float*)0x1FF81080;
 
-    if (sliderVal != prevSliderVal)
-    {
-        gfxTopRightFramebuffers[0] = gfxTopLeftFramebuffers[0];
-        gfxTopRightFramebuffers[1] = gfxTopLeftFramebuffers[1];
-        
-        if (sliderVal == 0)
-        {
-            gpu3dsSetParallaxBarrier(false);
-        }
-        else if (sliderVal < 0.3)
-        {
-            if (!isNew3DS)
-            {
-                gfxTopRightFramebuffers[0] = gfxOldTopRightFramebuffers[0];
-                gfxTopRightFramebuffers[1] = gfxOldTopRightFramebuffers[1];
-            }
-            gpu3dsSetParallaxBarrier(false);
-        }
-        else if (sliderVal < 0.6)
-            gpu3dsSetParallaxBarrier(false);
-        else
-            gpu3dsSetParallaxBarrier(true);
+  if (sliderVal != prevSliderVal)
+  {
+      if (sliderVal < 0.6)
+      {
+          gpu3dsSetParallaxBarrier(false);
+      }
+      else
+      {
+          gpu3dsSetParallaxBarrier(true);
+      }
 
-        u8* fb = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
-        int b = fb == gfxTopLeftFramebuffers[0] ? 0 : 1;
-        gfxSetFramebufferInfo(GFX_TOP, b);
-        gfxWriteFramebufferInfo(GFX_TOP);
-    }
-    prevSliderVal = sliderVal;
+      gfxScreenSwapBuffers(GFX_TOP, false);
+  }
+  prevSliderVal = sliderVal;
 }
 
 void gpu3dsEnableDepthTestAndWriteColorAlphaOnly()
@@ -660,11 +645,11 @@ void gpu3dsStartNewFrame()
 
     if (gpuCurrentCommandBuffer == 0)
     {
-	    GPU_Reset(NULL, gpuCommandBuffer1, gpuCommandBufferSize);
+      GPUCMD_SetBuffer(gpuCommandBuffer1, gpuCommandBufferSize, 0);
     }
     else
     {
-	    GPU_Reset(NULL, gpuCommandBuffer2, gpuCommandBufferSize);
+      GPUCMD_SetBuffer(gpuCommandBuffer2, gpuCommandBufferSize, 0);
     }
 }
 
@@ -733,15 +718,15 @@ void gpu3dsLoadShader(int shaderIndex, u32 *shaderBinary,
 #endif
 
 	shaderProgramInit(&GPU3DS.shaders[shaderIndex].shaderProgram);
-	
+
     // This fixes an important bug in the loading of shaders.
     // The DVLEs are not necessarily arranged such that
-    // DVLE[0] is the vertex shader and DVLE[1] is the 
+    // DVLE[0] is the vertex shader and DVLE[1] is the
     // geometry shader. We have to inspect the DVLE[i].type
     // to determine what type of shader it is before using the
-    // appropriate method (shaderProgramSetVsh, shaderProgramSetGsh) 
+    // appropriate method (shaderProgramSetVsh, shaderProgramSetGsh)
     // to load it up.
-    // 
+    //
 	for (int i = 0; i < GPU3DS.shaders[shaderIndex].dvlb->numDVLE; i++)
 	{
 		if (GPU3DS.shaders[shaderIndex].dvlb->DVLE[i].type == 0)
@@ -849,7 +834,7 @@ void gpu3dsResetState()
 	GPUCMD_SetBufferOffset(0);
 
 	GPU_DepthMap(-1.0f, 0.0f);
-	GPU_SetFaceCulling(GPU_CULL_NONE);
+  GPUCMD_AddWrite(GPUREG_FACECULLING_CONFIG, GPU_CULL_NONE&0x3);
 	GPU_SetStencilTest(false, GPU_ALWAYS, 0x00, 0xFF, 0x00);
 	GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, GPU_STENCIL_KEEP);
 	GPU_SetBlendingColor(0,0,0,0);
@@ -991,7 +976,7 @@ bool gpu3dsCheckEvent(GSPGPU_Event id)
 		svcClearEvent(gspEvents[id]);
 		return true;
 	}
-	
+
 	return false;
 }
 
@@ -1007,16 +992,22 @@ void gpu3dsWaitEvent(GSPGPU_Event id, u64 timeInMilliseconds)
 
 void gpu3dsFlush()
 {
-    u32 offset;
+  u32* commandBuffer;
+	u32  commandBuffer_size;
 
-    GPUCMD_GetBuffer(NULL, NULL, &offset);
+	if(somethingWasDrawn) {
+	    GPUCMD_AddMaskedWrite(GPUREG_PRIMITIVE_CONFIG, 0x8, 0x00000000);
+	    GPUCMD_AddWrite(GPUREG_FRAMEBUFFER_FLUSH, 0x00000001);
+	    GPUCMD_AddWrite(GPUREG_FRAMEBUFFER_INVALIDATE, 0x00000001);
+    }
 
-    GPUCMD_Finalize();
-    GPUCMD_FlushAndRun();
+	GPUCMD_Split(&commandBuffer, &commandBuffer_size);
+	GX_FlushCacheRegions (commandBuffer, commandBuffer_size * 4, (u32 *) __ctru_linear_heap, __ctru_linear_heap_size, NULL, 0);
+	GX_ProcessCommandList(commandBuffer, commandBuffer_size * 4, 0x00);
 
-    GPUCMD_SetBufferOffset(0);
     somethingWasFlushed = true;
     somethingWasDrawn = false;
+
 
 
 }
@@ -1130,7 +1121,7 @@ void gpu3dsSetTextureOffset(float u, float v)
 {
     GPU3DS.textureOffset[3] = u;
     GPU3DS.textureOffset[2] = v;
-    GPU_SetFloatUniform(GPU_VERTEX_SHADER, textureOffsetVertexShaderRegister, (u32 *)GPU3DS.textureOffset, 1);    
+    GPU_SetFloatUniform(GPU_VERTEX_SHADER, textureOffsetVertexShaderRegister, (u32 *)GPU3DS.textureOffset, 1);
 }
 
 
@@ -1143,24 +1134,11 @@ bool gpu3dsInitialize()
     //GPU3DS.screenFormat = GSP_RGBA8_OES;
     GPU3DS.screenFormat = GSP_RGBA8_OES;
     gfxInit	(GPU3DS.screenFormat, GPU3DS.screenFormat, false);
-	GPU_Init(NULL);
-
 	gfxSet3D(true);
 
-    u8 val = 0;
+    bool val = 0;
     APT_CheckNew3DS(&val);
     isNew3DS = (val != 0);
-
-    gfxOldTopRightFramebuffers[0] = gfxTopRightFramebuffers[0];
-    gfxOldTopRightFramebuffers[1] = gfxTopRightFramebuffers[1];
-    for (int i = 0; i < 400 * 240 * 4; i++)
-    {
-        gfxOldTopRightFramebuffers[0][i] = 0;
-        gfxOldTopRightFramebuffers[1][i] = 0;
-    }
-
-    gfxTopRightFramebuffers[0] = gfxTopLeftFramebuffers[0];
-    gfxTopRightFramebuffers[1] = gfxTopLeftFramebuffers[1];
 
     // Create the frame and depth buffers for the top screen.
     //
@@ -1173,12 +1151,12 @@ bool gpu3dsInitialize()
         printf ("Unable to allocate frame/depth buffers\n");
         return false;
     }
-    
+
 	GX_MemoryFill(
-  		GPU3DS.frameBuffer, 0, &GPU3DS.frameBuffer[240*400], 
+  		GPU3DS.frameBuffer, 0, &GPU3DS.frameBuffer[240*400],
         GX_FILL_TRIGGER | GX_FILL_32BIT_DEPTH,
         //NULL, 0, NULL, 0);
-  		GPU3DS.frameDepthBuffer, 0, &GPU3DS.frameDepthBuffer[240*400], 
+  		GPU3DS.frameDepthBuffer, 0, &GPU3DS.frameDepthBuffer[240*400],
         GX_FILL_TRIGGER | GX_FILL_32BIT_DEPTH);
     gspWaitForPSC0();
 
@@ -1193,7 +1171,7 @@ bool gpu3dsInitialize()
     gpuCommandBuffer2 = (u32 *)linearAlloc(COMMAND_BUFFER_SIZE / 2);
     if (gpuCommandBuffer1 == NULL || gpuCommandBuffer2 == NULL)
         return false;
-	GPU_Reset(NULL, gpuCommandBuffer1, gpuCommandBufferSize);
+  GPUCMD_SetBuffer(gpuCommandBuffer1, gpuCommandBufferSize, 0);
     gpuCurrentCommandBuffer = 0;
 
 #ifndef EMU_RELEASE
@@ -1243,7 +1221,7 @@ bool gpu3dsInitialize()
 	GPUCMD_AddMaskedWrite(GPUREG_EARLYDEPTH_TEST1, 0x1, 0);
 	GPUCMD_AddWrite(GPUREG_EARLYDEPTH_TEST2, 0);
 
-	GPU_SetFaceCulling(GPU_CULL_NONE);
+  GPUCMD_AddWrite(GPUREG_FACECULLING_CONFIG, GPU_CULL_NONE&0x3);
 	GPU_SetStencilTest(false, GPU_ALWAYS, 0x00, 0xFF, 0x00);
 	GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, GPU_STENCIL_KEEP);
 
@@ -1255,11 +1233,11 @@ bool gpu3dsInitialize()
 		GPU_ONE, GPU_ZERO
 	);
 	gpu3dsEnableAlphaTestNotEqualsZero();
-    GPU_SetTextureBorderColor(GPU_TEXUNIT0, 0);
+  GPUCMD_AddWrite(GPUREG_TEXUNIT0_BORDER_COLOR, 0);
 
     gpu3dsSetTextureEnvironmentReplaceTexture0();
 
-	GPUCMD_Finalize();
+//	GPUCMD_Finalize();
 	//GPUCMD_FlushAndRun();
     //gspWaitForP3D();
 
@@ -1286,9 +1264,6 @@ void gpu3dsFinalize()
     if (GPU3DS.frameBuffer) vramFree(GPU3DS.frameBuffer);
     if (GPU3DS.frameDepthBuffer) vramFree(GPU3DS.frameDepthBuffer);
 
-    //gpu3dsDestroyTextureFromVRAM(snesOBJLayerTarget);
-    //gpu3dsDestroyTextureFromVRAM(snesOBJDepth);
-
     LINEARFREE_SAFE(gpuCommandBuffer1);
     LINEARFREE_SAFE(gpuCommandBuffer2);
 
@@ -1296,10 +1271,5 @@ void gpu3dsFinalize()
     printf("gfxExit:\n");
 #endif
 
-    // Restore the old frame buffers so that gfxExit can properly
-    // free them.
-    //
-    gfxTopRightFramebuffers[0] = gfxOldTopRightFramebuffers[0];
-    gfxTopRightFramebuffers[1] = gfxOldTopRightFramebuffers[1];
 	gfxExit();
 }

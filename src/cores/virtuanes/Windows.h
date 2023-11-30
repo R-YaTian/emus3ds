@@ -8,7 +8,7 @@
 // stubs
 typedef char *LPSTR;
 
-typedef char *LPCSTR;
+typedef const char *LPCSTR;
 
 typedef char *LPCTSTR;
 
@@ -44,14 +44,14 @@ typedef int LCID;
 #define SLASH_CHAR      '/'
 
 
-#define DEBUGOUT(s)
+#define DEBUGOUT(s, ...)
 
 #define FillMemory(ptr, len, byt)   memset(ptr, byt, len);
 #define ZeroMemory(ptr, len)        memset(ptr, 0, len);
 
 #define wsprintf sprintf
 
-#define __cdecl 
+#define __cdecl
 
 
 #endif

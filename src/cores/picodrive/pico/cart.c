@@ -11,6 +11,7 @@
 #include "../cpu/debug.h"
 //#include "../unzip/unzip.h"
 //#include <zlib.h>
+#include "../zlib/zlib.h"
 
 #include "3dsdbg.h"
 
@@ -126,7 +127,7 @@ pm_file *pm_open(const char *path)
     zipfile = openzip(path);
     if (zipfile != NULL)
     {
-      // search for suitable file (right extension or large enough file) 
+      // search for suitable file (right extension or large enough file)
       while ((zipentry = readzip(zipfile)) != NULL)
       {
         ext = get_ext(zipentry->name);
@@ -139,7 +140,7 @@ pm_file *pm_open(const char *path)
             goto found_rom_zip;
       }
 
-      // zipfile given, but nothing found suitable for us inside 
+      // zipfile given, but nothing found suitable for us inside
       goto zip_failed;
 
 found_rom_zip:
@@ -169,7 +170,7 @@ zip_failed:
       return NULL;
     }
   }
-  else*/ 
+  else*/
   if (strcasecmp(ext, "cso") == 0)
   {
     cso_struct *cso = NULL, *tmp = NULL;
@@ -414,7 +415,7 @@ int pm_seek(pm_file *stream, long offset, int whence)
     }
     return z->pos;
   }
-  else*/ 
+  else*/
   if (stream->type == PMT_CSO)
   {
     cso_struct *cso = stream->param;
@@ -446,7 +447,7 @@ int pm_close(pm_file *fp)
     inflateEnd(&z->stream);
     closezip(z->zip);
   }
-  else*/ 
+  else*/
   if (fp->type == PMT_CSO)
   {
     free(fp->param);
@@ -837,7 +838,7 @@ static void parse_carthw(const char *carthw_cfg, int *fill_sram)
       skip_sect = 0;
       continue;
     }
-    
+
     if (skip_sect)
       continue;
 

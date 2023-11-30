@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <vector>
+#include <string>
 
 //----------------------------------------------------------------------
 // Initialize the library
@@ -18,7 +19,7 @@ void file3dsInitialize(void);
 //----------------------------------------------------------------------
 // Takes the original file name and replace the extension.
 //----------------------------------------------------------------------
-const char * file3dsReplaceFilenameExtension (char *fileName, char *extension);
+const char * file3dsReplaceFilenameExtension (char *fileName, const char *extension);
 
 
 //----------------------------------------------------------------------
@@ -36,7 +37,7 @@ void file3dsGoToParentDirectory(void);
 //----------------------------------------------------------------------
 // Go up to the child directory.
 //----------------------------------------------------------------------
-void file3dsGoToChildDirectory(char *childDir);
+void file3dsGoToChildDirectory(const char *childDir);
 
 
 //----------------------------------------------------------------------
@@ -45,6 +46,6 @@ void file3dsGoToChildDirectory(char *childDir);
 // Specify a comma separated list of extensions.
 //
 //----------------------------------------------------------------------
-std::vector<std::string> file3dsGetFiles(char *extensions, int maxFiles);
+std::vector<std::string> file3dsGetFiles(const char *extensions, int maxFiles);
 
 #endif

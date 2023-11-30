@@ -1,6 +1,6 @@
 /*
  *  cheats.c
- * 
+ *
  *  Genesis Plus GX Cheats menu
  *
  *  Copyright Eke-Eke (2010-2014)
@@ -44,7 +44,7 @@
 #define MAX_CHEATS (200)
 #define MAX_DESC_LENGTH (63)
 
-typedef struct 
+typedef struct
 {
   char code[12];
   char text[MAX_DESC_LENGTH];
@@ -113,7 +113,7 @@ u32 decode_cheat(char *string, int index)
         case 3:
         address |= (n & 0xF) << 20 | (n >> 4) << 8;
         break;
-    
+
         case 4:
         data |= (n & 1) << 12;
         address |= (n >> 1) << 16;
@@ -311,7 +311,7 @@ u32 enable_cheat(int index, u8 enable)
 
             /* no more patched ROM address */
             cheatlist[index-1].prev = NULL;
-          }        
+          }
       }
     }
 }
@@ -320,7 +320,7 @@ u32 enable_cheat(int index, u8 enable)
 void apply_cheats(void)
 {
   u8 *ptr;
-  
+
   /* clear ROM&RAM patches counter */
   maxROMcheats = maxRAMcheats = 0;
 
@@ -342,9 +342,9 @@ void apply_cheats(void)
           /* add ROM patch */
           maxROMcheats++;
           cheatIndexes[MAX_CHEATS - maxROMcheats] = i;
- 
+
           /* get current banked ROM address */
-          u8 *addr = z80_read_map[(cheatlist[i].address) >> Z80_MEM_SHIFT] << 1;
+          u8 *addr = (u8 *)(z80_read_map[(cheatlist[i].address) >> Z80_MEM_SHIFT] << 1);
           ptr = &addr[cheatlist[i].address];
 
           /* check if reference matches original ROM data */
@@ -387,12 +387,12 @@ void clear_cheats(void)
  *
  * Apply ROM patches (this should be called each time banking is changed)
  *
- ****************************************************************************/ 
+ ****************************************************************************/
 void ROMCheatUpdate(void)
 {
   int index, cnt = maxROMcheats;
   u8 *ptr;
-  
+
   while (cnt)
   {
     /* get cheat index */
@@ -409,9 +409,9 @@ void ROMCheatUpdate(void)
     }
 
     /* get current banked ROM address */
-    u8 *addr = z80_read_map[(cheatlist[index].address) >> Z80_MEM_SHIFT] << 1;
+    u8 *addr = (u8 *)(z80_read_map[(cheatlist[index].address) >> Z80_MEM_SHIFT] << 1);
     ptr = &addr[cheatlist[index].address];
-    
+
     //ptr = &z80_readmap[(cheatlist[index].address) >> 10][cheatlist[index].address & 0x03FF];
 
     /* check if reference matches original ROM data */
@@ -434,11 +434,11 @@ void ROMCheatUpdate(void)
  *
  * Apply RAM patches (this should be called once per frame)
  *
- ****************************************************************************/ 
+ ****************************************************************************/
 void RAMCheatUpdate(void)
 {
   int index, cnt = maxRAMcheats;
-  
+
   while (cnt)
   {
     /* get cheat index */
@@ -457,4 +457,3 @@ void RAMCheatUpdate(void)
     }
   }
 }
-

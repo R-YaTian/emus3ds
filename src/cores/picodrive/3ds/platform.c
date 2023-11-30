@@ -3,7 +3,7 @@
 #include "../pico/pico.h"
 #include "../pico/pico_int.h"
 
-int emu_save_load_sram(char *saveFname, int load)
+int emu_save_load_sram(const char *saveFname, int load)
 {
 	int ret = 0;
 

@@ -14,11 +14,11 @@ extern char romFileNameLastSelected[];
 #define EMUSTATE_END            3
 
 //---------------------------------------------------------
-// FPS behavior 
+// FPS behavior
 //---------------------------------------------------------
-#define WAIT_FULL 0
-#define WAIT_HALF 1
-#define WAIT_NONE 2
+#define FPS_WAIT_FULL 0
+#define FPS_WAIT_HALF 1
+#define FPS_WAIT_NONE 2
 
 
 

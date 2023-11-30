@@ -4,7 +4,7 @@
 #include "3dsconfig.h"
 
 static FILE    *fp = NULL;
-static bool    WriteMode = false;   
+static bool    WriteMode = false;
 static char    fileBuffer[4096];
 
 //----------------------------------------------------------------------
@@ -25,6 +25,8 @@ bool config3dsOpenFile(const char *filename, bool fileWriteMode)
         else
             return false;
     }
+
+    return false;
 }
 
 
@@ -49,7 +51,7 @@ void config3dsCloseFile()
 //----------------------------------------------------------------------
 // Load / Save an int32 value specific to game.
 //----------------------------------------------------------------------
-void config3dsReadWriteInt32(char *format, int *value, int minValue, int maxValue)
+void config3dsReadWriteInt32(const char *format, int *value, int minValue, int maxValue)
 {
     if (!fp)
         return;
@@ -104,11 +106,11 @@ void config3dsReadWriteInt32(char *format, int *value, int minValue, int maxValu
 //----------------------------------------------------------------------
 // Load / Save a string specific to game.
 //----------------------------------------------------------------------
-void config3dsReadWriteString(char *writeFormat, char *readFormat, char *value)
+void config3dsReadWriteString(const char *writeFormat, const char *readFormat, char *value)
 {
     if (!fp)
         return;
-    
+
     if (WriteMode)
     {
         char tempBuffer[1024] = { 0 };
@@ -117,7 +119,7 @@ void config3dsReadWriteString(char *writeFormat, char *readFormat, char *value)
             //printf ("Writing %s %d\n", format, *value);
         	//fprintf(fp, writeFormat, value);
             snprintf(tempBuffer, 1023, writeFormat, value);
-            
+
         }
         else
         {
@@ -134,7 +136,7 @@ void config3dsReadWriteString(char *writeFormat, char *readFormat, char *value)
             fileBuffer[0] = 0;
         }
         strcat(fileBuffer, tempBuffer);
-        
+
     }
     else
     {
@@ -155,4 +157,3 @@ void config3dsReadWriteString(char *writeFormat, char *readFormat, char *value)
         }
     }
 }
-

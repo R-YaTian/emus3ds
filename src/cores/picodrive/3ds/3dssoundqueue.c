@@ -1,7 +1,9 @@
 // TemperPCE for 3DS
 //
 
+#include <3ds.h>
 #include "3dssoundqueue.h"
+#include <string.h>
 #define true 1
 #define false 0
 
@@ -12,7 +14,7 @@
 //=============================================================================
 
 //-----------------------------------------------------------------------------
-// Adds a command to the sound queue if not full. 
+// Adds a command to the sound queue if not full.
 //
 // This doesn't increment the flushPtr.
 //-----------------------------------------------------------------------------
@@ -40,7 +42,7 @@ void soundQueueFlush(SSoundQueue *queue)
 
 
 //-----------------------------------------------------------------------------
-// Reads the next flushed command from the queue but only if the command's 
+// Reads the next flushed command from the queue but only if the command's
 // timestamp is earlier than the time passed into the parameter.
 //-----------------------------------------------------------------------------
 int soundQueueRead(SSoundQueue *queue, int64_t time, int *data, int *addr, int *value)

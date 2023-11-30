@@ -124,7 +124,7 @@ void copy_screen(u32 *dest)
   }
 }
 
-void blit_screen(u32 *src)
+void blit_screen(u16 *src)
 {
   u32 i;
   u32 pitch = get_screen_pitch();
@@ -134,7 +134,7 @@ void blit_screen(u32 *src)
   {
     memcpy(pixels, src, 320 * 2);
     pixels += pitch;
-    src += 320;
+    src += 320 * 2;
   }
 }
 
@@ -206,4 +206,3 @@ void copy_screen_half_intensity(u16 *_dest)
 {
   buffer_half_intensity(_dest, get_screen_ptr(), get_screen_pitch());
 }
-
