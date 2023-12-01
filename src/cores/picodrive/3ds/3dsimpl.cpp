@@ -203,16 +203,16 @@ SMenuItem optionsForIdleLoopPatch[] =
 
 SMenuItem optionsForCPUCore[] =
 {
-    MENU_MAKE_DIALOG_ACTION (1, "快速",                 "Faster, heavily optimized CPU core."),
-    MENU_MAKE_DIALOG_ACTION (2, "兼容",           "More compatible, but slower CPU core."),
+    MENU_MAKE_DIALOG_ACTION (1, "快速",                 "更快速,采用高度优化的CPU核心"),
+    MENU_MAKE_DIALOG_ACTION (2, "兼容",           "更高兼容性,采用较慢的CPU核心"),
     MENU_MAKE_LASTITEM  ()
 };
 
 
 SMenuItem optionsForPaletteFix[] =
 {
-    MENU_MAKE_DIALOG_ACTION (0, "硬件",             "更快速"),
-    MENU_MAKE_DIALOG_ACTION (1, "软件",             "更贴合实机"),
+    MENU_MAKE_DIALOG_ACTION (0, "硬件",             "最好效果但更慢速"),
+    MENU_MAKE_DIALOG_ACTION (1, "软件",             "最快速度但不精确"),
     MENU_MAKE_LASTITEM  ()
 };
 
