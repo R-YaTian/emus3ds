@@ -224,7 +224,7 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_CHECKBOX  (12002, "  在退出游戏时自动保存并在启动游戏时自动读取即时存档", 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER1   ("GAME-SPECIFIC SETTINGS"),
+    MENU_MAKE_HEADER1   ("游戏设置"),
     MENU_MAKE_PICKER    (10000, "  跳帧", "跳帧可以加快游戏速度,但可能会导致画面不平滑", optionsForFrameskip, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (12003, "  地区", "每个游戏都有对应支持的地区,可选择更改", optionsForRegion, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (12000, "  帧率", "部分游戏默认在50 FPS(PAL)或60 FPS(NTSC)运行,可选择更改", optionsForFrameRate, DIALOGCOLOR_CYAN),
