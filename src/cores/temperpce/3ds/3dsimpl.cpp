@@ -65,100 +65,100 @@ SMenuItem optionsForFont[] = {
 };
 
 SMenuItem optionsForStretch[] = {
-    MENU_MAKE_DIALOG_ACTION (0, "No Stretch",               "'Pixel Perfect'"),
-    MENU_MAKE_DIALOG_ACTION (1, "4:3 Fit",                  "Stretch to 320x240"),
-    MENU_MAKE_DIALOG_ACTION (2, "Fullscreen",               "Stretch to 400x240"),
-    MENU_MAKE_DIALOG_ACTION (3, "Cropped 4:3 Fit",          "Crop & Stretch to 320x240"),
-    MENU_MAKE_DIALOG_ACTION (4, "Cropped Fullscreen",       "Crop & Stretch to 400x240"),
+    MENU_MAKE_DIALOG_ACTION (0, "不拉伸",               "点对点"),
+    MENU_MAKE_DIALOG_ACTION (1, "适配4:3",                  "拉伸到320x240"),
+    MENU_MAKE_DIALOG_ACTION (2, "全屏",               "拉伸到400x240"),
+    MENU_MAKE_DIALOG_ACTION (3, "裁剪适配4:3",          "裁剪并拉伸到320x240"),
+    MENU_MAKE_DIALOG_ACTION (4, "裁剪全屏",       "裁剪并拉伸到400x240"),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForFrameskip[] = {
-    MENU_MAKE_DIALOG_ACTION (0, "Disabled",                 ""),
-    MENU_MAKE_DIALOG_ACTION (1, "Enabled (max 1 frame)",    ""),
-    MENU_MAKE_DIALOG_ACTION (2, "Enabled (max 2 frames)",    ""),
-    MENU_MAKE_DIALOG_ACTION (3, "Enabled (max 3 frames)",    ""),
-    MENU_MAKE_DIALOG_ACTION (4, "Enabled (max 4 frames)",    ""),
+    MENU_MAKE_DIALOG_ACTION (0, "关闭",                 ""),
+    MENU_MAKE_DIALOG_ACTION (1, "开启 (最高1帧)",    ""),
+    MENU_MAKE_DIALOG_ACTION (2, "开启 (最高2帧)",    ""),
+    MENU_MAKE_DIALOG_ACTION (3, "开启 (最高3帧)",    ""),
+    MENU_MAKE_DIALOG_ACTION (4, "开启 (最高4帧)",    ""),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForFrameRate[] = {
-    MENU_MAKE_DIALOG_ACTION (0, "Default based on ROM",     ""),
+    MENU_MAKE_DIALOG_ACTION (0, "ROM默认",     ""),
     MENU_MAKE_DIALOG_ACTION (1, "50 FPS",                   ""),
     MENU_MAKE_DIALOG_ACTION (2, "60 FPS",                   ""),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForAutoSaveSRAMDelay[] = {
-    MENU_MAKE_DIALOG_ACTION (1, "1 second",     ""),
-    MENU_MAKE_DIALOG_ACTION (2, "10 seconds",   ""),
-    MENU_MAKE_DIALOG_ACTION (3, "60 seconds",   ""),
-    MENU_MAKE_DIALOG_ACTION (4, "Disabled",     "Touch bottom screen to save"),
+    MENU_MAKE_DIALOG_ACTION (1, "1秒",     ""),
+    MENU_MAKE_DIALOG_ACTION (2, "10秒",   ""),
+    MENU_MAKE_DIALOG_ACTION (3, "60秒",   ""),
+    MENU_MAKE_DIALOG_ACTION (4, "关闭",     "点触下屏幕保存"),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForTurboFire[] = {
-    MENU_MAKE_DIALOG_ACTION (0, "None",         ""),
-    MENU_MAKE_DIALOG_ACTION (10, "Slowest",      ""),
-    MENU_MAKE_DIALOG_ACTION (8, "Slower",       ""),
-    MENU_MAKE_DIALOG_ACTION (6, "Slow",         ""),
-    MENU_MAKE_DIALOG_ACTION (4, "Fast",         ""),
-    MENU_MAKE_DIALOG_ACTION (2, "Faster",         ""),
-    MENU_MAKE_DIALOG_ACTION (1, "Very Fast",    ""),
+    MENU_MAKE_DIALOG_ACTION (0, "无",         ""),
+    MENU_MAKE_DIALOG_ACTION (10, "最慢",      ""),
+    MENU_MAKE_DIALOG_ACTION (8, "更慢",       ""),
+    MENU_MAKE_DIALOG_ACTION (6, "慢",         ""),
+    MENU_MAKE_DIALOG_ACTION (4, "快",         ""),
+    MENU_MAKE_DIALOG_ACTION (2, "更快",         ""),
+    MENU_MAKE_DIALOG_ACTION (1, "特快",    ""),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForButtons[] = {
-    MENU_MAKE_DIALOG_ACTION (0,                 "None",             ""),
-    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_I,       "Button I",         ""),
-    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_II,      "Button II",        ""),
-    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_III,     "Button III",       ""),
-    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_IV,      "Button IV",        ""),
-    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_V,       "Button V",         ""),
-    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_VI,      "Button VI",        ""),
-    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_SELECT,  "PCE's SELECT",     ""),
-    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_RUN,     "PCE's RUN",        ""),
+    MENU_MAKE_DIALOG_ACTION (0,                 "无",             ""),
+    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_I,       "I键",         ""),
+    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_II,      "II键",        ""),
+    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_III,     "III键",       ""),
+    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_IV,      "IV键",        ""),
+    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_V,       "V键",         ""),
+    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_VI,      "VI键",        ""),
+    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_SELECT,  "PCE SELECT键",     ""),
+    MENU_MAKE_DIALOG_ACTION (IO_BUTTON_RUN,     "PCE RUN键",        ""),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsFor3DSButtons[] = {
-    MENU_MAKE_DIALOG_ACTION (0,                 "None",             ""),
-    MENU_MAKE_DIALOG_ACTION (KEY_A,             "3DS A Button",     ""),
-    MENU_MAKE_DIALOG_ACTION (KEY_B,             "3DS B Button",     ""),
-    MENU_MAKE_DIALOG_ACTION (KEY_X,             "3DS X Button",     ""),
-    MENU_MAKE_DIALOG_ACTION (KEY_Y,             "3DS Y Button",     ""),
-    MENU_MAKE_DIALOG_ACTION (KEY_L,             "3DS L Button",     ""),
-    MENU_MAKE_DIALOG_ACTION (KEY_R,             "3DS R Button",     ""),
-    MENU_MAKE_DIALOG_ACTION (KEY_ZL,            "New 3DS ZL Button",     ""),
-    MENU_MAKE_DIALOG_ACTION (KEY_ZR,            "New 3DS ZR Button",     ""),
+    MENU_MAKE_DIALOG_ACTION (0,                 "无",             ""),
+    MENU_MAKE_DIALOG_ACTION (KEY_A,             "3DS A键",     ""),
+    MENU_MAKE_DIALOG_ACTION (KEY_B,             "3DS B键",     ""),
+    MENU_MAKE_DIALOG_ACTION (KEY_X,             "3DS X键",     ""),
+    MENU_MAKE_DIALOG_ACTION (KEY_Y,             "3DS Y键",     ""),
+    MENU_MAKE_DIALOG_ACTION (KEY_L,             "3DS L键",     ""),
+    MENU_MAKE_DIALOG_ACTION (KEY_R,             "3DS R键",     ""),
+    MENU_MAKE_DIALOG_ACTION (KEY_ZL,            "New3DS ZL键",     ""),
+    MENU_MAKE_DIALOG_ACTION (KEY_ZR,            "New3DS ZR键",     ""),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForSpriteFlicker[] =
 {
-    MENU_MAKE_DIALOG_ACTION (0, "Hardware Accurate",   "Flickers like real hardware"),
-    MENU_MAKE_DIALOG_ACTION (1, "Better Visuals",      "Looks better, less accurate"),
+    MENU_MAKE_DIALOG_ACTION (0, "模拟实机",   "显示类似实机的闪烁效果"),
+    MENU_MAKE_DIALOG_ACTION (1, "视觉优先",      "以较低模拟精确度换取更好的显示效果"),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForIdleLoopPatch[] =
 {
-    MENU_MAKE_DIALOG_ACTION (1, "Enabled",              "Faster but some games may freeze"),
-    MENU_MAKE_DIALOG_ACTION (0, "Disabled",             "Slower but better compatibility"),
+    MENU_MAKE_DIALOG_ACTION (1, "开启",              "较快运行但可能会出现卡死"),
+    MENU_MAKE_DIALOG_ACTION (0, "关闭",             "较慢运行以换取更高兼容性"),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForCPUCore[] =
 {
-    MENU_MAKE_DIALOG_ACTION (1, "Fast",                 "Faster, heavily optimized CPU core."),
-    MENU_MAKE_DIALOG_ACTION (2, "Compatible",           "More compatible, but slower CPU core."),
+    MENU_MAKE_DIALOG_ACTION (1, "快速",                 "更快速,采用高度优化的CPU核心"),
+    MENU_MAKE_DIALOG_ACTION (2, "兼容",           "更高兼容性,采用较慢的CPU核心"),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForRendering[] =
 {
-    MENU_MAKE_DIALOG_ACTION (0, "Hardware",             "Faster"),
-    MENU_MAKE_DIALOG_ACTION (1, "Software",             "More accurate"),
+    MENU_MAKE_DIALOG_ACTION (0, "硬件",             "更快速"),
+    MENU_MAKE_DIALOG_ACTION (1, "软件",             "更贴合实机"),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -175,92 +175,92 @@ SMenuItem optionsForBIOS[] =
 
 SMenuItem optionsForPaletteFix[] =
 {
-    MENU_MAKE_DIALOG_ACTION (0, "Enabled",              "Best, but slower"),
-    MENU_MAKE_DIALOG_ACTION (1, "Disabled",             "Fastest, less accurate"),
+    MENU_MAKE_DIALOG_ACTION (0, "开启",              "最好但可能会拖慢"),
+    MENU_MAKE_DIALOG_ACTION (1, "关闭",             "最快但会损失一些精确度"),
     MENU_MAKE_LASTITEM  ()
 };
 
 
 SMenuItem optionMenu[] = {
-    MENU_MAKE_HEADER1   ("GLOBAL SETTINGS"),
-    MENU_MAKE_PICKER    (11000, "  Screen Stretch", "How would you like the final screen to appear?", optionsForStretch, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (18000, "  Font", "The font used for the user interface.", optionsForFont, DIALOGCOLOR_CYAN),
-    MENU_MAKE_CHECKBOX  (15001, "  Hide text in bottom screen", 0),
+    MENU_MAKE_HEADER1   ("全局设置"),
+    MENU_MAKE_PICKER    (11000, "  屏幕比例", "您希望屏幕以何种方式显示?", optionsForStretch, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体.", optionsForFont, DIALOGCOLOR_CYAN),
+    MENU_MAKE_CHECKBOX  (15001, "  隐藏下屏幕的文本", 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_CHECKBOX  (12002, "  Automatically save state on exit and load state on start", 0),
+    MENU_MAKE_CHECKBOX  (12002, "  退出时自动保存即时存档并在启动时自动加载", 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER1   ("GAME-SPECIFIC SETTINGS"),
-    MENU_MAKE_PICKER    (22000, "  CPU Core", "Change to the original core if your game freezes.", optionsForCPUCore, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (20000, "  Idle Loop Patching", "You must reload the ROM after changing this.", optionsForIdleLoopPatch, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (10000, "  Frameskip", "Try changing this if the game runs slow. Skipping frames help it run faster but less smooth.", optionsForFrameskip, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (21000, "  BIOS", "The BIOS must be in your /3ds/temperpce_3ds/syscards folder. Re-load ROM after changing.", optionsForBIOS, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (16000, "  In-Frame Palette Changes", "Try changing this if some colours in the game look off.", optionsForPaletteFix, DIALOGCOLOR_CYAN),
+    MENU_MAKE_HEADER1   ("游戏设置"),
+    MENU_MAKE_PICKER    (22000, "  CPU核心", "游戏出现卡死时可选择原生CPU核心", optionsForCPUCore, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (20000, "  空闲态循环补丁", "改变此项配置后需重启ROM", optionsForIdleLoopPatch, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (10000, "  跳帧", "跳帧可以加快游戏速度,但可能会导致画面不平滑", optionsForFrameskip, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (21000, "  BIOS", "BIOS文件必须放置在根目录的 /3ds/temperpce_3ds/syscards 文件夹. 改变此项配置后将重启ROM", optionsForBIOS, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (16000, "  调色板", "可修改游戏画面色彩效果", optionsForPaletteFix, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER1   ("AUDIO"),
-    MENU_MAKE_CHECKBOX  (50002, "  Apply volume to all games", 0),
-    MENU_MAKE_GAUGE     (14000, "  Volume Amplification", 0, 8, 4),
+    MENU_MAKE_HEADER1   ("音频"),
+    MENU_MAKE_CHECKBOX  (50002, "  将音量设置应用于所有游戏", 0),
+    MENU_MAKE_GAUGE     (14000, "  音量扩增", 0, 8, 4),
     MENU_MAKE_LASTITEM  ()
 };
 
 
 SMenuItem controlsMenu[] = {
-    MENU_MAKE_HEADER1   ("BUTTON CONFIGURATION"),
-    MENU_MAKE_CHECKBOX  (50000, "  Apply button mappings to all games", 0),
-    MENU_MAKE_CHECKBOX  (50001, "  Apply rapid fire settings to all games", 0),
+    MENU_MAKE_HEADER1   ("按键设定"),
+    MENU_MAKE_CHECKBOX  (50000, "  为所有游戏映射按键", 0),
+    MENU_MAKE_CHECKBOX  (50001, "  为所有游戏映射连发按键", 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER2   ("3DS A Button"),
-    MENU_MAKE_PICKER    (13010, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13020, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_GAUGE     (13000, "  Rapid-Fire Speed", 0, 10, 0),
+    MENU_MAKE_HEADER2   ("3DS A键"),
+    MENU_MAKE_PICKER    (13010, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13020, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_GAUGE     (13000, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER2   ("3DS B Button"),
-    MENU_MAKE_PICKER    (13011, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13021, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_GAUGE     (13001, "  Rapid-Fire Speed", 0, 10, 0),
+    MENU_MAKE_HEADER2   ("3DS B键"),
+    MENU_MAKE_PICKER    (13011, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13021, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_GAUGE     (13001, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER2   ("3DS X Button"),
-    MENU_MAKE_PICKER    (13012, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13022, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_GAUGE     (13002, "  Rapid-Fire Speed", 0, 10, 0),
+    MENU_MAKE_HEADER2   ("3DS X键"),
+    MENU_MAKE_PICKER    (13012, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13022, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_GAUGE     (13002, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER2   ("3DS Y Button"),
-    MENU_MAKE_PICKER    (13013, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13023, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_GAUGE     (13003, "  Rapid-Fire Speed", 0, 10, 0),
+    MENU_MAKE_HEADER2   ("3DS Y键"),
+    MENU_MAKE_PICKER    (13013, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13023, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_GAUGE     (13003, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER2   ("3DS L Button"),
-    MENU_MAKE_PICKER    (13014, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13024, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_GAUGE     (13004, "  Rapid-Fire Speed", 0, 10, 0),
+    MENU_MAKE_HEADER2   ("3DS L键"),
+    MENU_MAKE_PICKER    (13014, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13024, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_GAUGE     (13004, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER2   ("3DS R Button"),
-    MENU_MAKE_PICKER    (13015, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13025, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_GAUGE     (13005, "  Rapid-Fire Speed", 0, 10, 0),
+    MENU_MAKE_HEADER2   ("3DS R键"),
+    MENU_MAKE_PICKER    (13015, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13025, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_GAUGE     (13005, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER2   ("New 3DS ZL Button"),
-    MENU_MAKE_PICKER    (13016, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13026, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_GAUGE     (13006, "  Rapid-Fire Speed", 0, 10, 0),
+    MENU_MAKE_HEADER2   ("New3DS ZL键"),
+    MENU_MAKE_PICKER    (13016, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13026, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_GAUGE     (13006, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER2   ("New 3DS ZR Button"),
-    MENU_MAKE_PICKER    (13017, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13027, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_GAUGE     (13007, "  Rapid-Fire Speed", 0, 10, 0),
+    MENU_MAKE_HEADER2   ("New3DS ZR键"),
+    MENU_MAKE_PICKER    (13017, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13027, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_GAUGE     (13007, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER2   ("3DS SELECT Button"),
-    MENU_MAKE_PICKER    (13018, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13028, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_HEADER2   ("3DS SELECT键"),
+    MENU_MAKE_PICKER    (13018, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13028, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER2   ("3DS START Button"),
-    MENU_MAKE_PICKER    (13019, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13029, "  Maps to", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_HEADER2   ("3DS START键"),
+    MENU_MAKE_PICKER    (13019, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13029, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER1   ("EMULATOR FUNCTIONS"),
-    MENU_MAKE_CHECKBOX  (50003, "Apply keys to all games", 0),
-    MENU_MAKE_PICKER    (23001, "Open Emulator Menu", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (23002, "Fast Forward", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_DISABLED  ("  (Works better on N3DS. May freeze/corrupt games.)"),
+    MENU_MAKE_HEADER1   ("模拟器功能设定"),
+    MENU_MAKE_CHECKBOX  (50003, "为所有游戏应用映射", 0),
+    MENU_MAKE_PICKER    (23001, "打开模拟器菜单", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (23002, "快进", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_DISABLED  ("  (在New3DS上效果更好. 可能会导致游戏卡死或出错.)"),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -268,15 +268,15 @@ SMenuItem controlsMenu[] = {
 //-------------------------------------------------------
 SMenuItem optionsForDisk[] =
 {
-    MENU_MAKE_DIALOG_ACTION (0, "Eject Disk",               ""),
-    MENU_MAKE_DIALOG_ACTION (1, "Change to Disk 1 Side A",  ""),
-    MENU_MAKE_DIALOG_ACTION (2, "Change to Disk 1 Side B",  ""),
-    MENU_MAKE_DIALOG_ACTION (3, "Change to Disk 2 Side A",  ""),
-    MENU_MAKE_DIALOG_ACTION (4, "Change to Disk 2 Side B",  ""),
-    MENU_MAKE_DIALOG_ACTION (5, "Change to Disk 3 Side A",  ""),
-    MENU_MAKE_DIALOG_ACTION (6, "Change to Disk 3 Side B",  ""),
-    MENU_MAKE_DIALOG_ACTION (7, "Change to Disk 4 Side A",  ""),
-    MENU_MAKE_DIALOG_ACTION (8, "Change to Disk 4 Side B",  ""),
+    MENU_MAKE_DIALOG_ACTION (0, "插入磁盘",               ""),
+    MENU_MAKE_DIALOG_ACTION (1, "切换到磁盘1的A面",  ""),
+    MENU_MAKE_DIALOG_ACTION (2, "切换到磁盘1的B面",  ""),
+    MENU_MAKE_DIALOG_ACTION (3, "切换到磁盘2的A面",  ""),
+    MENU_MAKE_DIALOG_ACTION (4, "切换到磁盘2的B面",  ""),
+    MENU_MAKE_DIALOG_ACTION (5, "切换到磁盘3的A面",  ""),
+    MENU_MAKE_DIALOG_ACTION (6, "切换到磁盘3的B面",  ""),
+    MENU_MAKE_DIALOG_ACTION (7, "切换到磁盘4的A面",  ""),
+    MENU_MAKE_DIALOG_ACTION (8, "切换到磁盘4的B面",  ""),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -287,29 +287,29 @@ SMenuItem optionsForDisk[] =
 // marked 'do not modify'.
 //-------------------------------------------------------
 SMenuItem emulatorMenu[] = {
-    MENU_MAKE_HEADER2   ("Emulator"),               // Do not modify
-    MENU_MAKE_ACTION    (1000, "  Resume Game"),    // Do not modify
+    MENU_MAKE_HEADER2   ("模拟器"),               // Do not modify
+    MENU_MAKE_ACTION    (1000, "  返回游戏"),    // Do not modify
     MENU_MAKE_HEADER2   (""),
 
-    MENU_MAKE_HEADER2   ("Savestates"),
-    MENU_MAKE_ACTION    (2001, "  Save Slot #1"),   // Do not modify
-    MENU_MAKE_ACTION    (2002, "  Save Slot #2"),   // Do not modify
-    MENU_MAKE_ACTION    (2003, "  Save Slot #3"),   // Do not modify
-    MENU_MAKE_ACTION    (2004, "  Save Slot #4"),   // Do not modify
-    MENU_MAKE_ACTION    (2005, "  Save Slot #5"),   // Do not modify
+    MENU_MAKE_HEADER2   ("即时存档"),
+    MENU_MAKE_ACTION    (2001, "  保存存档位 #1"),   // Do not modify
+    MENU_MAKE_ACTION    (2002, "  保存存档位 #2"),   // Do not modify
+    MENU_MAKE_ACTION    (2003, "  保存存档位 #3"),   // Do not modify
+    MENU_MAKE_ACTION    (2004, "  保存存档位 #4"),   // Do not modify
+    MENU_MAKE_ACTION    (2005, "  保存存档位 #5"),   // Do not modify
     MENU_MAKE_HEADER2   (""),
 
-    MENU_MAKE_ACTION    (3001, "  Load Slot #1"),   // Do not modify
-    MENU_MAKE_ACTION    (3002, "  Load Slot #2"),   // Do not modify
-    MENU_MAKE_ACTION    (3003, "  Load Slot #3"),   // Do not modify
-    MENU_MAKE_ACTION    (3004, "  Load Slot #4"),   // Do not modify
-    MENU_MAKE_ACTION    (3005, "  Load Slot #5"),   // Do not modify
+    MENU_MAKE_ACTION    (3001, "  加载存档位 #1"),   // Do not modify
+    MENU_MAKE_ACTION    (3002, "  加载存档位 #2"),   // Do not modify
+    MENU_MAKE_ACTION    (3003, "  加载存档位 #3"),   // Do not modify
+    MENU_MAKE_ACTION    (3004, "  加载存档位 #4"),   // Do not modify
+    MENU_MAKE_ACTION    (3005, "  加载存档位 #5"),   // Do not modify
     MENU_MAKE_HEADER2   (""),
 
-    MENU_MAKE_HEADER2   ("Others"),                 // Do not modify
-    MENU_MAKE_ACTION    (4001, "  Take Screenshot"),// Do not modify
-    MENU_MAKE_ACTION    (5001, "  Reset Console"),  // Do not modify
-    MENU_MAKE_ACTION    (6001, "  Exit"),           // Do not modify
+    MENU_MAKE_HEADER2   ("其他"),                 // Do not modify
+    MENU_MAKE_ACTION    (4001, "  截屏"),// Do not modify
+    MENU_MAKE_ACTION    (5001, "  重置控制台"),  // Do not modify
+    MENU_MAKE_ACTION    (6001, "  退出"),           // Do not modify
     MENU_MAKE_LASTITEM  ()
     };
 
