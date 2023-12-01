@@ -79,13 +79,13 @@ SMenuItem optionsForStretch[] = {
 
 SMenuItem optionsForPalette[] = {
     MENU_MAKE_DIALOG_ACTION (0, "FCEUX", "默认"),
-    MENU_MAKE_DIALOG_ACTION (1, "Composite Direct (FBX)", "直接捕捉色盘"),
+    MENU_MAKE_DIALOG_ACTION (1, "Composite Direct (FBX)", "直接捕捉调色板"),
     MENU_MAKE_DIALOG_ACTION (2, "NES Classic (FBX)", "提取自NES Classic"),
     MENU_MAKE_DIALOG_ACTION (3, "PC-10", "Playchoice-10街机"),
-    MENU_MAKE_DIALOG_ACTION (4, "PVM Style D93 (FBX)", "只是D93色温的Sony PVM"),
-    MENU_MAKE_DIALOG_ACTION (5, "Smooth (FBX)", "Firebrandx的终极色盘"),
-    MENU_MAKE_DIALOG_ACTION (6, "Sony CXA", "消费机Sony TV电视配置"),
-    MENU_MAKE_DIALOG_ACTION (7, "Wavebeam", "Nakedarthur的最终版专业级色盘"),
+    MENU_MAKE_DIALOG_ACTION (4, "PVM Style D93 (FBX)", "支持D93色温的Sony PVM"),
+    MENU_MAKE_DIALOG_ACTION (5, "Smooth (FBX)", "Firebrandx的终极调色板"),
+    MENU_MAKE_DIALOG_ACTION (6, "Sony CXA", "消费级Sony TV电视配置"),
+    MENU_MAKE_DIALOG_ACTION (7, "Wavebeam", "Nakedarthur的最终专业级调色板"),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -165,7 +165,7 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_PICKER    (69696, "  调色板", "选取一个您中意 NES 色彩调色板", optionsForPalette, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER1   ("游戏设置"),
-    MENU_MAKE_PICKER    (10000, "  跳帧", "跳帧可以加快游戏速度，但可能会导致画面不平滑", optionsForFrameskip, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (10000, "  跳帧", "跳帧可以加快游戏速度,但可能会导致画面不平滑", optionsForFrameskip, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (12000, "  帧率", "某些游戏默认运行于 50 或 60 FPS. 可在需要时覆盖帧率设置.", optionsForFrameRate, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (19000, "  精灵闪烁", "精灵在实机上将会闪烁. 您可以禁用以获得更好的视觉效果.", optionsForSpriteFlicker, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
@@ -233,7 +233,7 @@ SMenuItem controlsMenu[] = {
     MENU_MAKE_CHECKBOX  (50003, "为所有游戏应用映射", 0),
     MENU_MAKE_PICKER    (23001, "打开模拟器菜单", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (23002, "快进", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_DISABLED  ("  (在New3DS上效果更好。 可能会导致游戏卡死或出错。)"),
+    MENU_MAKE_DISABLED  ("  (在New3DS上效果更好. 可能会导致游戏卡死或出错.)"),
     MENU_MAKE_PICKER    (23003, "为1P投币 (VS Games)", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (23004, "为2P投币 (VS Games)", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
     MENU_MAKE_LASTITEM  ()
