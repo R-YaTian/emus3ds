@@ -26,6 +26,8 @@ bool snd3dsSpawnMixingThread = true;
 int snd3dsMinLoopBuffer = 1;
 int snd3dsMaxLoopBuffer = 2;
 
+static u32 old_time_limit = UINT32_MAX;
+
 #define SAMPLEBUFFER_SIZE 44100
 
 
@@ -401,13 +403,8 @@ bool snd3dsInitialize()
 
     if (emulator.isReal3DS)
     {
-#ifdef LIBCTRU_1_0_0
-        //aptOpenSession();
-        APT_SetAppCpuTimeLimit(30); // enables syscore usage
-        //aptCloseSession();
-#else
-        APT_SetAppCpuTimeLimit(30); // enables syscore usage
-#endif
+        APT_GetAppCpuTimeLimit(&old_time_limit);
+        Result cpuRes = APT_SetAppCpuTimeLimit(30);
 
         snd3DS.mixingThreadHandle = 0;
 
@@ -468,5 +465,9 @@ void snd3dsFinalize()
     {
         ndspChnWaveBufClear(0);
         ndspExit();
+    }
+
+    if(old_time_limit != UINT32_MAX) {
+        APT_SetAppCpuTimeLimit(old_time_limit);
     }
 }

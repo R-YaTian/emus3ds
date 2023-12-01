@@ -298,7 +298,7 @@ void menuSelectFile(void)
     int selection = 0;
     do
     {
-        if (appExiting)
+        if (appExiting || !aptMainLoop())
             return;
 
         selection = menu3dsShowMenu(NULL, animateMenu);
@@ -428,13 +428,8 @@ void menuPause()
 
     bool animateMenu = true;
 
-    while (true)
+    while (aptMainLoop() && !appExiting)
     {
-        if (appExiting)
-        {
-            break;
-        }
-
         int selection = menu3dsShowMenu(menuSelectedChanged, animateMenu);
         animateMenu = false;
 
@@ -731,7 +726,7 @@ void emulatorInitialize()
 
     osSetSpeedupEnable(1);    // Performance: use the higher clock speed for new 3DS.
 
-    enableExitHook();
+    enableAptHooks();
 
     emulatorSettingsLoad(true, false, true);
 
@@ -747,7 +742,6 @@ void emulatorInitialize()
 void emulatorFinalize()
 {
     consoleClear();
-
     impl3dsFinalize();
 
 #ifndef EMU_RELEASE
@@ -767,6 +761,7 @@ void emulatorFinalize()
 #endif
     ptmSysmExit ();
 
+    disableAptHooks();
     //printf("romfsExit:\n");
     //romfsExit();
 
@@ -882,10 +877,10 @@ void emulatorLoop()
         ui3dsDrawStringWithNoWrapping(0, 100, 320, 115, 0x7f7f7f, HALIGN_CENTER, "Touch screen for menu");
     }
 
-		snd3dsInitialize();
+    snd3dsInitialize();
 
     impl3dsEmulationBegin();
-		initIRED();
+    initIRED();
 
 	while (true)
 	{
@@ -987,11 +982,10 @@ void emulatorLoop()
 
     snd3dsStopPlaying();
 
-		#ifndef EMU_RELEASE
-		    printf("snd3dsFinalize:\n");
-		#endif
-		    snd3dsFinalize();
-
+#ifndef EMU_RELEASE
+    printf("snd3dsFinalize:\n");
+#endif
+    snd3dsFinalize();
 
     // Wait for the sound thread to leave the snd3dsMixSamples entirely
     // to prevent a race condition between the PTMU_GetBatteryChargeState (when
@@ -1014,11 +1008,8 @@ int main()
     gbk3dsLoadGBKImage();
     menuSelectFile();
 
-    while (true)
+    while (aptMainLoop())
     {
-        if (appExiting)
-            goto quit;
-
         switch (emulator.emulatorState)
         {
             case EMUSTATE_PAUSEMENU:
@@ -1030,18 +1021,23 @@ int main()
                 break;
 
             case EMUSTATE_END:
-                goto quit;
-
+                appExiting = 1;
+                break;
         }
 
+        if (appExiting)
+            break;
     }
 
-quit:
+    menu3dsDrawBlackScreen();
+    gspWaitForVBlank();
+    fileList.clear();
+
     if (emulator.emulatorState > 0 && settings3DS.AutoSavestate)
         impl3dsLoadState(0);
 
-    printf("emulatorFinalize:\n");
+    // printf("emulatorFinalize:\n");
     emulatorFinalize();
-    printf ("Exiting...\n");
-	exit(0);
+    // printf ("Exiting...\n");
+    return 0;
 }

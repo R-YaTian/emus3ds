@@ -69,28 +69,28 @@ SMenuItem optionsForFont[] = {
 };
 
 SMenuItem optionsForStretch[] = {
-    MENU_MAKE_DIALOG_ACTION (0, "不拉伸",               "点对点"),
+    MENU_MAKE_DIALOG_ACTION (0, "不拉伸",                    "点对点"),
     MENU_MAKE_DIALOG_ACTION (1, "适配4:3",                  "拉伸到320x240"),
-    MENU_MAKE_DIALOG_ACTION (2, "全屏",               "拉伸到400x240"),
-    MENU_MAKE_DIALOG_ACTION (3, "裁剪适配4:3",          "裁剪并拉伸到320x240"),
-    MENU_MAKE_DIALOG_ACTION (4, "裁剪全屏",       "裁剪并拉伸到400x240"),
+    MENU_MAKE_DIALOG_ACTION (2, "全屏",                     "拉伸到400x240"),
+    MENU_MAKE_DIALOG_ACTION (3, "裁剪适配4:3",               "裁剪并拉伸到320x240"),
+    MENU_MAKE_DIALOG_ACTION (4, "裁剪全屏",                  "裁剪并拉伸到400x240"),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForPalette[] = {
-    MENU_MAKE_DIALOG_ACTION (0, "FCEUX", "默认"),
-    MENU_MAKE_DIALOG_ACTION (1, "Composite Direct (FBX)", "直接捕捉调色板"),
-    MENU_MAKE_DIALOG_ACTION (2, "NES Classic (FBX)", "提取自NES Classic"),
-    MENU_MAKE_DIALOG_ACTION (3, "PC-10", "Playchoice-10街机"),
-    MENU_MAKE_DIALOG_ACTION (4, "PVM Style D93 (FBX)", "支持D93色温的Sony PVM"),
-    MENU_MAKE_DIALOG_ACTION (5, "Smooth (FBX)", "Firebrandx的终极调色板"),
-    MENU_MAKE_DIALOG_ACTION (6, "Sony CXA", "消费级Sony TV电视配置"),
-    MENU_MAKE_DIALOG_ACTION (7, "Wavebeam", "Nakedarthur的最终专业级调色板"),
+    MENU_MAKE_DIALOG_ACTION (0, "FCEUX",                    "默认"),
+    MENU_MAKE_DIALOG_ACTION (1, "Composite Direct (FBX)",   "直接捕捉调色板"),
+    MENU_MAKE_DIALOG_ACTION (2, "NES Classic (FBX)",        "提取自NES Classic"),
+    MENU_MAKE_DIALOG_ACTION (3, "PC-10",                    "Playchoice-10街机"),
+    MENU_MAKE_DIALOG_ACTION (4, "PVM Style D93 (FBX)",      "支持D93色温的Sony PVM"),
+    MENU_MAKE_DIALOG_ACTION (5, "Smooth (FBX)",             "Firebrandx的终极调色板"),
+    MENU_MAKE_DIALOG_ACTION (6, "Sony CXA",                 "消费级Sony TV电视配置"),
+    MENU_MAKE_DIALOG_ACTION (7, "Wavebeam",                 "Nakedarthur的最终专业级调色板"),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForFrameskip[] = {
-    MENU_MAKE_DIALOG_ACTION (0, "关闭",                 ""),
+    MENU_MAKE_DIALOG_ACTION (0, "关闭",             ""),
     MENU_MAKE_DIALOG_ACTION (1, "开启 (最高1帧)",    ""),
     MENU_MAKE_DIALOG_ACTION (2, "开启 (最高2帧)",    ""),
     MENU_MAKE_DIALOG_ACTION (3, "开启 (最高3帧)",    ""),
@@ -99,17 +99,17 @@ SMenuItem optionsForFrameskip[] = {
 };
 
 SMenuItem optionsForFrameRate[] = {
-    MENU_MAKE_DIALOG_ACTION (0, "ROM默认",     ""),
+    MENU_MAKE_DIALOG_ACTION (0, "ROM默认",                   ""),
     MENU_MAKE_DIALOG_ACTION (1, "50 FPS",                   ""),
     MENU_MAKE_DIALOG_ACTION (2, "60 FPS",                   ""),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForAutoSaveSRAMDelay[] = {
-    MENU_MAKE_DIALOG_ACTION (1, "1秒",     ""),
+    MENU_MAKE_DIALOG_ACTION (1, "1秒",    ""),
     MENU_MAKE_DIALOG_ACTION (2, "10秒",   ""),
     MENU_MAKE_DIALOG_ACTION (3, "60秒",   ""),
-    MENU_MAKE_DIALOG_ACTION (4, "关闭",     "点触下屏幕保存"),
+    MENU_MAKE_DIALOG_ACTION (4, "关闭",        "点触下屏幕保存"),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -119,13 +119,13 @@ SMenuItem optionsForTurboFire[] = {
     MENU_MAKE_DIALOG_ACTION (8, "更慢",       ""),
     MENU_MAKE_DIALOG_ACTION (6, "慢",         ""),
     MENU_MAKE_DIALOG_ACTION (4, "快",         ""),
-    MENU_MAKE_DIALOG_ACTION (2, "更快",         ""),
-    MENU_MAKE_DIALOG_ACTION (1, "特快",    ""),
+    MENU_MAKE_DIALOG_ACTION (2, "更快",       ""),
+    MENU_MAKE_DIALOG_ACTION (1, "特快",       ""),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForButtons[] = {
-    MENU_MAKE_DIALOG_ACTION (0,             "无",             ""),
+    MENU_MAKE_DIALOG_ACTION (0,             "无",               ""),
     MENU_MAKE_DIALOG_ACTION (BTNNES_A,      "NES A键",          ""),
     MENU_MAKE_DIALOG_ACTION (BTNNES_B,      "NES B键",          ""),
     MENU_MAKE_DIALOG_ACTION (BTNNES_SELECT, "NES SELECT键",     ""),
@@ -134,7 +134,7 @@ SMenuItem optionsForButtons[] = {
 };
 
 SMenuItem optionsFor3DSButtons[] = {
-    MENU_MAKE_DIALOG_ACTION (0,                 "无",             ""),
+    MENU_MAKE_DIALOG_ACTION (0,                 "无",          ""),
     MENU_MAKE_DIALOG_ACTION (KEY_A,             "3DS A键",     ""),
     MENU_MAKE_DIALOG_ACTION (KEY_B,             "3DS B键",     ""),
     MENU_MAKE_DIALOG_ACTION (KEY_X,             "3DS X键",     ""),
@@ -149,8 +149,8 @@ SMenuItem optionsFor3DSButtons[] = {
 
 SMenuItem optionsForSpriteFlicker[] =
 {
-    MENU_MAKE_DIALOG_ACTION (0, "模拟实机",   "显示类似实机的闪烁效果"),
-    MENU_MAKE_DIALOG_ACTION (1, "视觉优先",      "以较低模拟精确度换取更好的显示效果"),
+    MENU_MAKE_DIALOG_ACTION (0, "模拟实机",             "显示类似实机的闪烁效果"),
+    MENU_MAKE_DIALOG_ACTION (1, "视觉优先",             "以较低模拟精确度换取更好的显示效果"),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -162,7 +162,7 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_CHECKBOX  (21000, "  退出时自动保存即时存档并在启动时自动加载", 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_PICKER    (69696, "  调色板", "选取一个您中意 NES 色彩调色板", optionsForPalette, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (69696, "  调色板", "选取您喜爱的NES调色板", optionsForPalette, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER1   ("游戏设置"),
     MENU_MAKE_PICKER    (10000, "  跳帧", "跳帧可以加快游戏速度,但可能会导致画面不平滑", optionsForFrameskip, DIALOGCOLOR_CYAN),
@@ -243,7 +243,7 @@ SMenuItem controlsMenu[] = {
 //-------------------------------------------------------
 SMenuItem optionsForDisk[] =
 {
-    MENU_MAKE_DIALOG_ACTION (0, "插入磁盘",               ""),
+    MENU_MAKE_DIALOG_ACTION (0, "插入磁盘",         ""),
     MENU_MAKE_DIALOG_ACTION (1, "切换到磁盘1的A面",  ""),
     MENU_MAKE_DIALOG_ACTION (2, "切换到磁盘1的B面",  ""),
     MENU_MAKE_DIALOG_ACTION (3, "切换到磁盘2的A面",  ""),

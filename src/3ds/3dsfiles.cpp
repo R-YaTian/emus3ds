@@ -169,8 +169,8 @@ void file3dsGoToParentDirectory(void)
 //----------------------------------------------------------------------
 void file3dsGoToChildDirectory(const char *childDir)
 {
-    strncat(currentDir, childDir, _MAX_PATH);
-    strncat(currentDir, "/", _MAX_PATH);
+    strncat(currentDir, childDir, _MAX_PATH - 1);
+    strncat(currentDir, "/", _MAX_PATH - 1);
 }
 
 

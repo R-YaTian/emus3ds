@@ -6,13 +6,17 @@
 aptHookCookie hookCookie;
 int appExiting = 0;
 
-void setExitFlag(APT_HookType hook, void* param)
+void handleAptHook(APT_HookType hook, void* param)
 {
     if (hook == APTHOOK_ONEXIT) {
         appExiting = 1;
     }
 }
 
-void enableExitHook() {
-    aptHook(&hookCookie, setExitFlag, NULL);
+void enableAptHooks() {
+    aptHook(&hookCookie, handleAptHook, NULL);
+}
+
+void disableAptHooks() {
+    aptUnhook(&hookCookie);
 }
