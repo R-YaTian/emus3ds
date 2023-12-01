@@ -65,7 +65,7 @@ SMenuItem optionsForFont[] = {
 };
 
 SMenuItem optionsForStretch[] = {
-    MENU_MAKE_DIALOG_ACTION (0, "不拉伸",               "'点对点'"),
+    MENU_MAKE_DIALOG_ACTION (0, "不拉伸",               "点对点"),
     MENU_MAKE_DIALOG_ACTION (1, "适配4:3",                  "拉伸到320x240"),
     MENU_MAKE_DIALOG_ACTION (2, "全屏",               "拉伸到400x240"),
     MENU_MAKE_DIALOG_ACTION (3, "裁剪适配4:3",          "裁剪并拉伸到320x240"),
