@@ -122,7 +122,7 @@ SMenuItem optionsForFrameskip[] = {
 };
 
 SMenuItem optionsForFrameRate[] = {
-    MENU_MAKE_DIALOG_ACTION (0, "ROM/地区制式默认",     ""),
+    MENU_MAKE_DIALOG_ACTION (0, "跟随ROM或地区制式配置",     ""),
     MENU_MAKE_DIALOG_ACTION (1, "50 FPS",                       ""),
     MENU_MAKE_DIALOG_ACTION (2, "60 FPS",                       ""),
     MENU_MAKE_LASTITEM  ()
