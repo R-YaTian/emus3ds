@@ -191,10 +191,10 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER1   ("游戏设置"),
     MENU_MAKE_PICKER    (22000, "  CPU核心", "游戏出现卡死时可选择原生CPU核心", optionsForCPUCore, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (20000, "  空闲循环配置补丁", "改变此项配置后需重启ROM", optionsForIdleLoopPatch, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (10000, "  跳帧", "跳帧可以加快游戏速度，但可能会导致画面不平滑", optionsForFrameskip, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (21000, "  BIOS", "BIOS文件必须放置在 /3ds/temperpce_3ds/syscards folder。 改变此项配置后将重启ROM", optionsForBIOS, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (16000, "  调色板", "可修改游戏画面发色", optionsForPaletteFix, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (20000, "  空闲态循环补丁", "改变此项配置后需重启ROM", optionsForIdleLoopPatch, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (10000, "  跳帧", "跳帧可以加快游戏速度,但可能会导致画面不平滑", optionsForFrameskip, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (21000, "  BIOS", "BIOS文件必须放置在 /3ds/temperpce_3ds/syscards文件夹. 改变此项配置后将重启ROM", optionsForBIOS, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (16000, "  调色板", "可修改游戏画面发色效果", optionsForPaletteFix, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER1   ("音频"),
     MENU_MAKE_CHECKBOX  (50002, "  将音量设置应用于所有游戏", 0),
@@ -260,7 +260,7 @@ SMenuItem controlsMenu[] = {
     MENU_MAKE_CHECKBOX  (50003, "为所有游戏应用映射", 0),
     MENU_MAKE_PICKER    (23001, "打开模拟器菜单", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (23002, "快进", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_DISABLED  ("  (在New3DS上效果更好。 可能会导致游戏卡死或出错。)"),
+    MENU_MAKE_DISABLED  ("  (在New3DS上效果更好. 可能会导致游戏卡死或出错.)"),
     MENU_MAKE_LASTITEM  ()
 };
 
