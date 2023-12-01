@@ -211,8 +211,8 @@ SMenuItem optionsForCPUCore[] =
 
 SMenuItem optionsForPaletteFix[] =
 {
-    MENU_MAKE_DIALOG_ACTION (0, "硬件",             "最好效果但更慢速"),
-    MENU_MAKE_DIALOG_ACTION (1, "软件",             "最快速度但不精确"),
+    MENU_MAKE_DIALOG_ACTION (0, "开启",             "最好效果但更慢速"),
+    MENU_MAKE_DIALOG_ACTION (1, "关闭",             "最快速度但不精确"),
     MENU_MAKE_LASTITEM  ()
 };
 
