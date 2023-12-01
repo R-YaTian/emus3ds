@@ -227,7 +227,7 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_HEADER1   ("GAME-SPECIFIC SETTINGS"),
     MENU_MAKE_PICKER    (10000, "  跳帧", "跳帧可以加快游戏速度,但可能会导致画面不平滑", optionsForFrameskip, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (12003, "  地区", "每个游戏都有对应支持的地区,可选择更改", optionsForRegion, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (12000, "  帧率", "部分游戏默认在50fps(PAL)或60fps(NTSC)运行,可选择更改", optionsForFrameRate, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (12000, "  帧率", "部分游戏默认在50 FPS(PAL)或60 FPS(NTSC)运行,可选择更改", optionsForFrameRate, DIALOGCOLOR_CYAN),
     //MENU_MAKE_PICKER    (19000, "  Flickering Sprites", "Sprites on real hardware flicker. You can disable for better visuals.", optionsForSpriteFlicker, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER1   ("音频"),
