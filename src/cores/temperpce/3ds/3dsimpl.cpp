@@ -184,7 +184,7 @@ SMenuItem optionsForPaletteFix[] =
 SMenuItem optionMenu[] = {
     MENU_MAKE_HEADER1   ("全局设置"),
     MENU_MAKE_PICKER    (11000, "  屏幕比例", "您希望屏幕以何种方式显示?", optionsForStretch, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体.", optionsForFont, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体(仅适用于字母和数字)", optionsForFont, DIALOGCOLOR_CYAN),
     MENU_MAKE_CHECKBOX  (15001, "  隐藏下屏幕的文本", 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_CHECKBOX  (12002, "  退出时自动保存即时存档并在启动时自动加载", 0),
@@ -365,7 +365,7 @@ const char *impl3dsRomExtensions = "pce,cue";
 //---------------------------------------------------------
 // The title image .PNG filename.
 //---------------------------------------------------------
-const char *impl3dsTitleImage = "./temperpce_3ds_top.png";
+const char *impl3dsTitleImage = "romfs:/temperpce_3ds_top.png";
 
 
 //---------------------------------------------------------
@@ -1203,7 +1203,7 @@ void impl3dsEmulationPaused()
 {
     {
         ui3dsDrawRect(50, 140, 270, 154, 0x000000);
-        ui3dsDrawStringWithNoWrapping(50, 140, 270, 154, 0x3f7fff, HALIGN_CENTER, "Saving SRAM to SD card...");
+        ui3dsDrawStringWithNoWrapping(50, 140, 270, 154, 0x3f7fff, HALIGN_CENTER, "正在保存SRAM到SD卡...");
 
         char path_name[MAX_PATH];
         //if(cd.uses_bram)

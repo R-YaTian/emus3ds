@@ -613,7 +613,6 @@ void menuPause()
             if (result == 1)
             {
                 emulator.emulatorState = EMUSTATE_END;
-
                 break;
             }
             else
@@ -716,12 +715,12 @@ void emulatorInitialize()
 
     ui3dsInitialize();
 
-    /*if (romfsInit()!=0)
+    if (romfsInit())
     {
         printf ("Unable to initialize romfs\n");
-        exit (0);
+        exit(0);
     }
-    */
+
     printf ("Initialization complete\n");
 
     osSetSpeedupEnable(1);    // Performance: use the higher clock speed for new 3DS.
@@ -733,6 +732,8 @@ void emulatorInitialize()
     // Do this one more time.
     if (file3dsGetCurrentDir()[0] == 0)
         file3dsInitialize();
+
+    srvInit();
 }
 
 
@@ -759,11 +760,13 @@ void emulatorFinalize()
 #ifndef EMU_RELEASE
     printf("ptmSysmExit:\n");
 #endif
-    ptmSysmExit ();
+    ptmSysmExit();
 
     disableAptHooks();
-    //printf("romfsExit:\n");
-    //romfsExit();
+#ifndef EMU_RELEASE
+    printf("romfsExit:\n");
+#endif
+    romfsExit();
 
 #ifndef EMU_RELEASE
     printf("hidExit:\n");
@@ -874,7 +877,7 @@ void emulatorLoop()
     menu3dsDrawBlackScreen();
     if (settings3DS.HideUnnecessaryBottomScrText == 0)
     {
-        ui3dsDrawStringWithNoWrapping(0, 100, 320, 115, 0x7f7f7f, HALIGN_CENTER, "Touch screen for menu");
+        ui3dsDrawStringWithNoWrapping(0, 100, 320, 115, 0x7f7f7f, HALIGN_CENTER, "点触屏幕呼出菜单");
     }
 
     snd3dsInitialize();
@@ -1008,29 +1011,22 @@ int main()
     gbk3dsLoadGBKImage();
     menuSelectFile();
 
-    while (aptMainLoop())
-    {
-        switch (emulator.emulatorState)
-        {
+    while (aptMainLoop()) {
+        switch (emulator.emulatorState) {
             case EMUSTATE_PAUSEMENU:
                 menuPause();
                 break;
-
             case EMUSTATE_EMULATE:
                 emulatorLoop();
                 break;
-
             case EMUSTATE_END:
                 appExiting = 1;
                 break;
         }
-
         if (appExiting)
             break;
     }
 
-    menu3dsDrawBlackScreen();
-    gspWaitForVBlank();
     fileList.clear();
 
     if (emulator.emulatorState > 0 && settings3DS.AutoSavestate)

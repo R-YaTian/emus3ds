@@ -1,6 +1,3 @@
-#include <stdlib.h>
-#include <3ds.h>
-
 #include "3dsexit.h"
 
 aptHookCookie hookCookie;

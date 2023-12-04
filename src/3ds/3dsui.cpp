@@ -32,6 +32,12 @@ int fontHeight = 13;
 int viewportStackCount = 0;
 int viewportStack[20][4];
 
+// gbk things
+const int gbkRowStart = 0xa1;
+const int gbkRowEnd = 0xf7;
+const int gbkColStart = 0xa1;
+const int gbkColEnd = 0xfe;
+
 #define MAX_ALPHA 8
 typedef struct
 {
@@ -291,10 +297,6 @@ void ui3dsDrawChar(uint16 *frameBuffer, int x, int y, int color565, uint8 c)
 // Draws a gbk character to the screen
 //---------------------------------------------------------------
 void ui3dsDrawGBK(uint16 *frameBuffer, int x, int y, int color565, uint16 ch) {
-    const int gbkRowStart = 0xa1;
-    const int gbkRowEnd = 0xf7;
-    const int gbkColStart = 0xa1;
-    const int gbkColEnd = 0xfe;
     const int rowCount = (gbkRowEnd - gbkRowStart + 1);
     const int colCount = (gbkColEnd - gbkColStart + 1);
 
@@ -355,6 +357,27 @@ int ui3dsGetStringWidth(const char *s, int startPos = 0, int endPos = 0xffff)
         uint8 c = s[i];
         if (c == 0)
             break;
+
+        // check utf8 char is chinese
+        if(fontGBK != NULL && i <= endPos - 2 && (c & 0xF0) == 0xE0) {
+            uint8 c2 = s[i + 1];
+            uint8 c3 = s[i + 2];
+
+            uint16 chUtf8 = ((c & 0x0F) << 12)
+                | ((c2 & 0x3F) << 6)
+                | ((c3 & 0x3F));
+            uint16 chGBK = getGbkChar(chUtf8);
+
+            uint8 cg1 = (chGBK & 0xFF00) >> 8;
+            uint8 cg2 = (chGBK & 0x00FF);
+
+            if(cg1 >= gbkRowStart && cg1 <= gbkRowEnd
+                && cg2 >= gbkColStart && cg2 <= gbkColEnd) {
+                totalWidth += 12;
+                i += 2;
+                continue;
+            }
+        }
         totalWidth += fontWidth[c];
     }
     return totalWidth;
@@ -447,11 +470,6 @@ void ui3dsDrawRect(int x0, int y0, int x1, int y1)
 //---------------------------------------------------------------
 void ui3dsDrawStringOnly(uint16 *fb, int absoluteX, int absoluteY, int color, const char *buffer, int startPos = 0, int endPos = 0xffff)
 {
-    const int gbkRowStart = 0xa1;
-    const int gbkRowEnd = 0xf7;
-    const int gbkColStart = 0xa1;
-    const int gbkColEnd = 0xfe;
-
     int x = absoluteX;
     int y = absoluteY;
 
@@ -467,7 +485,7 @@ void ui3dsDrawStringOnly(uint16 *fb, int absoluteX, int absoluteY, int color, co
                 break;
 
             // check utf8 char is chinese
-			if(fontGBK != NULL && i < endPos - 2 && (c & 0xF0) == 0xE0) {
+			if(fontGBK != NULL && i <= endPos - 2 && (c & 0xF0) == 0xE0) {
                 uint8 c2 = buffer[i + 1];
                 uint8 c3 = buffer[i + 2];
 
@@ -483,7 +501,6 @@ void ui3dsDrawStringOnly(uint16 *fb, int absoluteX, int absoluteY, int color, co
                     && cg2 >= gbkColStart && cg2 <= gbkColEnd) {
 
                     ui3dsDrawGBK(fb, x, y, color, chGBK);
-                    // ui3dsDrawChar(fb, x, y, color, '?');
                     x += 12;
                     i += 2;
                     continue;

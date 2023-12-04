@@ -28,7 +28,7 @@ include $(DEVKITARM)/3ds_rules
 #     - <libctru folder>/default_icon.png
 #---------------------------------------------------------------------------------
 APP_TITLE	:=	TemperPCE for 3DS
-APP_DESCRIPTION	:=	PCEngine emulator for your old 3DS / 2DS.
+APP_DESCRIPTION	:=	PCEngine emulator for 3DS
 APP_AUTHOR	:=	bubble2k16
 ASSETS		:=	src/cores/temperpce/assets
 ICON		:=	$(ASSETS)/icon.png
@@ -42,9 +42,9 @@ INCLUDES	:=	include \
 			src/cores/ \
 			src/cores/temperpce/ \
 			src/cores/temperpce/3ds \
-			src/cores/temperpce/arm \
-
-#ROMFS		:=	src/cores/temperpce/romfs
+			src/cores/temperpce/arm
+ROMFS		:=  romfs
+APP_ROMFS   :=  $(TOPDIR)/$(ASSETS)/$(ROMFS)
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -154,7 +154,7 @@ ifeq ($(strip $(NO_SMDH)),)
 endif
 
 ifneq ($(ROMFS),)
-	export _3DSXFLAGS += --romfs=$(ROMFS)
+	export _3DSXFLAGS += --romfs=$(APP_ROMFS)
 endif
 
 #---------------------------------------------------------------------------------
@@ -204,7 +204,8 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 cia: $(BUILD)
 ifneq ($(MAKEROM),)
-	$(MAKEROM) -rsf $(ASSETS)/cia.rsf -elf $(OUTPUT).elf -icon $(ASSETS)/cia.icn -banner $(ASSETS)/cia.bnr -f cia -o $(OUTPUT).cia
+	$(MAKEROM) -rsf $(ASSETS)/cia.rsf -elf $(OUTPUT).elf -icon $(ASSETS)/cia.icn -banner $(ASSETS)/cia.bnr -f cia \
+	-DAPP_ROMFS="$(APP_ROMFS)" -o $(OUTPUT).cia
 else
 	$(error "CIA creation is not supported on this platform ($(UNAME_S)_$(UNAME_M))")
 endif
@@ -251,7 +252,9 @@ $(OUTPUT).elf	:	$(OFILES)
 define shader-as
 	$(eval CURBIN := $(patsubst %.shbin.o,%.shbin,$(notdir $@)))
 	picasso -o $(CURBIN) $1
-	bin2s $(CURBIN) | $(AS) -o $@
+	bin2s $(CURBIN) > $(CURBIN).s
+	sed -i "/#if defined/,\$$d" $(CURBIN).s
+	$(AS) $(CURBIN).s -o $@
 	echo "extern const u8" `(echo $(CURBIN) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"_end[];" > `(echo $(CURBIN) | tr . _)`.h
 	echo "extern const u8" `(echo $(CURBIN) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`"[];" >> `(echo $(CURBIN) | tr . _)`.h
 	echo "extern const u32" `(echo $(CURBIN) | sed -e 's/^\([0-9]\)/_\1/' | tr . _)`_size";" >> `(echo $(CURBIN) | tr . _)`.h

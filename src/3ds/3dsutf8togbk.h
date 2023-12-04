@@ -1,4 +1,3 @@
-
 #ifndef _3DSUTF8TOGBK_H_
 #define _3DSUTF8TOGBK_H_
 
