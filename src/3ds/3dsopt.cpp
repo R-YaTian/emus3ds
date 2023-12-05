@@ -6,7 +6,7 @@
 #include "3dsopt.h"
 #include "3dsemu.h"
 
-#define TICKS_PER_SEC (268123)
+#define TICKS_PER_SEC_DBG (268123)
 
 //--------------------------------------------------------------------------------
 // Variables used for the profiling.
@@ -57,7 +57,7 @@ void t3dsShowTotalTiming(int bucket)
 #ifndef EMU_RELEASE
     if (t3dsTotalTicks[bucket] > 0)
         printf ("%-20s: %2d %4d ms %d\n", t3dsClockName[bucket], bucket,
-        (int)(t3dsTotalTicks[bucket] / TICKS_PER_SEC),
+        (int)(t3dsTotalTicks[bucket] / TICKS_PER_SEC_DBG),
         t3dsTotalCount[bucket]);
     else if (t3dsStartTicks[bucket] == -1 && t3dsTotalCount[bucket] > 0)
         printf ("%-20s: %2d %d\n", t3dsClockName[bucket], bucket,

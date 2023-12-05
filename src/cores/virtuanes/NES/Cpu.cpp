@@ -323,7 +323,7 @@
 }
 
 /* BIT (NV----Z-) */
-#define	BIT() {					\
+#define	BITS() {					\
 	TST_FLAG( (DT&R.A)==0, Z_FLAG );	\
 	TST_FLAG( DT&0x80, N_FLAG );		\
 	TST_FLAG( DT&0x40, V_FLAG );		\
@@ -1370,11 +1370,11 @@ register BYTE	DT;
 				break;
 
 			case	0x24: // BIT $??
-				MR_ZP(); BIT();
+				MR_ZP(); BITS();
 				ADD_CYCLE(3);
 				break;
 			case	0x2C: // BIT $????
-				MR_AB(); BIT();
+				MR_AB(); BITS();
 				ADD_CYCLE(4);
 				break;
 

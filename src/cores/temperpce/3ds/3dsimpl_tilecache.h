@@ -4,7 +4,6 @@
 
 #include "3dsmain.h"
 #include "3dsimpl_gpu.h"
-#include "3dsdebug.h"
 
 #define COMPOSE_HASH(tileNumber, pal)   ((tileNumber) << 5) + ((pal))
 

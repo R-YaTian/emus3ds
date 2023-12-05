@@ -314,7 +314,6 @@ void ui3dsDrawGBK(uint16 *frameBuffer, int x, int y, int color565, uint16 ch) {
     // (0,0) is at the top left of the screen.
     int wid = 12;
     uint8 alpha;
-    //printf ("d %c (%d)\n", c, bmofs);
 
     int idx = (r - gbkRowStart) * colCount + (c - gbkColStart);
 
@@ -322,10 +321,10 @@ void ui3dsDrawGBK(uint16 *frameBuffer, int x, int y, int color565, uint16 ch) {
     {
         for (int x1 = 0; x1 < wid; x1++)
         {
-            #define GETFONTBITMAP(c, x, y) fontGBK[c * 256 + x + (y+1)*16]
+            #define GETFONTBITMAP_GBK(c, x, y) fontGBK[c * 256 + x + (y+1)*16]
 
-            #define SETPIXELFROMBITMAP(y1) \
-                alpha = GETFONTBITMAP(idx,x1,y1); \
+            #define SETPIXELFROMBITMAP_GBK(y1) \
+                alpha = GETFONTBITMAP_GBK(idx,x1,y1); \
                 ui3dsSetPixelInline(frameBuffer, cx, cy + y1, \
                 alpha == MAX_ALPHA ? color565 : \
                 alpha == 0x0 ? -1 : \
@@ -338,7 +337,7 @@ void ui3dsDrawGBK(uint16 *frameBuffer, int x, int y, int color565, uint16 ch) {
             {
                 for (int h = 0; h < fontHeight; h++)
                 {
-                    SETPIXELFROMBITMAP(h);
+                    SETPIXELFROMBITMAP_GBK(h);
                 }
             }
         }
@@ -485,7 +484,7 @@ void ui3dsDrawStringOnly(uint16 *fb, int absoluteX, int absoluteY, int color, co
                 break;
 
             // check utf8 char is chinese
-			if(fontGBK != NULL && i <= endPos - 2 && (c & 0xF0) == 0xE0) {
+            if(fontGBK != NULL && i <= endPos - 2 && (c & 0xF0) == 0xE0) {
                 uint8 c2 = buffer[i + 1];
                 uint8 c3 = buffer[i + 2];
 
@@ -499,7 +498,6 @@ void ui3dsDrawStringOnly(uint16 *fb, int absoluteX, int absoluteY, int color, co
 
                 if(cg1 >= gbkRowStart && cg1 <= gbkRowEnd
                     && cg2 >= gbkColStart && cg2 <= gbkColEnd) {
-
                     ui3dsDrawGBK(fb, x, y, color, chGBK);
                     x += 12;
                     i += 2;

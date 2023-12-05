@@ -1,6 +1,8 @@
 #ifndef PSG_H
 #define PSG_H
 
+#include "psgqueue.h"
+
 #define MASTER_CLOCK_RATE 21477270ll
 
 // 32B + 44B
