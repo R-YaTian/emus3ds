@@ -1074,7 +1074,7 @@ bool impl3dsReadWriteSettingsByGame(bool writeMode)
 //----------------------------------------------------------------------
 bool impl3dsReadWriteSettingsGlobal(bool writeMode)
 {
-    bool success = config3dsOpenFile("./virtuanes_3ds.cfg", writeMode);
+    bool success = config3dsOpenFile("/emus3ds/virtuanes_3ds.cfg", writeMode);
     if (!success)
         return false;
 

@@ -1421,7 +1421,7 @@ bool impl3dsReadWriteSettingsByGame(bool writeMode)
 //----------------------------------------------------------------------
 bool impl3dsReadWriteSettingsGlobal(bool writeMode)
 {
-    bool success = config3dsOpenFile("./temperpce_3ds.cfg", writeMode);
+    bool success = config3dsOpenFile("/emus3ds/temperpce_3ds.cfg", writeMode);
     if (!success)
         return false;
 

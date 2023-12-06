@@ -38,7 +38,7 @@ void cheat3dsClearCheatsFromMenu()
 {
     cheatCount = 0;
 
-    cheatMenu[0] = MENU_MAKE_DISABLED("No cheats available for this game.");
+    cheatMenu[0] = MENU_MAKE_DISABLED("无该游戏可用的金手指.");
     cheatMenu[1] = MENU_MAKE_LASTITEM();
 }
 

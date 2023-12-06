@@ -665,7 +665,7 @@ SMenuItem cheatMenu[401] =
     MENU_MAKE_LASTITEM  ()
 };
 
-
+/*
 const char *noCheatsText[] {
     "",
     "    No cheats available for this game ",
@@ -682,7 +682,7 @@ const char *noCheatsText[] {
     "    Refer to readme.md for the .CHX file format. ",
     ""
      };
-
+*/
 
 //--------------------------------------------------------
 // Initialize the emulator engine and everything else.

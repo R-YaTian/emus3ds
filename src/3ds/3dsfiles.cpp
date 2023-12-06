@@ -14,6 +14,7 @@
 
 #include "3dstypes.h"
 #include "3dsfiles.h"
+#include "3dsutf8togbk.h"
 
 
 static char currentDir[_MAX_PATH] = "";
@@ -243,6 +244,8 @@ const char* stristr(const char* str1, const char* str2 )
 std::vector<std::string> file3dsGetFiles(const char *extensions, int maxFiles)
 {
     std::vector<std::string> files;
+    std::vector<std::string> dirs;
+    std::vector<std::string> tmps;
     char buffer[_MAX_PATH];
 
     struct dirent* dir;
@@ -266,7 +269,7 @@ std::vector<std::string> file3dsGetFiles(const char *extensions, int maxFiles)
             if (dir->d_type == DT_DIR)
             {
                 snprintf(buffer, _MAX_PATH, "\x01 %s", dir->d_name);
-                files.push_back(buffer);
+                dirs.push_back(buffer);
             }
             if (dir->d_type == DT_REG)
             {
@@ -275,13 +278,30 @@ std::vector<std::string> file3dsGetFiles(const char *extensions, int maxFiles)
                 if (!stristr(extensions, ext))
                     continue;
 
-                files.push_back(dir->d_name);
+                tmps.push_back(dir->d_name);
             }
         }
         closedir(d);
     }
 
-    std::sort(files.begin(), files.end());
+    std::sort(dirs.begin(), dirs.end(), [&](const std::string& a, const std::string& b) {
+        std::string mappedA = mapGBKToInitial(a);
+        std::string mappedB = mapGBKToInitial(b);
+        return mappedA.compare(mappedB) < 0;
+    });
+
+    std::sort(tmps.begin(), tmps.end(), [&](const std::string& a, const std::string& b) {
+        std::string mappedA = mapGBKToInitial(a);
+        std::string mappedB = mapGBKToInitial(b);
+        return mappedA.compare(mappedB) < 0;
+    });
+
+    files.insert(files.end(), dirs.begin(), dirs.end());
+    files.insert(files.end(), tmps.begin(), tmps.end());
+    dirs.clear();
+    tmps.clear();
+
+    // std::sort(files.begin(), files.end());
 
     return files;
 }

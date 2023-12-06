@@ -1263,7 +1263,7 @@ bool impl3dsReadWriteSettingsByGame(bool writeMode)
 //----------------------------------------------------------------------
 bool impl3dsReadWriteSettingsGlobal(bool writeMode)
 {
-    bool success = config3dsOpenFile("./picodrive_3ds.cfg", writeMode);
+    bool success = config3dsOpenFile("/emus3ds/picodrive_3ds.cfg", writeMode);
     if (!success)
         return false;
 

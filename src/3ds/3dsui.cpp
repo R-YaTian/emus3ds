@@ -377,6 +377,7 @@ int ui3dsGetStringWidth(const char *s, int startPos = 0, int endPos = 0xffff)
                 continue;
             }
         }
+
         totalWidth += fontWidth[c];
     }
     return totalWidth;
