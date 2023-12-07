@@ -8705,21 +8705,7 @@ uint8 FirstLetter(uint16 chGBK) {
     uint8 cg2 = (chGBK & 0x00FF);
     int nCode = (cg1 - 0xA0) * 100 + cg2 - 0xA0;
 
-    if(nCode >= 101 && nCode < 195) return nCode - 68;
-    if(nCode >= 201 && nCode < 295) return nCode - 168;
-    if(nCode >= 301 && nCode < 395) return nCode - 268;
-    if(nCode >= 401 && nCode < 495) return nCode - 368;
-    if(nCode >= 501 && nCode < 595) return nCode - 468;
-    if(nCode >= 601 && nCode < 695) return nCode - 568;
-    if(nCode >= 701 && nCode < 795) return nCode - 668;
-    if(nCode >= 801 && nCode < 895) return nCode - 768;
-    if(nCode >= 901 && nCode < 995) return nCode - 868;
-    if(nCode >= 1001 && nCode < 1095) return nCode - 968;
-    if(nCode >= 1101 && nCode < 1195) return nCode - 1068;
-    if(nCode >= 1201 && nCode < 1295) return nCode - 1168;
-    if(nCode >= 1301 && nCode < 1395) return nCode - 1268;
-    if(nCode >= 1401 && nCode < 1495) return nCode - 1368;
-    if(nCode >= 1501 && nCode < 1595) return nCode - 1468;
+    if(nCode >= 101 && nCode < 1595 && cg2 >= 0xA1 && cg2 < 0xF5) return cg2 - 0xA0 + 32;
 
     if(nCode >= 1601 && nCode < 1637) return 'A' + 0x3F;
     if(nCode >= 1637 && nCode < 1833) return 'B' + 0x3F;

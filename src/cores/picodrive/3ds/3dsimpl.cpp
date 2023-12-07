@@ -222,7 +222,7 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体(仅适用于字母和数字)", optionsForFont, DIALOGCOLOR_CYAN),
     MENU_MAKE_CHECKBOX  (15001, "  隐藏下屏幕的文本", 0),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_CHECKBOX  (12002, "  在退出游戏时自动保存并在启动游戏时自动读取即时存档", 0),
+    MENU_MAKE_CHECKBOX  (12002, "  退出时自动保存即时存档并在启动时自动加载", 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER1   ("游戏设置"),
     MENU_MAKE_PICKER    (10000, "  跳帧", "跳帧可以加快游戏速度,但可能会导致画面不平滑", optionsForFrameskip, DIALOGCOLOR_CYAN),
