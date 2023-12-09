@@ -169,7 +169,7 @@ int PicoReset(void)
  
   // bug fix? without this, the jump table for the PicoCpuCS68k's jumptab is never initialized
   // and the CPU slave emulation will crash when loading a state before the CD is initialized.
-  PicoCpuCS68k.jumptab = &CycloneJumpTab;
+  PicoCpuCS68k.jumptab = (unsigned int) (long) &CycloneJumpTab;
 
   // ..but do not reset SekCycle* to not desync with addons
 

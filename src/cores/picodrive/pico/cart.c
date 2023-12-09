@@ -574,7 +574,7 @@ int PicoCartLoad(pm_file *f,unsigned char **prom,unsigned int *psize,int is_sms)
       ret = pm_read(p,todo,f);
       bytes_read += ret;
       p += ret;
-      PicoCartLoadProgressCB(bytes_read * 100 / size);
+      PicoCartLoadProgressCB(bytes_read * 100LL / size);
     }
     while (ret > 0);
   }
@@ -705,15 +705,16 @@ void PicoCartUnload(void)
   PicoGameLoaded = 0;
 }
 
-static unsigned int rom_crc32(void)
+static unsigned int rom_crc32(int size)
 {
   unsigned int crc;
   elprintf(EL_STATUS, "caclulating CRC32..");
+  if (size <= 0 || size > Pico.romsize) size = Pico.romsize;
 
   // have to unbyteswap for calculation..
-  Byteswap(Pico.rom, Pico.rom, Pico.romsize);
-  crc = crc32(0, Pico.rom, Pico.romsize);
-  Byteswap(Pico.rom, Pico.rom, Pico.romsize);
+  Byteswap(Pico.rom, Pico.rom, size);
+  crc = crc32(0, Pico.rom, size);
+  Byteswap(Pico.rom, Pico.rom, size);
   return crc;
 }
 
@@ -903,7 +904,7 @@ static void parse_carthw(const char *carthw_cfg, int *fill_sram, int *hw_detecte
         goto bad;
 
       if (rom_crc == 0)
-        rom_crc = rom_crc32();
+        rom_crc = rom_crc32(64*1024);
       if (crc == rom_crc)
         any_checks_passed = 1;
       else
@@ -934,8 +935,16 @@ static void parse_carthw(const char *carthw_cfg, int *fill_sram, int *hw_detecte
         carthw_radica_startup();
       else if (strcmp(p, "piersolar_mapper") == 0)
         carthw_pier_startup();
-      else if (strcmp(p, "prot_lk3") == 0)
-        carthw_prot_lk3_startup();
+      else if (strcmp(p, "sf001_mapper") == 0)
+        carthw_sf001_startup();
+      else if (strcmp(p, "sf002_mapper") == 0)
+        carthw_sf002_startup();
+      else if (strcmp(p, "sf004_mapper") == 0)
+        carthw_sf004_startup();
+      else if (strcmp(p, "lk3_mapper") == 0)
+        carthw_lk3_startup();
+      else if (strcmp(p, "smw64_mapper") == 0)
+        carthw_smw64_startup();
       else {
         elprintf(EL_STATUS, "carthw:%d: unsupported mapper: %s", line, p);
         skip_sect = 1;
@@ -981,6 +990,8 @@ static void parse_carthw(const char *carthw_cfg, int *fill_sram, int *hw_detecte
         *fill_sram = 1;
       else if (strcmp(p, "force_6btn") == 0)
         PicoIn.quirks |= PQUIRK_FORCE_6BTN;
+      else if (strcmp(p, "no_z80_bus_lock") == 0)
+        PicoIn.quirks |= PQUIRK_NO_Z80_BUS_LOCK;
       else {
         elprintf(EL_STATUS, "carthw:%d: unsupported prop: %s", line, p);
         goto bad_nomsg;

@@ -359,7 +359,7 @@ void apply_cheats(void)
           cheatIndexes[MAX_CHEATS - maxROMcheats] = i;
 
           /* get current banked ROM address */
-          u8 *addr = z80_read_map[(cheatlist[i].address) >> Z80_MEM_SHIFT] << 1;
+          u8 *addr = (u8 *) (z80_read_map[(cheatlist[i].address) >> Z80_MEM_SHIFT] << 1);
           ptr = &addr[cheatlist[i].address];
 
           /* check if reference matches original ROM data */
@@ -424,7 +424,7 @@ void ROMCheatUpdate(void)
     }
 
     /* get current banked ROM address */
-    u8 *addr = z80_read_map[(cheatlist[index].address) >> Z80_MEM_SHIFT] << 1;
+    u8 *addr = (u8 *) (z80_read_map[(cheatlist[index].address) >> Z80_MEM_SHIFT] << 1);
     ptr = &addr[cheatlist[index].address];
 
     //ptr = &z80_readmap[(cheatlist[index].address) >> 10][cheatlist[index].address & 0x03FF];

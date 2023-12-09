@@ -520,7 +520,7 @@ static void PicoWrite16_sram(u32 a, u32 d)
 static u32 PicoRead8_z80(u32 a)
 {
   u32 d = 0xff;
-  if ((Pico.m.z80Run & 1) || Pico.m.z80_reset) {
+  if (!(PicoIn.quirks & PQUIRK_NO_Z80_BUS_LOCK) && ((Pico.m.z80Run & 1) || Pico.m.z80_reset)) {
     elprintf(EL_ANOMALY, "68k z80 read with no bus! [%06x] @ %06x", a, SekPc);
     // open bus. Pulled down if MegaCD2 is attached.
     return 0;
@@ -543,7 +543,7 @@ static u32 PicoRead16_z80(u32 a)
 
 static void PicoWrite8_z80(u32 a, u32 d)
 {
-  if ((Pico.m.z80Run & 1) || Pico.m.z80_reset) {
+  if (!(PicoIn.quirks & PQUIRK_NO_Z80_BUS_LOCK) && ((Pico.m.z80Run & 1) || Pico.m.z80_reset)) {
     // verified on real hw
     elprintf(EL_ANOMALY, "68k z80 write with no bus or reset! [%06x] %02x @ %06x", a, d&0xff, SekPc);
     return;
@@ -772,12 +772,13 @@ PICO_INTERNAL void PicoMemSetup(void)
   // align to bank size. We know ROM loader allocated enough for this
   mask = (1 << M68K_MEM_SHIFT) - 1;
   rs = (Pico.romsize + mask) & ~mask;
+  if (rs > 0xA00000) rs = 0xA00000; // max cartridge area
   cpu68k_map_set(m68k_read8_map,  0x000000, rs - 1, Pico.rom, 0);
   cpu68k_map_set(m68k_read16_map, 0x000000, rs - 1, Pico.rom, 0);
 
   // Common case of on-cart (save) RAM, usually at 0x200000-...
   if ((Pico.sv.flags & SRF_ENABLED) && Pico.sv.data != NULL) {
-    sstart = Pico.sv.start;
+    sstart = Pico.sv.start & ~mask;
     rs = Pico.sv.end - sstart;
     rs = (rs + mask) & ~mask;
     if (sstart + rs >= 0x1000000)

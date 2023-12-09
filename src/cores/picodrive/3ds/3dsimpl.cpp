@@ -231,7 +231,7 @@ SMenuItem optionMenu[] = {
     //MENU_MAKE_PICKER    (19000, "  Flickering Sprites", "Sprites on real hardware flicker. You can disable for better visuals.", optionsForSpriteFlicker, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER1   ("音频"),
-    MENU_MAKE_CHECKBOX  (20000, "  Low-pass filter", 0),
+    MENU_MAKE_CHECKBOX  (20000, "  低通滤波", 0),
     MENU_MAKE_CHECKBOX  (50002, "  将音量设置应用于所有游戏", 0),
     MENU_MAKE_GAUGE     (14000, "  音量扩增", 0, 8, 4),
     MENU_MAKE_LASTITEM  ()
@@ -398,7 +398,7 @@ const char *impl3dsTitleImage = "romfs:/picodrive_3ds_top.png";
 // The title that displays at the bottom right of the
 // menu.
 //---------------------------------------------------------
-const char *impl3dsTitleText = "PicoDrive for 3DS v0.94";
+const char *impl3dsTitleText = "PicoDrive for 3DS v0.95";
 
 
 //---------------------------------------------------------
