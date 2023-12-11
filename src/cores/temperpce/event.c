@@ -156,7 +156,7 @@ void update_events(void)
             else
             {
               u16 *screen_capture = malloc(320 * 240 * sizeof(u16));
-              copy_screen(screen_capture);
+              copy_screen((u32 *) screen_capture);
               save_state(state_name, screen_capture);
               free(screen_capture);
             }
@@ -259,13 +259,13 @@ void update_events(void)
     switch(config.netplay_type)
     {
       case NETPLAY_TYPE_SERVER:
-        netplay_frame_update(button_status, &(io.button_status[0]),
-         &(io.button_status[1]));
+        netplay_frame_update(button_status, (u32 *) &(io.button_status[0]),
+          (u32 *) &(io.button_status[1]));
         break;
 
       case NETPLAY_TYPE_CLIENT:
-        netplay_frame_update(button_status, &(io.button_status[1]),
-         &(io.button_status[0]));
+        netplay_frame_update(button_status, (u32 *) &(io.button_status[1]),
+          (u32 *) &(io.button_status[0]));
         break;
     }
   }

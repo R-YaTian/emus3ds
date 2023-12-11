@@ -4,30 +4,29 @@ This is a port of Exophase's Temper (TurboGrafx/PC-Engine) emulator to the old 3
 
 This emulator bears the same user interface as VirtuaNES for 3DS and Snes9x for 3DS. It should run better on the New 3DS as usual.
 
-https://github.com/bubble2k16/temperpce_3ds/releases
-
 ### Homebrew Launcher:
 
-1. Copy temperpce_3ds.3dsx, temperpce_3ds.smdh and temperpce_3ds_top.png into the /3ds/temperpce_3ds folder on your SD card.
-2. Place your ROMs inside any folder.
-3. Go to your Homebrew Launcher (either via Cubic Ninja, Soundhax or other entry points) and launch the temperpce_3ds emulator.
+1. Copy temperpce_3ds.3dsx into the /3ds folder on your SD card.
+2. Copy gbk.bin into the /emus3ds folder on your SD card.
+3. Place your ROMs inside any folder.
+4. Go to your Homebrew Launcher and launch the temperpce_3ds emulator.
 
 ### CIA Version:
 
-1. Use your favorite CIA installer to install temperpce_3ds.cia into your CFW. You can also use FBI to download from TitleDB.
-2. Place your ROMs inside any folder.
-3. Copy temperpce_3ds_top.png to ROOT of your SD card.
+1. Use your favorite CIA installer to install temperpce_3ds.cia into your CFW.
+2. Copy gbk.bin into the /emus3ds folder on your SD card.
+3. Place your ROMs inside any folder.
 4. Exit your CIA installer and go to your CFW's home screen to launch the app.
 
 ### CD-ROM BIOS
 
-1. If you have the CD ROM BIOS, place them in the /3ds/temperpce_3ds/syscards folder.
+1. If you have the CD ROM BIOS, place them in the /emus3ds/temperpce_3ds/syscards folder.
 2. They must be named:
    - syscard1.pce (version 1),
    - syscard2.pce (version 2),
    - syscard3.pce (version 3), or
    - games_express.pce (for Games Express).
-3. You can have all four in the /3ds/temperpce_3ds/syscards folder. In the settings screen, you can choose which ROM version you want to use.
+3. You can have all four in the /emus3ds/temperpce_3ds/syscards folder. In the settings screen, you can choose which ROM version you want to use.
 
 
 ### When in-game,
@@ -41,22 +40,28 @@ https://github.com/bubble2k16/temperpce_3ds/releases
 
 ## TemperPCE Screenshots
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/TemperPCE01.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/TemperPCE01.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/TemperPCE02.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/TemperPCE02.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/TemperPCE03.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/TemperPCE03.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/TemperPCE04.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/TemperPCE04.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/TemperPCE05.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/TemperPCE05.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/TemperPCE06.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/TemperPCE06.bmp)
 
 
 -------------------------------------------------------------------------------------------
 
 ## Change History
+
+### v1.03c
+- Fully Simplified Chinese support, big thx to [xxxxst](https://github.com/xxxxst)
+- Now will sort files by Chinese Pinyin
+- Fix config saving
+- Fix crashing when exit from CIA version
 
 ### v1.02
 - Fixed the sound lag problem.
@@ -81,7 +86,6 @@ https://github.com/bubble2k16/temperpce_3ds/releases
 - Fixed file pointer leaks that previously caused the emulator to freeze when too many CDROM games are loaded in a single session.
 - Fixed race condition that occassionally causes the sound to stop playing when resuming a game from the pause menu.
 
-
 ### v0.91
 - Fixed frame rate issues with CD-ROM games speeding up to 100-200 FPS.
 - Fixed skipping CD music
@@ -95,16 +99,12 @@ https://github.com/bubble2k16/temperpce_3ds/releases
 
 ## How to Build
 
-The current version can be built in two ways:
+You will need latest:
+- devkitARM
+- libctru
+- citro3d
 
-###  libctru v1.0.0
-
-You will need:
-- devkitARM r45
-- libctru v1.0.0
-- citro3d v1.0.0
-
-Then build by using *make*.
+Then build by using *make -f temperpce-make*.
 
 -------------------------------------------------------------------------------------------------------
 

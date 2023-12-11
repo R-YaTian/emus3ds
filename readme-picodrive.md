@@ -16,30 +16,29 @@ The default maps for the controls are:
 
 This emulator uses the same user interface as VirtuaNES for 3DS, TemperPCE for 3DS, Snes9x for 3DS. It will run better on the New 3DS as usual, where all music and sound samples will be generated at 44100Hz.
 
-https://github.com/bubble2k16/picodrive_3ds/releases
-
 ### Homebrew Launcher:
 
-1. Copy picodrive_3ds.3dsx, picodrive_3ds.smdh and picodrive_3ds_top.png into the /3ds/picodrive_3ds folder on your SD card.
-2. Place your ROMs inside any folder.
-3. Go to your Homebrew Launcher (either via Cubic Ninja, Soundhax or other entry points) and launch the picodrive_3ds emulator.
+1. Copy picodrive_3ds.3dsx into the /3ds folder on your SD card.
+2. Copy gbk.bin into the /emus3ds folder on your SD card.
+3. Place your ROMs inside any folder.
+4. Go to your Homebrew Launcher and launch the picodrive_3ds emulator.
 
 ### CIA Version:
 
-1. Use your favorite CIA installer to install picodrive_3ds.cia into your CFW. You can also use FBI to download from TitleDB.
-2. Place your ROMs inside any folder.
-3. Copy picodrive_3ds_top.png to ROOT of your SD card.
+1. Use your favorite CIA installer to install picodrive_3ds.cia into your CFW.
+2. Copy gbk.bin into the /emus3ds folder on your SD card.
+3. Place your ROMs inside any folder.
 4. Exit your CIA installer and go to your CFW's home screen to launch the app.
 
 ### CD-ROM BIOS
 
-1. If you have the CD ROM BIOS, place them in the /3ds/picodrive_3ds/bios folder.
+1. If you have the CD ROM BIOS, place them in the /emus3ds/picodrive_3ds/bios folder.
 2. They must be named:
-   - bios_CD_U.bin,
-   - bios_CD_J.bin,
-   - bios_CD_E.bin, 
+   - bios_CD_U.bin or us_scd2_9306.bin or SegaCDBIOS9303.bin or us_scd1_9210.bin,
+   - bios_CD_J.bin or jp_mcd2_921222.bin or jp_mcd1_9112.bin or jp_mcd1_9111.bin,
+   - bios_CD_E.bin or eu_mcd2_9306.bin or eu_mcd2_9303.bin or eu_mcd1_9210.bin,  
    for the respective regions.
-3. You can place all three BIOS in the /3ds/picodrive_3ds/bios folder. 
+3. You can place all three BIOS in the /emus3ds/picodrive_3ds/bios folder.
 
 
 ### When in-game,
@@ -53,22 +52,36 @@ https://github.com/bubble2k16/picodrive_3ds/releases
 
 ## PicoDrive Screenshots
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/PicoDrive01.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/PicoDrive01.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/PicoDrive02.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/PicoDrive02.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/PicoDrive03.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/PicoDrive03.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/PicoDrive04.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/PicoDrive04.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/PicoDrive05.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/PicoDrive05.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/PicoDrive06.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/PicoDrive06.bmp)
 
 
 -------------------------------------------------------------------------------------------
 
 ## Change History
+
+### v0.95c
+- Fully Simplified Chinese support, big thx to [xxxxst](https://github.com/xxxxst)
+- Now will sort files by Chinese Pinyin
+- Implement standard/ssf2 mapper. This fix "Demons Of Asteborg", "Astebros" and etc
+- Fix config saving
+- Fix crashing when exit from CIA version
+- Add embedded input redirect server to support 2 players, thx [CarlosEFML](https://github.com/CarlosEFML)
+- Fix "Decap Attack"
+- Cheats: Fix 8 bit writes for codes, thx [sleepingkirby](https://github.com/sleepingkirby)
+- Implement sf001, sf002, sf004 and smw64 mapper from [libretro](https://github.com/libretro/picodrive)
+- Update codes for lk3 mapper from [libretro](https://github.com/libretro/picodrive)
+- Update buildin carthw.cfg for more games
+- Add hack for unlicensed games that don't handle the Z80 bus properly, thx [techmetx11](https://github.com/techmetx11)
 
 ### v0.94
 - Added support to save battery-backed RAM for CD games
@@ -148,16 +161,12 @@ NOTE: Some games may not boot when cheat codes are enabled at the start. Disable
 
 ## How to Build
 
-The current version can be built in two ways:
+You will need latest:
+- devkitARM
+- libctru
+- citro3d
 
-###  libctru v1.0.0
-
-You will need:
-- devkitARM r45
-- libctru v1.0.0
-- citro3d v1.0.0
-
-Then build by using *make*.
+Then build by using *make -f picodrive-make*.
 
 -------------------------------------------------------------------------------------------------------
 

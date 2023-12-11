@@ -1819,7 +1819,7 @@ void menu(u32 start_file_dialog)
   if(netplay_can_send)
     send_netplay_pause();
 
-  copy_screen(menu_state.screen_bg);
+  copy_screen((u32 *) menu_state.screen_bg);
   copy_screen_quarter_intensity(menu_state.screen_bg_quarter);
 
   if(start_file_dialog)

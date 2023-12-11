@@ -56,7 +56,7 @@ void print_debug(int a, int x, int y, int p, int s, int pc, u32 remaining)
 
   u8 disasm_output[500];
   int oldpc = pc;
-  disasm_instruction(disasm_output, &pc); 
+  disasm_instruction(disasm_output, (u32 *) &pc);
 
   if (1==1)
   {

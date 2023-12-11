@@ -8,21 +8,22 @@ It also runs on your New 3DS as well!
 
 ### Homebrew Launcher:
 
-1. Copy virtuanes_3ds.3dsx, virtuanes_3ds.smdh and virtuanes_3ds_top.png into the /3ds/virtuanes_3ds folder on your SD card.
-2. Place your ROMs inside any folder.
-3. Go to your Homebrew Launcher (either via Cubic Ninja, Soundhax or other entry points) and launch the virtuanes_3ds emulator.
+1. Copy virtuanes_3ds.3dsx into the /3ds folder on your SD card.
+2. Copy gbk.bin into the /emus3ds folder on your SD card.
+3. Place your ROMs inside any folder.
+4. Go to your Homebrew Launcher and launch the virtuanes_3ds emulator.
 
 ### CIA Version:
 
-1. Use your favorite CIA installer to install virtuanes_3ds.cia into your CFW. You can also use FBI to download from TitleDB.
-2. Place your ROMs inside any folder.
-3. Copy virtuanes_3ds_top.png to ROOT of your SD card.
+1. Use your favorite CIA installer to install virtuanes_3ds.cia into your CFW.
+2. Copy gbk.bin into the /emus3ds folder on your SD card.
+3. Place your ROMs inside any folder.
 4. Exit your CIA installer and go to your CFW's home screen to launch the app.
 
 ### FDS BIOS
 
 1. To load .FDS games, make sure that you get the FDS BIOS.
-2. Rename the BIOS to disksys.rom and place it in /3ds/virtuanes_3ds/bios/disksys.rom
+2. Rename the BIOS to disksys.rom and place it in /emus3ds/virtuanes_3ds/bios/disksys.rom
 
 ### When in-game,
 
@@ -35,23 +36,29 @@ It also runs on your New 3DS as well!
 
 ## VirtuaNES Screenshots
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/VirtuaNES%20-%20Bionic%20Commando.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/VirtuaNES%20-%20Bionic%20Commando.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/VirtuaNES%20-%20Gradius%20II.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/VirtuaNES%20-%20Gradius%20II.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/VirtuaNES%20-%20Kirby's%20Adventure.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/VirtuaNES%20-%20Kirby's%20Adventure.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/VirtuaNES%20-%20Legend%20of%20Link.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/VirtuaNES%20-%20Legend%20of%20Link.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/VirtuaNES%20-%20Rockman%204%20Minus%20Infinity.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/VirtuaNES%20-%20Rockman%204%20Minus%20Infinity.bmp)
 
-![alt tag](https://github.com/bubble2k16/emus3ds/blob/master/screenshots/VirtuaNES%20-%20Super%20Mario%20Bros%203.bmp)
+![alt tag](https://github.com/R-YaTian/emus3ds/blob/master/screenshots/VirtuaNES%20-%20Super%20Mario%20Bros%203.bmp)
 
 -------------------------------------------------------------------------------------------
 
 ## Change History
 
-*VirtuaNES:*
+### v1.03c
+- Fully Simplified Chinese support, big thx to [xxxxst](https://github.com/xxxxst)
+- Now will sort files by Chinese Pinyin
+- Fix config saving
+- Fix crashing when exit from CIA version
+- Add embedded input redirect server to support 2 players, thx [CarlosEFML](https://github.com/CarlosEFML)
+- Implement palette support, thx [TBirdSoars](https://github.com/TBirdSoars)
 
 ### v1.02
 - Fixed bug in MMC5 mapper that was causing Castlevania 3's graphics to corrupt.
@@ -145,16 +152,12 @@ NOTE: If you enable a cheat, and then disable it, you may need to reset the game
 
 ## How to Build
 
-The current version can be built in two ways:
+You will need latest:
+- devkitARM
+- libctru
+- citro3d
 
-###  libctru v1.0.0
-
-You will need:
-- devkitARM r45
-- libctru v1.0.0
-- citro3d v1.0.0
-
-Then build by using *make*.
+Then build by using *make -f virtuanes-make*.
 
 -------------------------------------------------------------------------------------------------------
 

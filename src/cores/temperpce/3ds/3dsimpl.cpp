@@ -193,7 +193,7 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_PICKER    (22000, "  CPU核心", "游戏出现卡死时可选择原生CPU核心", optionsForCPUCore, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (20000, "  空闲态循环补丁", "改变此项配置后需重启ROM", optionsForIdleLoopPatch, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (10000, "  跳帧", "跳帧可以加快游戏速度,但可能会导致画面不平滑", optionsForFrameskip, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (21000, "  BIOS", "BIOS文件必须放置在根目录的 /3ds/temperpce_3ds/syscards 文件夹. 改变此项配置后将重启ROM", optionsForBIOS, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (21000, "  BIOS", "BIOS文件必须放置在根目录的 /emus3ds/temperpce_3ds/syscards 文件夹. 改变此项配置后将重启ROM", optionsForBIOS, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (16000, "  调色板", "可修改游戏画面色彩效果", optionsForPaletteFix, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER1   ("音频"),
@@ -204,7 +204,7 @@ SMenuItem optionMenu[] = {
 
 
 SMenuItem controlsMenu[] = {
-    MENU_MAKE_HEADER1   ("按键设定"),
+    MENU_MAKE_HEADER1   ("按键设置"),
     MENU_MAKE_CHECKBOX  (50000, "  为所有游戏映射按键", 0),
     MENU_MAKE_CHECKBOX  (50001, "  为所有游戏映射连发按键", 0),
     MENU_MAKE_DISABLED  (""),
@@ -256,7 +256,7 @@ SMenuItem controlsMenu[] = {
     MENU_MAKE_PICKER    (13019, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (13029, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER1   ("模拟器功能设定"),
+    MENU_MAKE_HEADER1   ("模拟器功能设置"),
     MENU_MAKE_CHECKBOX  (50003, "为所有游戏应用映射", 0),
     MENU_MAKE_PICKER    (23001, "打开模拟器菜单", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (23002, "快进", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
@@ -372,7 +372,7 @@ const char *impl3dsTitleImage = "romfs:/temperpce_3ds_top.png";
 // The title that displays at the bottom right of the
 // menu.
 //---------------------------------------------------------
-const char *impl3dsTitleText = "TemperPCE for 3DS v1.02";
+const char *impl3dsTitleText = "TemperPCE for 3DS v1.03c";
 
 
 //---------------------------------------------------------
@@ -803,7 +803,7 @@ void impl3dsEmulationPollInput()
 {
     u32 consoleJoyPad = input3dsProcess3dsKeys();
 
-    io.button_status[0] = consoleJoyPad ^ 0xFFF;
+    io.button_status[0] = (io_buttons_enum) (consoleJoyPad ^ 0xFFF);
 }
 
 
@@ -1303,7 +1303,7 @@ bool impl3dsOnMenuSelectedChanged(int ID, int value)
             config.cd_system_type = CD_SYSTEM_TYPE_GECD;
 
         menu3dsHideDialog();
-        int result = menu3dsShowDialog("Updated CD-ROM BIOS", "Would you like to reset your console?", DIALOGCOLOR_RED, optionsForNoYes);
+        int result = menu3dsShowDialog("CD-ROM BIOS 更换成功", "要立即重置控制台吗?", DIALOGCOLOR_RED, optionsForNoYes);
         menu3dsHideDialog();
 
         if (result == 1)

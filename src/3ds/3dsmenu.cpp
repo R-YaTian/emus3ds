@@ -323,7 +323,7 @@ void menu3dsDrawMenu(int menuItemFrame, int translateY)
     //ui3dsDrawRect(0, 25, 320, 27, 0xeeeeee);
 
     ui3dsDrawStringWithNoWrapping(10, 223, 285, 240, 0xFFFFFF, HALIGN_LEFT,
-        "A:Select  B:Cancel");
+        "A:选择  B:取消");
     ui3dsDrawStringWithNoWrapping(10, 223, 285, 240, 0xFFFFFF, HALIGN_RIGHT,
         impl3dsTitleText);
 

@@ -177,7 +177,7 @@ SMenuItem optionMenu[] = {
 
 
 SMenuItem controlsMenu[] = {
-    MENU_MAKE_HEADER1   ("按键设定"),
+    MENU_MAKE_HEADER1   ("按键设置"),
     MENU_MAKE_CHECKBOX  (20000, "  为所有游戏映射按键", 0),
     MENU_MAKE_CHECKBOX  (20001, "  为所有游戏映射连发按键", 0),
     MENU_MAKE_DISABLED  (""),
@@ -229,7 +229,7 @@ SMenuItem controlsMenu[] = {
     MENU_MAKE_PICKER    (13019, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (13029, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
     MENU_MAKE_DISABLED  (""),
-    MENU_MAKE_HEADER1   ("模拟器功能设定"),
+    MENU_MAKE_HEADER1   ("模拟器功能设置"),
     MENU_MAKE_CHECKBOX  (50003, "为所有游戏应用映射", 0),
     MENU_MAKE_PICKER    (23001, "打开模拟器菜单", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (23002, "快进", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
@@ -345,7 +345,7 @@ const char *impl3dsTitleImage = "romfs:/virtuanes_3ds_top.png";
 // The title that displays at the bottom right of the
 // menu.
 //---------------------------------------------------------
-const char *impl3dsTitleText = "VirtuaNES for 3DS v1.02";
+const char *impl3dsTitleText = "VirtuaNES for 3DS v1.03c";
 
 
 //---------------------------------------------------------

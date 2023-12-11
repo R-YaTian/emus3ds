@@ -60,7 +60,7 @@ CFLAGS	:=  -g -O3 -mword-relocations -finline-limit=20000 \
 
 CFLAGS	+=	$(INCLUDE) -D__3DS__ -DUSE_FILE32API -DLSB_FIRST -DARM_ARCH
 
-CXXFLAGS	:= $(CFLAGS) -fno-rtti -fpermissive -fno-exceptions -std=gnu++11
+CXXFLAGS	:= $(CFLAGS) -fno-rtti -fpermissive -fno-exceptions -std=gnu++17
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)

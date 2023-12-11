@@ -1308,7 +1308,7 @@ s32 load_syscard()
 
   //sprintf(syscard_path, "%s%csyscards%c%s.bin", config.main_path,
   // DIR_SEPARATOR_CHAR, DIR_SEPARATOR_CHAR, syscard_name);
-  sprintf(syscard_path, "/3ds/temperpce_3ds/syscards/%s.bin", syscard_name);
+  sprintf(syscard_path, "/emus3ds/temperpce_3ds/syscards/%s.bin", syscard_name);
 
   rom_file = fopen(syscard_path, "rb");
 
@@ -1316,7 +1316,7 @@ s32 load_syscard()
   {
     //sprintf(syscard_path, "%s%csyscards%c%s.pce", config.main_path,
     // DIR_SEPARATOR_CHAR, DIR_SEPARATOR_CHAR, syscard_name);
-    sprintf(syscard_path, "/3ds/temperpce_3ds/syscards/%s.pce", syscard_name);
+    sprintf(syscard_path, "/emus3ds/temperpce_3ds/syscards/%s.pce", syscard_name);
 
     //printf("could not open syscard, trying %s\n", syscard_path);
     rom_file = fopen(syscard_path, "rb");
