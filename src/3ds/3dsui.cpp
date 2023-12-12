@@ -537,7 +537,7 @@ void ui3dsDrawStringWithWrapping(int x0, int y0, int x1, int y1, int color, int 
         int slen = strlen(buffer);
 
         int curStartPos = 0;
-        int curEndPos = slen
+        int curEndPos = slen;
         uint16 lineWidth = 0;
         for (int i = 0; i <= slen; )
         {
