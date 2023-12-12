@@ -537,9 +537,9 @@ void ui3dsDrawStringWithWrapping(int x0, int y0, int x1, int y1, int color, int 
         int slen = strlen(buffer);
 
         int curStartPos = 0;
-        int curEndPos = slen - 1;
-        int lineWidth = 0;
-        for (int i = 0; i < slen; )
+        int curEndPos = slen
+        uint16 lineWidth = 0;
+        for (int i = 0; i <= slen; )
         {
             if (i != curStartPos)
             {
@@ -550,10 +550,32 @@ void ui3dsDrawStringWithWrapping(int x0, int y0, int x1, int y1, int color, int 
                 else if (buffer[i] == '\n')  // \n as line breaks.
                 {
                     curEndPos = i - 1;
-                    lineWidth = 999999;     // force the line break.
+                    lineWidth = 65535;     // force the line break.
                 }
             }
-            lineWidth += fontWidth[buffer[i]];
+
+            // check utf8 char is chinese
+            if((buffer[i] & 0xF0) == 0xE0 && i <= slen - 2) {
+                uint8 c2 = buffer[i + 1];
+                uint8 c3 = buffer[i + 2];
+
+                uint16 chUtf8 = ((buffer[i] & 0x0F) << 12)
+                    | ((c2 & 0x3F) << 6)
+                    | ((c3 & 0x3F));
+                uint16 chGBK = getGbkChar(chUtf8);
+
+                uint8 cg1 = (chGBK & 0xFF00) >> 8;
+                uint8 cg2 = (chGBK & 0x00FF);
+
+                if(cg1 >= gbkRowStart && cg1 <= gbkRowEnd
+                    && cg2 >= gbkColStart && cg2 <= gbkColEnd) {
+                    lineWidth += 12;
+                    i += 2;
+                } else
+                    lineWidth += fontWidth[buffer[i]];
+            } else
+                lineWidth += fontWidth[buffer[i]];
+
             if (lineWidth > maxWidth)
             {
                 // Break the line here
@@ -563,26 +585,22 @@ void ui3dsDrawStringWithWrapping(int x0, int y0, int x1, int y1, int color, int 
 
                 if (strLineCount >= 30) break;
 
-                if (lineWidth != 999999)
+                if (lineWidth != 65535)
                 {
                     i = curEndPos + 1;
                     while (buffer[i] == ' ')
                         i++;
-                }
-                else
-                {
+                } else
                     i = curEndPos + 2;
-                }
                 curStartPos = i;
-                curEndPos = slen - 1;
+                curEndPos = slen;
                 lineWidth = 0;
-            }
-            else
+            } else
                 i++;
         }
 
         // Output the last line.
-        curEndPos = slen - 1;
+        curEndPos = slen;
         if (curStartPos <= curEndPos)
         {
             strLineStart[strLineCount] = curStartPos;

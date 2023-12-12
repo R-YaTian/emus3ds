@@ -72,6 +72,7 @@ This emulator uses the same user interface as VirtuaNES for 3DS, TemperPCE for 3
 ### v0.95c
 - Fully Simplified Chinese support, big thx to [xxxxst](https://github.com/xxxxst)
 - Now will sort files by Chinese Pinyin
+- UI: Improve line breaks, bug fix for "\n" as line breaks
 - Implement standard/ssf2 mapper. This fix "Demons Of Asteborg", "Astebros" and etc
 - Fix config saving
 - Fix crashing when exit from CIA version

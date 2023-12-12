@@ -163,6 +163,10 @@ ifneq ($(ROMFS),)
 	export _3DSXFLAGS += --romfs=$(APP_ROMFS)
 endif
 
+ifneq ($(RELEASE),)
+	CXXFLAGS += -DEMU_RELEASE
+endif
+
 #---------------------------------------------------------------------------------
 # OS detection to automatically determine the correct makerom variant to use for
 # CIA creation

@@ -55,6 +55,7 @@ It also runs on your New 3DS as well!
 ### v1.03c
 - Fully Simplified Chinese support, big thx to [xxxxst](https://github.com/xxxxst)
 - Now will sort files by Chinese Pinyin
+- UI: Improve line breaks, bug fix for "\n" as line breaks
 - Fix config saving
 - Fix crashing when exit from CIA version
 - Add embedded input redirect server to support 2 players, thx [CarlosEFML](https://github.com/CarlosEFML)
