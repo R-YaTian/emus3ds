@@ -180,8 +180,9 @@ static void finishSocketsIRED(void) {
         socExit();
 }
 
-void finishSysIRED(void) {
+void finishSysIRED(int sockfd) {
 #ifdef IRINITSOCKET
+        close(sockfd);
         finishSocketsIRED();
 #endif
 #ifdef IRINITSCREEN

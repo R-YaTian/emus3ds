@@ -38,7 +38,7 @@ typedef struct {
 
 void recvUDPPackIRED(int sock, ControlIRED *control);
 int createUDPIRED();
-void finishSysIRED();
+void finishSysIRED(int sockfd);
 int initSysIRED();
 
 #endif

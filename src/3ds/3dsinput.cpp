@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 
 #include "3dsemu.h"
@@ -6,9 +5,7 @@
 #include "3dsmain.h"
 #include "3dssound.h"
 #include "3dsinput.h"
-
 #include "3dsinterface.h"
-
 #include "inputRedirect.h"
 
 static u32 currKeysHeld = 0;
@@ -16,6 +13,10 @@ static u32 lastKeysHeld = 0;
 
 int sock2p = -1;
 ControlIRED control2P = {.buttons = 0};
+
+void finalizeIRED() {
+  if (sock2p != -1) finishSysIRED(sock2p);
+}
 
 void initIRED() {
   static int initedIRED = -1;

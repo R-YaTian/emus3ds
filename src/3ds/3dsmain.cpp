@@ -763,6 +763,8 @@ void emulatorFinalize()
     ptmSysmExit();
 
     disableAptHooks();
+    finalizeIRED();
+
 #ifndef EMU_RELEASE
     printf("romfsExit:\n");
 #endif
@@ -860,6 +862,7 @@ void emulatorLoop()
     long emuFrameTotalAccurateTicks = 0;
 
     bool firstFrame = true;
+    appSuspended = 0;
 
     gpu3dsResetState();
 
@@ -890,15 +893,16 @@ void emulatorLoop()
         startFrameTick = svcGetSystemTick();
         aptMainLoop();
 
-        if (appExiting)
+        if (appExiting || appSuspended)
             break;
 
         gpu3dsStartNewFrame();
         gpu3dsCheckSlider();
         updateFrameCount();
 
-    	input3dsScanInputForEmulation();
-			input3dsScanInputForEmulation2P();
+        input3dsScanInputForEmulation();
+        input3dsScanInputForEmulation2P();
+
         if (emulator.emulatorState != EMUSTATE_EMULATE)
             break;
 

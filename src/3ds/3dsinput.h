@@ -16,6 +16,7 @@
 #define BTN3DS_START    9
 
 
+void finalizeIRED();
 void initIRED();
 void input3dsScanInputForEmulation2P();
 u16 input3dsGetCurrentKeysHeld2P();
