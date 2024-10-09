@@ -20,7 +20,6 @@
 #include "3dsfiles.h"
 #include "3dsinterface.h"
 #include "3dsmain.h"
-#include "3dsasync.h"
 #include "3dsimpl.h"
 #include "3dsopt.h"
 #include "3dsconfig.h"

@@ -509,8 +509,8 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 
 
 	#define RENDER_BG_TILES \
-		register INT	c1 = ((chr_l>>1)&0x55)|(chr_h&0xAA); \
-		register INT	c2 = (chr_l&0x55)|((chr_h<<1)&0xAA); \
+		INT	c1 = ((chr_l>>1)&0x55)|(chr_h&0xAA); \
+		INT	c2 = (chr_l&0x55)|((chr_h<<1)&0xAA); \
 		u16 *tilePalette = &bgPalette[attr]; \
 		pScnRGBA[0] = tilePalette[(c1>>6)]; \
 		pScnRGBA[1] = tilePalette[(c2>>6)]; \
@@ -1049,8 +1049,8 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 		u16 	*pScnRGBA = &lpScreen16[512 * scanline + sp->x + 8];
 
 		if( !bExtMono ) {
-			register INT	c1 = ((chr_l>>1)&0x55)|(chr_h&0xAA); \
-			register INT	c2 = (chr_l&0x55)|((chr_h<<1)&0xAA); \
+			INT	c1 = ((chr_l>>1)&0x55)|(chr_h&0xAA); \
+			INT	c2 = (chr_l&0x55)|((chr_h<<1)&0xAA); \
 			/*
 			if( SPpat&0x80 ) pScn[0] = pSPPAL[(c1>>6)];
 			if( SPpat&0x08 ) pScn[4] = pSPPAL[(c1>>2)&3];
@@ -1155,8 +1155,8 @@ void	PPU::Scanline( INT scanline, BOOL bMax, BOOL bLeftClip )
 		// Monocrome effect (for Final Fantasy)
 			//BYTE	mono = BGmono[((sp->x&0xF8)+((loopy_shift+(sp->x&7))&8))>>3];
 
-			register INT	c1 = ((chr_l>>1)&0x55)|(chr_h&0xAA); \
-			register INT	c2 = (chr_l&0x55)|((chr_h<<1)&0xAA); \
+			INT	c1 = ((chr_l>>1)&0x55)|(chr_h&0xAA); \
+			INT	c2 = (chr_l&0x55)|((chr_h<<1)&0xAA); \
 			/*
 			if( SPpat&0x80 ) pScn[0] = pSPPAL[c1>>6]	|mono;
 			if( SPpat&0x08 ) pScn[4] = pSPPAL[(c1>>2)&3]	|mono;

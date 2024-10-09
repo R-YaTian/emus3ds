@@ -37,7 +37,6 @@ BUILD		:=	build
 SOURCES		:=	src
 DATA		:=	data
 INCLUDES	:=	include \
-			src/3ds/zlib \
 			src/3ds \
 			src/cores/ \
 			src/cores/virtuanes \
@@ -62,7 +61,7 @@ CFLAGS	:=	-g -O3 -mword-relocations -finline-limit=20000 \
 
 CFLAGS	+=	$(INCLUDE) -D__3DS__ -DHAVE_ASPRINTF -DUSE_FILE32API
 
-CXXFLAGS	:= $(CFLAGS)  -fno-exceptions -std=gnu++14
+CXXFLAGS	:= $(CFLAGS)  -fno-exceptions -std=gnu++23
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
@@ -94,7 +93,7 @@ export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 #CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 #CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 
-CFILES		:=	$(foreach file,$(notdir $(wildcard src/3ds/zlib/*.c)),			3ds/zlib/$(file))
+CFILES		:=
 
 CPPFILES	:=	$(foreach file,$(notdir $(wildcard src/3ds/*.cpp)),					3ds/$(file)) \
 			$(foreach file,$(notdir $(wildcard src/cores/virtuanes/*.cpp)),				cores/virtuanes/$(file)) \
@@ -204,7 +203,6 @@ all: $(BUILD) cia
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	[ -d build/3ds ] 				|| mkdir -p build/3ds
-	[ -d build/3ds/zlib ] 				|| mkdir -p build/3ds/zlib
 	[ -d build/cores/virtuanes ] 			|| mkdir -p build/cores/virtuanes
 	[ -d build/cores/virtuanes/3ds ] 		|| mkdir -p build/cores/virtuanes/3ds
 	[ -d build/cores/virtuanes/NES/apuex ] 		|| mkdir -p build/cores/virtuanes/NES/apuex

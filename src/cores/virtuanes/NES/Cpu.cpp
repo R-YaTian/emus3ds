@@ -1111,10 +1111,10 @@ BYTE	nmi_request, irq_request;
 BOOL	bClockProcess = m_bClockProcess;
 
 // TEMP
-register WORD	EA;
-register WORD	ET;
-register WORD	WT;
-register BYTE	DT;
+WORD	EA;
+WORD	ET;
+WORD	WT;
+BYTE	DT;
 
 	while( request_cycles > 0 ) {
 		exec_cycles = 0;

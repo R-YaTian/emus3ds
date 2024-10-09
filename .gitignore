@@ -1,5 +1,6 @@
 build/*
 releases/*
+.vscode/
 *.3dsx
 *.cia
 *.elf

@@ -280,12 +280,12 @@ void snd3dsStopPlaying()
 {
     if (snd3DS.isPlaying)
     {
-        snd3DS.isPlaying = false;
         CSND_SetPlayState(LEFT_CHANNEL, 0);
         CSND_SetPlayState(RIGHT_CHANNEL, 0);
 
         // Flush CSND command buffers
         csndExecCmds(true);
+        snd3DS.isPlaying = false;
     }
 }
 
