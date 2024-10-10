@@ -1061,51 +1061,6 @@ void impl3dsEmulationRunOneFrame(bool firstFrame, bool skipDrawingFrame)
 
 	skipDrawingPreviousFrame = skipDrawingFrame;
 	t3dsEndTiming(1);
-
-    /*
-    // Software rendering:
-    //
-    skipDrawingFrame = false;
-	t3dsStartTiming(1, "RunOneFrame");
-
-	t3dsStartTiming(10, "EmulateFrame");
-	{
-		impl3dsEmulationPollInput();
-
-		update_frame(skipDrawingFrame);
-        if (!skipDrawingFrame)
-			currentFrameIndex ^= 1;
-	}
-	t3dsEndTiming(10);
-
-	if (!skipDrawingPreviousFrame)
-	{
-		t3dsStartTiming(16, "Transfer");
-		gpu3dsTransferToScreenBuffer();
-		t3dsEndTiming(16);
-
-		t3dsStartTiming(19, "SwapBuffers");
-		gpu3dsSwapScreenBuffers();
-		t3dsEndTiming(19);
-	}
-
-	if (!skipDrawingFrame)
-	{
-		// Transfer current screen to the texture
-		impl3dsRenderTransferSoftRenderedScreenToTexture(
-			bufferRGBA[currentFrameIndex], currentFrameIndex);
-	}
-
-	if (!skipDrawingPreviousFrame)
-	{
-		// emuMainScreenTarget[prev] -> GPU3DS.framebuffer (not flushed)
-		impl3dsRenderDrawTextureToTopFrameBuffer(emuMainScreenTarget[currentFrameIndex ^ 1], 32, 16);
-        gpu3dsFlush();
-	}
-
-	skipDrawingPreviousFrame = skipDrawingFrame;
-	t3dsEndTiming(1);
-    */
 }
 
 

@@ -24,14 +24,13 @@
 #include "3dsconfig.h"
 #include "3dsfiles.h"
 #include "3dsinput.h"
-#include "3dslodepng.h"
 #include "3dsmenu.h"
 #include "3dsmain.h"
 #include "3dsdbg.h"
-
 #include "3dsinterface.h"
 #include "3dscheat.h"
 
+#include "lodepng.h"
 
 SEmulator emulator;
 
