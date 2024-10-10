@@ -61,14 +61,4 @@
     static void dbgprintf4 (const char *format, int a, int b, int c, int d) {}
 #endif
 
-
-#define CLEAR_BOTTOM_SCREEN \
-    gfxSetDoubleBuffering(GFX_BOTTOM,false); \
-    gfxSwapBuffers(); \
-    consoleInit(GFX_BOTTOM, NULL); \
-    consoleClear(); \
-
-
-
 #endif
-

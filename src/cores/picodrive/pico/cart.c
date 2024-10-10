@@ -9,9 +9,7 @@
 
 #include "pico_int.h"
 #include "../cpu/debug.h"
-//#include "../unzip/unzip.h"
-//#include <zlib.h>
-#include "../zlib/zlib.h"
+#include <zlib.h>
 
 #include "3dsdbg.h"
 

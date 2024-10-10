@@ -3,39 +3,44 @@ BasicInfo:
   CompanyCode            : "00"
   ProductCode            : "CTR-P-VNES"
   ContentType            : Application
-  Logo                  : Nintendo # Nintendo / Licensed / Distributed / iQue / iQueForSystem
+  Logo                   : Nintendo # Nintendo / Licensed / Distributed / iQue / iQueForSystem
 
 RomFs:
   # Specifies the root path of the file system to include in the ROM.
   RootPath                : $(APP_ROMFS)
 
 TitleInfo:
-  UniqueId                : 0x384a
   Category                : Application
+  UniqueId                : 0x384a
 
 Option:
-  UseOnSD                : true # true if App is to be installed to SD
-  FreeProductCode        : true # Removes limitations on ProductCode
+  UseOnSD                 : true # true if App is to be installed to SD
+  FreeProductCode         : true # Removes limitations on ProductCode
   MediaFootPadding        : false # If true CCI files are created with padding
-  EnableCrypt            : false # Enables encryption for NCCH and CIA
+  EnableCrypt             : false # Enables encryption for NCCH and CIA
   EnableCompress          : true # Compresses exefs code
 
 AccessControlInfo:
-  # UseOtherVariationSaveData : true
-  # UseExtSaveData : true
-  # ExtSaveDataId: 0xffffffff
-  # SystemSaveDataId1: 0x220
-  # SystemSaveDataId2: 0x00040010
-  # OtherUserSaveDataId1: 0x220
-  # OtherUserSaveDataId2: 0x330
-  # OtherUserSaveDataId3: 0x440
-  # UseExtendedSaveDataAccessControl: true
-  # AccessibleSaveDataIds: [0x101, 0x202, 0x303, 0x404, 0x505, 0x606]
+  CoreVersion                   : 2
+
+  # Exheader Format Version
+  DescVersion                   : 2
+
+  # Minimum Required Kernel Version (below is for 4.5.0)
+  ReleaseKernelMajor            : "02"
+  ReleaseKernelMinor            : "33" 
+
+  # ExtData
+  UseExtSaveData                : false # enables ExtData       
+  #ExtSaveDataId                : 0x300 # only set this when the ID is different to the UniqueId
+
+  # FS:USER Archive Access Permissions
+  # Uncomment as required
   FileSystemAccess:
   # - CategorySystemApplication
   # - CategoryHardwareCheck
-  # - CategoryFileSystemTool
-  - Debug
+  - CategoryFileSystemTool
+  # - Debug
   # - TwlCardBackup
   # - TwlNandData
   # - Boss
@@ -63,30 +68,25 @@ AccessControlInfo:
   # - CreateSeed
   # - UseCardSpi
 
+  MemoryType                    : Application # Application / System / Base
   IdealProcessor                : 0
   AffinityMask                  : 1
 
   Priority                      : 16
-
-  MaxCpu                        : 0x9E # Default
+  MaxCpu                        : 0
+  HandleTableSize               : 512
 
   DisableDebug                  : false
   EnableForceDebug              : false
-  CanWriteSharedPage            : false
+  CanWriteSharedPage            : true
   CanUsePrivilegedPriority      : false
-  CanUseNonAlphabetAndNumber    : false
-  PermitMainFunctionArgument    : false
-  CanShareDeviceMemory          : false
-  RunnableOnSleep              : false
-  SpecialMemoryArrange          : false
+  CanUseNonAlphabetAndNumber    : true
+  PermitMainFunctionArgument    : true
+  CanShareDeviceMemory          : true
+  RunnableOnSleep               : false
+  SpecialMemoryArrange          : true
 
-  CoreVersion                  : 2
-  DescVersion                  : 2
-
-  ReleaseKernelMajor            : "02"
-  ReleaseKernelMinor            : "33"
-  MemoryType                    : Application # Application / System / Base
-  HandleTableSize: 512
+  # Virtual Address Mappings
   IORegisterMapping:
   - 1ff50000-1ff57fff
   - 1ff70000-1ff77fff
@@ -94,6 +94,7 @@ AccessControlInfo:
   - 1f000000-1f5fffff:r
   SystemCallAccess:
     ArbitrateAddress: 34
+    Backdoor: 123
     Break: 60
     CancelTimer: 28
     ClearEvent: 25
@@ -101,6 +102,7 @@ AccessControlInfo:
     CloseHandle: 35
     ConnectToPort: 45
     ControlMemory: 1
+    ControlProcessMemory: 112
     CreateAddressArbiter: 33
     CreateEvent: 23
     CreateMemoryBlock: 30
@@ -144,7 +146,9 @@ AccessControlInfo:
     UnmapMemoryBlock: 32
     WaitSynchronization1: 36
     WaitSynchronizationN: 37
-  InterruptNumbers:
+
+  # Service List
+  # Maximum 34 services (32 if firmware is prior to 9.6.0)
   ServiceAccessControl:
   - APT:U
   - $hioFIO
@@ -180,10 +184,13 @@ AccessControlInfo:
   - ir:rst
 
 SystemControlInfo:
-  SaveDataSize: 128KB # It doesn't use any save data.
-  RemasterVersion: 0
+  SaveDataSize: 0KB # Change if the app uses savedata
+  RemasterVersion: 2
   StackSize: 0x40000
-  # JumpId: 0
+
+  # Modules that run services listed above should be included below
+  # Maximum 48 dependencies
+  # <module name>:<module titleid>
   Dependency:
     ac: 0x0004013000002402L
     am: 0x0004013000001502L

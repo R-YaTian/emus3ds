@@ -37,7 +37,6 @@ BUILD		:=	build
 SOURCES		:=	src
 DATA		:=	data
 INCLUDES	:=	include \
-			src/3ds/zlib \
 			src/3ds \
 			src/cores/ \
 			src/cores/temperpce/ \
@@ -92,8 +91,7 @@ export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 
 SFILES		:=	$(foreach file,$(notdir $(wildcard src/cores/temperpce/*.s)),			cores/temperpce/$(file)) \
 
-CFILES		:=	$(foreach file,$(notdir $(wildcard src/3ds/zlib/*.c)),				3ds/zlib/$(file)) \
-			$(foreach file,$(notdir $(wildcard src/cores/temperpce/*.c)),			cores/temperpce/$(file)) \
+CFILES		:=	$(foreach file,$(notdir $(wildcard src/cores/temperpce/*.c)),			cores/temperpce/$(file)) \
 			$(foreach file,$(notdir $(wildcard src/cores/temperpce/3ds/*.c)),		cores/temperpce/3ds/$(file)) \
 
 CPPFILES	:=	$(foreach file,$(notdir $(wildcard src/3ds/*.cpp)),				3ds/$(file)) \
@@ -199,7 +197,6 @@ $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	[ -d build/3ds ] 				|| mkdir -p build/3ds
 	[ -d build/3ds/arm ] 				|| mkdir -p build/3ds/arm
-	[ -d build/3ds/zlib ] 				|| mkdir -p build/3ds/zlib
 	[ -d build/cores/temperpce ] 			|| mkdir -p build/cores/temperpce
 	[ -d build/cores/temperpce/3ds ] 		|| mkdir -p build/cores/temperpce/3ds
 	[ -d build/cores/temperpce/arm ] 		|| mkdir -p build/cores/temperpce/arm

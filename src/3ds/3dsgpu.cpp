@@ -14,8 +14,6 @@
 #include "3dsfiles.h"
 #include "3dsmain.h"
 #include "3dsemu.h"
-#include "gpulib.h"
-
 #include "3dsinterface.h"
 
 #ifndef M_PI
@@ -27,9 +25,6 @@ bool somethingWasFlushed = false;
 
 extern "C" u32 __ctru_linear_heap;
 extern "C" u32 __ctru_linear_heap_size;
-
-extern "C" void gfxSetFramebufferInfo(gfxScreen_t screen, u8 id);
-extern "C" void gfxWriteFramebufferInfo(gfxScreen_t screen);
 
 bool isNew3DS = false;
 
@@ -92,7 +87,6 @@ int textureVertexShaderRegister = 0;
 int textureGeometryShaderRegister = 0;
 int textureOffsetVertexShaderRegister = 0;
 
-
 u32 vertexListBufferOffsets[1] = { 0 };
 u64 vertexListAttribPermutations[1] = { 0x3210 };
 u8 vertexListNumberOfAttribs[1] = { 2 };
@@ -140,16 +134,14 @@ inline void gpu3dsSetAttributeBuffers(
 
 }
 
-
-
 //---------------------------------------------------------
 // Enables / disables the parallax barrier
 // Taken from RetroArch
 //---------------------------------------------------------
 void gpu3dsSetParallaxBarrier(bool enable)
 {
-   u32 reg_state = enable ? 0x00010001: 0x0;
-   GSPGPU_WriteHWRegs(0x202000, &reg_state, 4);
+    u32 reg_state = enable ? 0x00010001: 0x0;
+    GSPGPU_WriteHWRegs(0x202000, &reg_state, 4);
 }
 
 
@@ -160,52 +152,27 @@ void gpu3dsSetParallaxBarrier(bool enable)
 float prevSliderVal = -1;
 void gpu3dsCheckSlider()
 {
-  float sliderVal = *(float*)0x1FF81080;
+    float sliderVal = *(float*)0x1FF81080;
 
-  if (sliderVal != prevSliderVal)
-  {
-      if (sliderVal < 0.6)
-      {
-          gpu3dsSetParallaxBarrier(false);
-      }
-      else
-      {
-          gpu3dsSetParallaxBarrier(true);
-      }
+    if (sliderVal != prevSliderVal)
+    {
+        if (sliderVal < 0.6)
+        {
+            gpu3dsSetParallaxBarrier(false);
+        }
+        else
+        {
+            gpu3dsSetParallaxBarrier(true);
+        }
 
-      gfxScreenSwapBuffers(GFX_TOP, false);
-  }
-  prevSliderVal = sliderVal;
-}
-
-void gpu3dsEnableDepthTestAndWriteColorAlphaOnly()
-{
-	GPU_SetDepthTestAndWriteMask(true, GPU_GEQUAL, (GPU_WRITEMASK)(GPU_WRITE_COLOR | GPU_WRITE_ALPHA));
-}
-
-void gpu3dsEnableDepthTestAndWriteRedOnly()
-{
-	GPU_SetDepthTestAndWriteMask(true, GPU_GEQUAL, (GPU_WRITEMASK)(GPU_WRITE_RED));
+        gfxScreenSwapBuffers(GFX_TOP, false);
+    }
+    prevSliderVal = sliderVal;
 }
 
 void gpu3dsEnableDepthTest()
 {
 	GPU_SetDepthTestAndWriteMask(true, GPU_GEQUAL, GPU_WRITE_ALL);
-}
-
-void gpu3dsDisableDepthTestAndWriteColorAlphaOnly()
-{
-	GPU_SetDepthTestAndWriteMask(false, GPU_NEVER, (GPU_WRITEMASK)(GPU_WRITE_COLOR | GPU_WRITE_ALPHA));
-}
-
-void gpu3dsDisableDepthTestAndWriteColorOnly()
-{
-	GPU_SetDepthTestAndWriteMask(false, GPU_NEVER, (GPU_WRITEMASK)(GPU_WRITE_COLOR));
-}
-
-void gpu3dsDisableDepthTestAndWriteRedOnly()
-{
-	GPU_SetDepthTestAndWriteMask(false, GPU_NEVER, (GPU_WRITEMASK)(GPU_WRITE_RED));
 }
 
 void gpu3dsDisableDepthTest()
@@ -250,8 +217,6 @@ void gpu3dsSetTextureEnvironmentReplaceColor()
 	);
 
 	gpu3dsClearTextureEnv(1);
-	//gpu3dsClearTextureEnv(2);
-	//gpu3dsClearTextureEnv(3);
 }
 
 void gpu3dsSetTextureEnvironmentReplaceColorButKeepAlpha()
@@ -267,8 +232,6 @@ void gpu3dsSetTextureEnvironmentReplaceColorButKeepAlpha()
 	);
 
 	gpu3dsClearTextureEnv(1);
-	//gpu3dsClearTextureEnv(2);
-	//gpu3dsClearTextureEnv(3);
 }
 
 void gpu3dsSetTextureEnvironmentReplaceTexture0()
@@ -284,8 +247,6 @@ void gpu3dsSetTextureEnvironmentReplaceTexture0()
 	);
 
 	gpu3dsClearTextureEnv(1);
-	//gpu3dsClearTextureEnv(2);
-	//gpu3dsClearTextureEnv(3);
 }
 
 void gpu3dsSetTextureEnvironmentReplaceTexture0WithColorAlpha()
@@ -301,8 +262,6 @@ void gpu3dsSetTextureEnvironmentReplaceTexture0WithColorAlpha()
 	);
 
 	gpu3dsClearTextureEnv(1);
-	//gpu3dsClearTextureEnv(2);
-	//gpu3dsClearTextureEnv(3);
 }
 
 void gpu3dsSetTextureEnvironmentReplaceTexture0WithFullAlpha()
@@ -318,8 +277,6 @@ void gpu3dsSetTextureEnvironmentReplaceTexture0WithFullAlpha()
 	);
 
 	gpu3dsClearTextureEnv(1);
-	//gpu3dsClearTextureEnv(2);
-	//gpu3dsClearTextureEnv(3);
 }
 
 void gpu3dsSetTextureEnvironmentReplaceTexture0WithConstantAlpha(uint8 alpha)
@@ -335,19 +292,6 @@ void gpu3dsSetTextureEnvironmentReplaceTexture0WithConstantAlpha(uint8 alpha)
 	);
 
 	gpu3dsClearTextureEnv(1);
-	//gpu3dsClearTextureEnv(2);
-	//gpu3dsClearTextureEnv(3);
-}
-
-
-
-static inline u32 gpu3dsMortonInterleave(u32 x, u32 y)
-{
-	u32 i = (x & 7) | ((y & 7) << 8); // ---- -210
-	i = (i ^ (i << 2)) & 0x1313;      // ---2 --10
-	i = (i ^ (i << 1)) & 0x1515;      // ---2 -1-0
-	i = (i | (i >> 7)) & 0x3F;
-	return i;
 }
 
 
@@ -488,7 +432,146 @@ void gpu3dsDrawVertexList(SVertexList *list, GPU_Primitive_t type, int fromIndex
 }
 
 
+bool gpu3dsInitialize()
+{
+    // Initialize the 3DS screen
+    //
+    GPU3DS.screenFormat = GSP_RGBA8_OES;
+    gfxInit(GPU3DS.screenFormat, GPU3DS.screenFormat, false);
+	gfxSet3D(true);
 
+    bool val = 0;
+    APT_CheckNew3DS(&val);
+    isNew3DS = (val != 0);
+
+    // Create the frame and depth buffers for the top screen.
+    //
+    GPU3DS.frameBufferFormat = GPU_RGBA8;
+	GPU3DS.frameBuffer = (u32 *) vramMemAlign(400*240*8, 0x100);
+	GPU3DS.frameDepthBuffer = (u32 *) vramMemAlign(400*240*8, 0x100);
+    if (GPU3DS.frameBuffer == NULL ||
+        GPU3DS.frameDepthBuffer == NULL)
+    {
+        printf ("Unable to allocate frame/depth buffers\n");
+        return false;
+    }
+
+	// GX_MemoryFill(
+  	// 	GPU3DS.frameBuffer, 0, &GPU3DS.frameBuffer[240*400],
+    //     GX_FILL_TRIGGER | GX_FILL_32BIT_DEPTH,
+    //     //NULL, 0, NULL, 0);
+  	// 	GPU3DS.frameDepthBuffer, 0, &GPU3DS.frameDepthBuffer[240*400],
+    //     GX_FILL_TRIGGER | GX_FILL_32BIT_DEPTH);
+    // gspWaitForPSC0();
+
+    // Initialize the bottom screen for console output.
+    //
+    consoleInit(GFX_BOTTOM, NULL);
+
+    // Create the command buffers
+    //
+    gpuCommandBufferSize = COMMAND_BUFFER_SIZE;
+    gpuCommandBuffer1 = (u32 *)linearAlloc(COMMAND_BUFFER_SIZE / 2);
+    gpuCommandBuffer2 = (u32 *)linearAlloc(COMMAND_BUFFER_SIZE / 2);
+    if (gpuCommandBuffer1 == NULL || gpuCommandBuffer2 == NULL)
+        return false;
+    GPUCMD_SetBuffer(gpuCommandBuffer1, gpuCommandBufferSize, 0);
+    gpuCurrentCommandBuffer = 0;
+
+#ifndef EMU_RELEASE
+    printf ("Buffer: %8x\n", (u32) gpuCommandBuffer1);
+#endif
+
+#ifdef EMU_RELEASE
+    emulator.isReal3DS = true;
+#else
+    if (file3dsGetCurrentDir()[0] != '/')
+        emulator.isReal3DS = true;
+    else
+        emulator.isReal3DS = false;
+#endif
+
+    // Initialize the projection matrix for the top / bottom
+    // screens
+    //
+	matrix3dsInitOrthographic(GPU3DS.projectionTopScreen,
+        0.0f, 400.0f, 0.0f, 240.0f, 0.0f, 1.0f);
+	matrix3dsInitOrthographic(GPU3DS.projectionBottomScreen,
+        0.0f, 320.0f, 0.0f, 240.0f, 0.0f, 1.0f);
+
+    // Initialize all shaders to empty
+    //
+    for (int i = 0; i < 10; i++)
+    {
+        GPU3DS.shaders[i].dvlb = NULL;
+    }
+
+    // Initialize texture offsets for hi-res
+    //
+    gpu3dsSetTextureOffset(0, 0);
+
+#ifndef EMU_RELEASE
+    printf ("gpu3dsInitialize - Allocate buffers\n");
+#endif
+
+#ifndef EMU_RELEASE
+    printf ("gpu3dsInitialize - Set GPU statuses\n");
+#endif
+	//GPUCMD_SetBufferOffset(0);
+    gpu3dsSetRenderTargetToTopFrameBuffer(true);
+
+	GPU_DepthMap(-1.0f, 0.0f);
+	GPU_SetDepthTestAndWriteMask(false, GPU_GEQUAL, GPU_WRITE_ALL);
+
+	GPUCMD_AddMaskedWrite(GPUREG_EARLYDEPTH_TEST1, 0x1, 0);
+	GPUCMD_AddWrite(GPUREG_EARLYDEPTH_TEST2, 0);
+    GPUCMD_AddWrite(GPUREG_FACECULLING_CONFIG, GPU_CULL_NONE&0x3);
+
+	GPU_SetStencilTest(false, GPU_ALWAYS, 0x00, 0xFF, 0x00);
+	GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, GPU_STENCIL_KEEP);
+
+	GPU_SetBlendingColor(0,0,0,0);
+	GPU_SetAlphaBlending(
+		GPU_BLEND_ADD,
+		GPU_BLEND_ADD,
+		GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA,
+		GPU_ONE, GPU_ZERO
+	);
+	gpu3dsEnableAlphaTestNotEqualsZero();
+    GPUCMD_AddWrite(GPUREG_TEXUNIT0_BORDER_COLOR, 0);
+    gpu3dsSetTextureEnvironmentReplaceTexture0();
+    gpu3dsFlush();
+    gpu3dsWaitForPreviousFlush();
+
+    return true;
+}
+
+
+void gpu3dsFinalize()
+{
+    // Bug fix: Free up all shaders' DVLB
+    //
+    // Initialize all shaders to empty
+    //
+    for (int i = 0; i < 10; i++)
+    {
+        if (GPU3DS.shaders[i].dvlb)
+            DVLB_Free(GPU3DS.shaders[i].dvlb);
+    }
+
+    // Bug fix: free the frame buffers!
+    if (GPU3DS.frameBuffer) vramFree(GPU3DS.frameBuffer);
+    if (GPU3DS.frameDepthBuffer) vramFree(GPU3DS.frameDepthBuffer);
+
+    LINEARFREE_SAFE(gpuCommandBuffer1);
+    LINEARFREE_SAFE(gpuCommandBuffer2);
+
+#ifndef EMU_RELEASE
+    printf("gfxExit:\n");
+#endif
+
+	gfxExit();
+}
 
 void gpu3dsEnableAlphaTestNotEqualsZero()
 {
@@ -645,11 +728,11 @@ void gpu3dsStartNewFrame()
 
     if (gpuCurrentCommandBuffer == 0)
     {
-      GPUCMD_SetBuffer(gpuCommandBuffer1, gpuCommandBufferSize, 0);
+        GPUCMD_SetBuffer(gpuCommandBuffer1, gpuCommandBufferSize, 0);
     }
     else
     {
-      GPUCMD_SetBuffer(gpuCommandBuffer2, gpuCommandBufferSize, 0);
+        GPUCMD_SetBuffer(gpuCommandBuffer2, gpuCommandBufferSize, 0);
     }
 }
 
@@ -829,12 +912,11 @@ void gpu3dsEnableSubtractiveDiv2Blending()
 
 void gpu3dsResetState()
 {
-	//sf2d_pool_reset();
-    GPU3DS.currentShader = -1;
-	GPUCMD_SetBufferOffset(0);
+    //GPU3DS.currentShader = -1;
+	//GPUCMD_SetBufferOffset(0);
 
 	GPU_DepthMap(-1.0f, 0.0f);
-  GPUCMD_AddWrite(GPUREG_FACECULLING_CONFIG, GPU_CULL_NONE&0x3);
+    GPUCMD_AddWrite(GPUREG_FACECULLING_CONFIG, GPU_CULL_NONE&0x3);
 	GPU_SetStencilTest(false, GPU_ALWAYS, 0x00, 0xFF, 0x00);
 	GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, GPU_STENCIL_KEEP);
 	GPU_SetBlendingColor(0,0,0,0);
@@ -877,26 +959,9 @@ supports only the following frame buffer format types:
 const uint32 GPUREG_COLORBUFFER_FORMAT_VALUES[5] = { 0x0002, 0x00010001, 0x00020000, 0x00030000, 0x00040000 };
 
 
-void gpu3dsInitializeRenderTargetToTopFrameBuffer()
+void gpu3dsSetRenderTargetToTopFrameBuffer(bool initialize)
 {
-    GPU_SetFloatUniform(GPU_VERTEX_SHADER, renderTargetVertexShaderRegister, (u32 *)GPU3DS.projectionTopScreen, 4);
-    GPU_SetFloatUniform(GPU_GEOMETRY_SHADER, renderTargetGeometryShaderRegister, (u32 *)GPU3DS.projectionTopScreen, 4);
-
-    GPU3DS.currentRenderTarget = NULL;
-
-    GPU_SetViewport(
-        //(u32 *)osConvertVirtToPhys(GPU3DS.frameDepthBuffer),
-        GPU3DS.frameDepthBuffer == NULL ? NULL : (u32 *)osConvertVirtToPhys(GPU3DS.frameDepthBuffer),
-        (u32 *)osConvertVirtToPhys(GPU3DS.frameBuffer),
-        0, 0, 240, 400);
-
-    GPUCMD_AddSingleParam(0x000F0117, GPUREG_COLORBUFFER_FORMAT_VALUES[GPU3DS.frameBufferFormat]); //color buffer format
-}
-
-
-void gpu3dsSetRenderTargetToTopFrameBuffer()
-{
-    if (GPU3DS.currentRenderTarget != NULL)
+    if (initialize || GPU3DS.currentRenderTarget != NULL)
     {
         GPU_SetFloatUniform(GPU_VERTEX_SHADER, renderTargetVertexShaderRegister, (u32 *)GPU3DS.projectionTopScreen, 4);
         GPU_SetFloatUniform(GPU_GEOMETRY_SHADER, renderTargetGeometryShaderRegister, (u32 *)GPU3DS.projectionTopScreen, 4);
@@ -965,34 +1030,9 @@ void gpu3dsSetRenderTargetToTextureSpecific(SGPUTexture *texture, SGPUTexture *d
     GPUCMD_AddSingleParam(0x000F0117, GPUREG_COLORBUFFER_FORMAT_VALUES[texture->PixelFormat]); //color buffer format
 }
 
-
-extern Handle gspEvents[GSPGPU_EVENT_MAX];
-
-bool gpu3dsCheckEvent(GSPGPU_Event id)
-{
-	Result res = svcWaitSynchronization(gspEvents[id], 0);
-	if (!res)
-	{
-		svcClearEvent(gspEvents[id]);
-		return true;
-	}
-
-	return false;
-}
-
-
-void gpu3dsWaitEvent(GSPGPU_Event id, u64 timeInMilliseconds)
-{
-	//Result res = svcWaitSynchronization(gspEvents[id], timeInMilliseconds * 1000000);
-	//if (!res)
-	//	svcClearEvent(gspEvents[id]);
-    svcWaitSynchronization(gspEvents[id], timeInMilliseconds * 1000000);
-	svcClearEvent(gspEvents[id]);
-}
-
 void gpu3dsFlush()
 {
-  u32* commandBuffer;
+    u32* commandBuffer;
 	u32  commandBuffer_size;
 
 	if(somethingWasDrawn) {
@@ -1007,9 +1047,6 @@ void gpu3dsFlush()
 
     somethingWasFlushed = true;
     somethingWasDrawn = false;
-
-
-
 }
 
 void gpu3dsWaitForPreviousFlush()
@@ -1022,10 +1059,6 @@ void gpu3dsWaitForPreviousFlush()
     }
 
 }
-
-
-
-//extern     u32 *gpu_fb_addr;
 
 /*
 Translate from the following GPU_TEXCOLOR to their respective GX_TRANSFER_FMT values.
@@ -1050,10 +1083,9 @@ const uint32 GX_TRANSFER_SCREEN_FORMAT_VALUES[5]= {
     GX_TRANSFER_FMT_RGBA8, GX_TRANSFER_FMT_RGB8, GX_TRANSFER_FMT_RGB565, GX_TRANSFER_FMT_RGB5A1, GX_TRANSFER_FMT_RGBA4 };
 
 
-void gpu3dsTransferToScreenBuffer(bool waitFor3D)
+void gpu3dsTransferToScreenBuffer()
 {
-    if (waitFor3D)
-        gpu3dsWaitForPreviousFlush();
+    gpu3dsWaitForPreviousFlush();
 
     GX_DisplayTransfer(GPU3DS.frameBuffer, GX_BUFFER_DIM(240, 400),
         (u32 *)gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL),
@@ -1064,8 +1096,8 @@ void gpu3dsTransferToScreenBuffer(bool waitFor3D)
 
 void gpu3dsSwapScreenBuffers()
 {
-	gfxSwapBuffersGpu();
-    //sf2d_pool_reset();
+    gfxScreenSwapBuffers(GFX_TOP, false);
+    gfxScreenSwapBuffers(GFX_BOTTOM, false);
 }
 
 
@@ -1122,154 +1154,4 @@ void gpu3dsSetTextureOffset(float u, float v)
     GPU3DS.textureOffset[3] = u;
     GPU3DS.textureOffset[2] = v;
     GPU_SetFloatUniform(GPU_VERTEX_SHADER, textureOffsetVertexShaderRegister, (u32 *)GPU3DS.textureOffset, 1);
-}
-
-
-
-bool gpu3dsInitialize()
-{
-    // Initialize the 3DS screen
-    //
-    //gfxInit	(GSP_RGB5_A1_OES, GSP_RGB5_A1_OES, false);
-    //GPU3DS.screenFormat = GSP_RGBA8_OES;
-    GPU3DS.screenFormat = GSP_RGBA8_OES;
-    gfxInit	(GPU3DS.screenFormat, GPU3DS.screenFormat, false);
-	gfxSet3D(true);
-
-    bool val = 0;
-    APT_CheckNew3DS(&val);
-    isNew3DS = (val != 0);
-
-    // Create the frame and depth buffers for the top screen.
-    //
-    GPU3DS.frameBufferFormat = GPU_RGBA8;
-	GPU3DS.frameBuffer = (u32 *) vramMemAlign(400*240*8, 0x100);
-	GPU3DS.frameDepthBuffer = (u32 *) vramMemAlign(400*240*8, 0x100);
-    if (GPU3DS.frameBuffer == NULL ||
-        GPU3DS.frameDepthBuffer == NULL)
-    {
-        printf ("Unable to allocate frame/depth buffers\n");
-        return false;
-    }
-
-	GX_MemoryFill(
-  		GPU3DS.frameBuffer, 0, &GPU3DS.frameBuffer[240*400],
-        GX_FILL_TRIGGER | GX_FILL_32BIT_DEPTH,
-        //NULL, 0, NULL, 0);
-  		GPU3DS.frameDepthBuffer, 0, &GPU3DS.frameDepthBuffer[240*400],
-        GX_FILL_TRIGGER | GX_FILL_32BIT_DEPTH);
-    gspWaitForPSC0();
-
-    // Initialize the bottom screen for console output.
-    //
-    consoleInit(GFX_BOTTOM, NULL);
-
-    // Create the command buffers
-    //
-    gpuCommandBufferSize = COMMAND_BUFFER_SIZE;
-    gpuCommandBuffer1 = (u32 *)linearAlloc(COMMAND_BUFFER_SIZE / 2);
-    gpuCommandBuffer2 = (u32 *)linearAlloc(COMMAND_BUFFER_SIZE / 2);
-    if (gpuCommandBuffer1 == NULL || gpuCommandBuffer2 == NULL)
-        return false;
-  GPUCMD_SetBuffer(gpuCommandBuffer1, gpuCommandBufferSize, 0);
-    gpuCurrentCommandBuffer = 0;
-
-#ifndef EMU_RELEASE
-    printf ("Buffer: %8x\n", (u32) gpuCommandBuffer1);
-#endif
-
-#ifdef EMU_RELEASE
-    emulator.isReal3DS = true;
-#else
-    if (file3dsGetCurrentDir()[0] != '/')
-        emulator.isReal3DS = true;
-    else
-        emulator.isReal3DS = false;
-#endif
-
-    // Initialize the projection matrix for the top / bottom
-    // screens
-    //
-	matrix3dsInitOrthographic(GPU3DS.projectionTopScreen,
-        0.0f, 400.0f, 0.0f, 240.0f, 0.0f, 1.0f);
-	matrix3dsInitOrthographic(GPU3DS.projectionBottomScreen,
-        0.0f, 320.0f, 0.0f, 240.0f, 0.0f, 1.0f);
-
-    // Initialize all shaders to empty
-    //
-    for (int i = 0; i < 10; i++)
-    {
-        GPU3DS.shaders[i].dvlb = NULL;
-    }
-
-    // Initialize texture offsets for hi-res
-    //
-    gpu3dsSetTextureOffset(0, 0);
-
-#ifndef EMU_RELEASE
-    printf ("gpu3dsInitialize - Allocate buffers\n");
-#endif
-
-#ifndef EMU_RELEASE
-    printf ("gpu3dsInitialize - Set GPU statuses\n");
-#endif
-	GPUCMD_SetBufferOffset(0);
-    gpu3dsInitializeRenderTargetToTopFrameBuffer();
-
-	GPU_DepthMap(-1.0f, 0.0f);
-	GPU_SetDepthTestAndWriteMask(false, GPU_GEQUAL, GPU_WRITE_ALL);
-	GPUCMD_AddMaskedWrite(GPUREG_EARLYDEPTH_TEST1, 0x1, 0);
-	GPUCMD_AddWrite(GPUREG_EARLYDEPTH_TEST2, 0);
-
-  GPUCMD_AddWrite(GPUREG_FACECULLING_CONFIG, GPU_CULL_NONE&0x3);
-	GPU_SetStencilTest(false, GPU_ALWAYS, 0x00, 0xFF, 0x00);
-	GPU_SetStencilOp(GPU_STENCIL_KEEP, GPU_STENCIL_KEEP, GPU_STENCIL_KEEP);
-
-	GPU_SetBlendingColor(0,0,0,0);
-	GPU_SetAlphaBlending(
-		GPU_BLEND_ADD,
-		GPU_BLEND_ADD,
-		GPU_SRC_ALPHA, GPU_ONE_MINUS_SRC_ALPHA,
-		GPU_ONE, GPU_ZERO
-	);
-	gpu3dsEnableAlphaTestNotEqualsZero();
-  GPUCMD_AddWrite(GPUREG_TEXUNIT0_BORDER_COLOR, 0);
-
-    gpu3dsSetTextureEnvironmentReplaceTexture0();
-
-//	GPUCMD_Finalize();
-	//GPUCMD_FlushAndRun();
-    //gspWaitForP3D();
-
-    gpu3dsFlush();
-    gpu3dsWaitForPreviousFlush();
-
-    return true;
-}
-
-
-void gpu3dsFinalize()
-{
-    // Bug fix: Free up all shaders' DVLB
-    //
-    // Initialize all shaders to empty
-    //
-    for (int i = 0; i < 10; i++)
-    {
-        if (GPU3DS.shaders[i].dvlb)
-            DVLB_Free(GPU3DS.shaders[i].dvlb);
-    }
-
-    // Bug fix: free the frame buffers!
-    if (GPU3DS.frameBuffer) vramFree(GPU3DS.frameBuffer);
-    if (GPU3DS.frameDepthBuffer) vramFree(GPU3DS.frameDepthBuffer);
-
-    LINEARFREE_SAFE(gpuCommandBuffer1);
-    LINEARFREE_SAFE(gpuCommandBuffer2);
-
-#ifndef EMU_RELEASE
-    printf("gfxExit:\n");
-#endif
-
-	gfxExit();
 }

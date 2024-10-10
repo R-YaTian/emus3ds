@@ -103,7 +103,7 @@ void menu3dsSwapBuffersAndWaitForVBlank()
     if (swapBuffer)
     {
         gfxFlushBuffers();
-        gfxSwapBuffers();
+        gpu3dsSwapScreenBuffers();
         gspWaitForVBlank();
     }
     else

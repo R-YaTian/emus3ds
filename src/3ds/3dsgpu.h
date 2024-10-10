@@ -3,6 +3,7 @@
 #define _3DSGPU_H_
 
 #include <3ds.h>
+#include "gpulib.h"
 #include "3dsmatrix.h"
 #include "3dstypes.h"
 
@@ -61,7 +62,7 @@ typedef struct
 
 typedef struct
 {
-    GSPGPU_FramebufferFormat   screenFormat;
+    GSPGPU_FramebufferFormat    screenFormat;
     GPU_TEXCOLOR                frameBufferFormat;
 
     u32                 *frameBuffer;
@@ -98,9 +99,6 @@ extern SGPU3DS GPU3DS;
 bool gpu3dsInitialize();
 void gpu3dsFinalize();
 
-void gpu3dsWaitEvent(GSPGPU_Event id, u64 timeInMilliseconds);
-
-void gpu3dsSetParallaxBarrier(bool enable);
 void gpu3dsCheckSlider();
 
 void gpu3dsAllocVertexList(SVertexList *list, int sizeInBytes, int vertexSize,
@@ -115,10 +113,6 @@ void gpu3dsDestroyTextureFromVRAM(SGPUTexture *texture);
 int gpu3dsGetPixelSize(GPU_TEXCOLOR pixelFormat);
 
 void gpu3dsStartNewFrame();
-
-void gpu3dsCopyVRAMTilesIntoMode7TileVertexes(uint8 *VRAM);
-void gpu3dsIncrementMode7UpdateFrameCount();
-
 void gpu3dsResetState();
 
 void gpu3dsInitializeShaderRegistersForRenderTarget(int vertexShaderRegister, int geometryShaderRegister);
@@ -128,15 +122,14 @@ void gpu3dsInitializeShaderRegistersForTextureOffset(int vertexShaderRegister);
 void gpu3dsLoadShader(int shaderIndex, u32 *shaderBinary, int size, int geometryShaderStride);
 void gpu3dsUseShader(int shaderIndex);
 
-void gpu3dsSetRenderTargetToTopFrameBuffer();
+void gpu3dsSetRenderTargetToTopFrameBuffer(bool initialize = false);
 void gpu3dsSetRenderTargetToTexture(SGPUTexture *texture, SGPUTexture *depthTexture);
 void gpu3dsSetRenderTargetToTextureSpecific(SGPUTexture *texture, SGPUTexture *depthTexture, int addressOffset, int width, int height);
 
 void gpu3dsFlush();
 void gpu3dsWaitForPreviousFlush();
 
-void gpu3dsClearRenderTarget();
-void gpu3dsTransferToScreenBuffer(bool waitFor3D = true);
+void gpu3dsTransferToScreenBuffer();
 void gpu3dsSwapVertexListForNextFrame(SVertexList *list);
 void gpu3dsSwapScreenBuffers();
 
@@ -146,12 +139,7 @@ void gpu3dsEnableAlphaTestEquals(uint8 alpha);
 void gpu3dsEnableAlphaTestGreaterThanEquals(uint8 alpha);
 void gpu3dsDisableAlphaTest();
 
-void gpu3dsEnableDepthTestAndWriteColorAlphaOnly();
-void gpu3dsEnableDepthTestAndWriteRedOnly();
 void gpu3dsEnableDepthTest();
-void gpu3dsDisableDepthTestAndWriteColorAlphaOnly();
-void gpu3dsDisableDepthTestAndWriteColorOnly();
-void gpu3dsDisableDepthTestAndWriteRedOnly();
 void gpu3dsDisableDepthTest();
 
 void gpu3dsEnableStencilTest(GPU_TESTFUNC func, u8 ref, u8 input_mask);

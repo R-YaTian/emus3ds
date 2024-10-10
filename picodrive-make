@@ -37,7 +37,6 @@ BUILD		:=	build
 SOURCES		:=	src
 DATA		:=	data
 INCLUDES	:=	include \
-			src/3ds/zlib \
 			src/3ds \
 			src/cores/ \
 			src/cores/picodrive/ \
@@ -60,18 +59,18 @@ CFLAGS	:=  -g -O3 -mword-relocations -finline-limit=20000 \
 
 CFLAGS	+=	$(INCLUDE) -D__3DS__ -DUSE_FILE32API -DLSB_FIRST -DARM_ARCH
 
-CXXFLAGS	:= $(CFLAGS) -fno-rtti -fpermissive -fno-exceptions -std=gnu++17
+CXXFLAGS	:= $(CFLAGS) -fno-rtti -fpermissive -fno-exceptions -std=gnu++23
 
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
-LIBS	:= -lcitro3d -lctru -lm
+LIBS	:= -lcitro3d -lctru -lm -lz
 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:= $(CTRULIB)
+LIBDIRS	:= $(PORTLIBS) $(CTRULIB)
 
 
 #---------------------------------------------------------------------------------
@@ -102,8 +101,7 @@ SFILES		:=	$(foreach file,$(notdir $(wildcard src/cores/picodrive/*.s)),					cor
 				$(foreach file,$(notdir $(wildcard src/cores/picodrive/pico/sound/*.s)),		cores/picodrive/pico/sound/$(file)) \
 				$(foreach file,$(notdir $(wildcard src/cores/picodrive/platform/common/*.s)),	cores/picodrive/platform/common/$(file)) \
 
-CFILES		:=	$(foreach file,$(notdir $(wildcard src/3ds/zlib/*.c)),							3ds/zlib/$(file)) \
-				$(foreach file,$(notdir $(wildcard src/3ds/*.c)),								3ds/$(file)) \
+CFILES		:=	$(foreach file,$(notdir $(wildcard src/3ds/*.c)),								3ds/$(file)) \
 				$(foreach file,$(notdir $(wildcard src/cores/picodrive/*.c)),					cores/picodrive/$(file)) \
 				$(foreach file,$(notdir $(wildcard src/cores/picodrive/3ds/*.c)),				cores/picodrive/3ds/$(file)) \
 				$(foreach file,$(notdir $(wildcard src/cores/picodrive/cpu/*.c)),				cores/picodrive/cpu/$(file)) \
@@ -118,8 +116,7 @@ CFILES		:=	$(foreach file,$(notdir $(wildcard src/3ds/zlib/*.c)),							3ds/zlib
 				$(foreach file,$(notdir $(wildcard src/cores/picodrive/pico/cd/*.c)),			cores/picodrive/pico/cd/$(file)) \
 				$(foreach file,$(notdir $(wildcard src/cores/picodrive/pico/pico/*.c)),			cores/picodrive/pico/pico/$(file)) \
 				$(foreach file,$(notdir $(wildcard src/cores/picodrive/pico/sound/*.c)),		cores/picodrive/pico/sound/$(file)) \
-				$(foreach file,$(notdir $(wildcard src/cores/picodrive/platform/common/*.c)),	cores/picodrive/platform/common/$(file)) \
-				$(foreach file,$(notdir $(wildcard src/cores/picodrive/zlib/*.c)),				cores/picodrive/zlib/$(file)) \
+				$(foreach file,$(notdir $(wildcard src/cores/picodrive/platform/common/*.c)),	cores/picodrive/platform/common/$(file))
 
 CPPFILES	:=	$(foreach file,$(notdir $(wildcard src/3ds/*.cpp)),								3ds/$(file)) \
 				$(foreach file,$(notdir $(wildcard src/cores/picodrive/3ds/*.cpp)),				cores/picodrive/3ds/$(file)) \
@@ -222,7 +219,6 @@ $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
 	[ -d build/3ds ] 									|| mkdir -p build/3ds
 	[ -d build/3ds/arm ] 								|| mkdir -p build/3ds/arm
-	[ -d build/3ds/zlib ] 								|| mkdir -p build/3ds/zlib
 	[ -d build/cores/picodrive ] 						|| mkdir -p build/cores/picodrive
 	[ -d build/cores/picodrive/3ds ] 					|| mkdir -p build/cores/picodrive/3ds
 	[ -d build/cores/picodrive/cpu ] 					|| mkdir -p build/cores/picodrive/cpu
@@ -243,7 +239,6 @@ $(BUILD):
 	[ -d build/cores/picodrive/pico/sound ] 			|| mkdir -p build/cores/picodrive/pico/sound
 	[ -d build/cores/picodrive/platform ] 				|| mkdir -p build/cores/picodrive/platform
 	[ -d build/cores/picodrive/platform/common ] 		|| mkdir -p build/cores/picodrive/platform/common
-	[ -d build/cores/picodrive/zlib ] 					|| mkdir -p build/cores/picodrive/zlib
 	@$(MAKE) --no-print-directory -C $(BUILD) -f $(CURDIR)/picodrive-make
 
 #---------------------------------------------------------------------------------

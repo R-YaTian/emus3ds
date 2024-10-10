@@ -72,7 +72,7 @@ void clearTopScreenWithLogo()
                     uint32 c = ((r << 24) | (g << 16) | (b << 8) | 0xff);
                     fb[x * 240 + (239 - y)] = c;
                 }
-            gfxSwapBuffers();
+            gfxScreenSwapBuffers(GFX_TOP, false);
         }
 
         free(image);
@@ -876,6 +876,7 @@ void emulatorLoop()
 
     // Reinitialize the console.
     consoleInit(GFX_BOTTOM, NULL);
+    gfxSetDoubleBuffering(GFX_TOP, true);
     gfxSetDoubleBuffering(GFX_BOTTOM, false);
     menu3dsDrawBlackScreen();
     if (settings3DS.HideUnnecessaryBottomScrText == 0)
@@ -987,12 +988,11 @@ void emulatorLoop()
 
 	}
 
-    snd3dsStopPlaying();
-
-#ifndef EMU_RELEASE
-    printf("snd3dsFinalize:\n");
-#endif
-    snd3dsFinalize();
+    if (!appSuspended)
+    {
+        snd3dsStopPlaying();
+        snd3dsFinalize();
+    }
 
     // Wait for the sound thread to leave the snd3dsMixSamples entirely
     // to prevent a race condition between the PTMU_GetBatteryChargeState (when

@@ -25,7 +25,7 @@ void debugWait()
 void clearBottomScreen()
 {
     gfxSetDoubleBuffering(GFX_BOTTOM,false); 
-    gfxSwapBuffers(); 
+    gfxScreenSwapBuffers(GFX_BOTTOM, false);
     consoleInit(GFX_BOTTOM, NULL); 
     consoleClear(); 
 }

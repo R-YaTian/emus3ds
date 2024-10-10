@@ -679,21 +679,6 @@ bool impl3dsLoadROM(char *romFilePath)
             menuItem->Type = MENUITEM_DISABLED;
     }
 
-    /*
-    CLEAR_BOTTOM_SCREEN
-        aptOpenSession();
-        s32 t;
-        //APT_SetAppCpuTimeLimit(100); // enables syscore usage
-        APT_GetAppCpuTimeLimit(&t); // enables syscore usage
-    printf ("Time limit: %d\n", t);
-        aptCloseSession();
-        svcSetThreadPriority(0x18, 0xFFFF8000);
-        svcGetThreadPriority(&t, 0xFFFF8000);
-    printf ("Thread priority %d\n", t);
-
-    DEBUG_WAIT_L_KEY
-    */
-
     impl3dsResetConsole();
 
 	snd3dsSetSampleRate(
@@ -847,44 +832,6 @@ void impl3dsRenderDrawTextureToTopFrameBuffer(SGPUTexture *texture, int tx_offse
     int scrWidth;
     bool cropped = false;
 
-/*
-    {
-        gpu3dsUseShader(1);
-        gpu3dsSetTextureEnvironmentReplaceColor();
-        gpu3dsDrawRectangle(0, 0, 400, 240, 0, 0xff00ffff);
-        gpu3dsSetRenderTargetToTexture(emuMainScreenHWTarget, emuDepthForScreens);
-        gpu3dsSetTextureEnvironmentReplaceTexture0();
-        gpu3dsBindTexture(emuTileCacheTexture, GPU_TEXUNIT0);
-
-        gpu3dsDisableAlphaTest();
-        gpu3dsDisableDepthTest();
-
-        static int counter = 0;
-        int texturePosition = 0;
-        int tx = texturePosition % 128;
-        int ty = (texturePosition / 128) & 0x7f;
-        texturePosition = (127 - ty) * 128 + tx;    // flip vertically.
-        uint32 base = texturePosition * 64;
-
-        uint16 *tileTexture = (uint16 *)emuTileCacheTexture->PixelData;
-        u16 *dest = emuTileCacheTexture->PixelData;
-        for (int i = 0; i < 64; i++)
-        {
-            dest[base + i] = ((i + counter) & 0xffff) * 4;
-        }
-        counter++;
-
-        {
-        int x = 40;
-        int y = 50;
-                gpu3dsAddTileVertexes(
-                    x, y, x + 8, y + 8,
-                    0, 0,
-                    8, 8, 0);
-        }
-        gpu3dsDrawVertexes();
-    }*/
-
     // Draw a black colored rectangle covering the entire screen.
     //
     gpu3dsUseShader(1);
@@ -994,14 +941,6 @@ void impl3dsEmulationRunOneFrame(bool firstFrame, bool skipDrawingFrame)
     //
 	t3dsStartTiming(1, "RunOneFrame");
 
-
-/*
-FILE *fp = fopen("out.txt", "a");
-fprintf(fp, "%d------------------------------\n", emulatorFrame);
-fclose(fp);
-printf ("%d\n", emulatorFrame);
-//DEBUG_WAIT_L_KEY
-*/
 	t3dsStartTiming(10, "EmulateFrame");
 	{
 		impl3dsEmulationPollInput();
