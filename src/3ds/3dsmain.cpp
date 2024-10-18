@@ -897,7 +897,11 @@ void emulatorLoop()
             break;
 
         gpu3dsStartNewFrame();
-        gpu3dsCheckSlider();
+        if(!settings3DS.Disable3DSlider) {
+            gfxSet3D(true);
+            gpu3dsCheckSlider();
+        } else
+            gfxSet3D(false);
         updateFrameCount();
 
         input3dsScanInputForEmulation();

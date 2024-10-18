@@ -220,6 +220,7 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_PICKER    (11000, "  屏幕比例", "您希望屏幕以何种方式显示?", optionsForStretch, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体(仅适用于字母和数字)", optionsForFont, DIALOGCOLOR_CYAN),
     MENU_MAKE_CHECKBOX  (15001, "  隐藏下屏幕的文本", 0),
+    MENU_MAKE_CHECKBOX  (12003, "  禁用3D调节杆", 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_CHECKBOX  (12002, "  退出时自动保存即时存档并在启动时自动加载", 0),
     MENU_MAKE_DISABLED  (""),
@@ -1304,7 +1305,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
     config3dsReadWriteInt32("LowPassFilter=%d\n", &settings3DS.OtherOptions[SETTINGS_LOWPASSFILTER]);
 
     // New options come here.
-
+    config3dsReadWriteInt32("Disable3DSlider=%d\n", &settings3DS.Disable3DSlider, 0, 1);
 
     config3dsCloseFile();
 
@@ -1475,6 +1476,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
     UPDATE_SETTINGS(settings3DS.ForceFrameRate, -1, 12000);
     UPDATE_SETTINGS(settings3DS.OtherOptions[SETTINGS_REGION], -1, 12003);
     UPDATE_SETTINGS(settings3DS.AutoSavestate, -1, 12002);
+    UPDATE_SETTINGS(settings3DS.Disable3DSlider, -1, 12003);
 
     UPDATE_SETTINGS(settings3DS.UseGlobalButtonMappings, -1, 13500);
     UPDATE_SETTINGS(settings3DS.UseGlobalTurbo, -1, 13501);

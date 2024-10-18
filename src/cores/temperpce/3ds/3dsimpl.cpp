@@ -185,6 +185,7 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_PICKER    (11000, "  屏幕比例", "您希望屏幕以何种方式显示?", optionsForStretch, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体(仅适用于字母和数字)", optionsForFont, DIALOGCOLOR_CYAN),
     MENU_MAKE_CHECKBOX  (15001, "  隐藏下屏幕的文本", 0),
+    MENU_MAKE_CHECKBOX  (12003, "  禁用3D调节杆", 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_CHECKBOX  (12002, "  退出时自动保存即时存档并在启动时自动加载", 0),
     MENU_MAKE_DISABLED  (""),
@@ -866,14 +867,6 @@ void impl3dsRenderDrawTextureToTopFrameBuffer(SGPUTexture *texture, int tx_offse
     gpu3dsSetTextureEnvironmentReplaceTexture0();
     gpu3dsBindTextureMainScreen(texture, GPU_TEXUNIT0);
 
-/*    // Software rendering:
-    gpu3dsAddQuadVertexes(
-        sideBorderWidth, 0, 400 - sideBorderWidth, 240,
-        0, 0,
-        256, 240, 0);
-    gpu3dsDrawVertexes();
-*/
-
     // Hardware rendering:
     for (int i = 0; i < screenWidthVerticalSection.Count; i++)
     {
@@ -1368,6 +1361,9 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
     config3dsReadWriteInt32("ButtonMappingDisableFramelimitHold_0=%d\n", &settings3DS.GlobalButtonHotkeyDisableFramelimit);
     config3dsReadWriteInt32("ButtonMappingOpenEmulatorMenu_0=%d\n", &settings3DS.GlobalButtonHotkeyOpenMenu);
 
+    // All new options should come here!
+    config3dsReadWriteInt32("Disable3DSlider=%d\n", &settings3DS.Disable3DSlider, 0, 1);
+
     config3dsCloseFile();
     return true;
 }
@@ -1490,6 +1486,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
     UPDATE_SETTINGS(settings3DS.MaxFrameSkips, -1, 10000);
     UPDATE_SETTINGS(settings3DS.ForceFrameRate, -1, 12000);
     UPDATE_SETTINGS(settings3DS.AutoSavestate, -1, 12002);
+    UPDATE_SETTINGS(settings3DS.Disable3DSlider, -1, 12003);
 
     UPDATE_SETTINGS(settings3DS.UseGlobalButtonMappings, -1, 50000);
     UPDATE_SETTINGS(settings3DS.UseGlobalTurbo, -1, 50001);

@@ -97,6 +97,7 @@ typedef struct
 
     int     GlobalButtonHotkeyDisableFramelimit; // Stores button that can be held to disable the frame limit.
 
+    int     Disable3DSlider = 0;              // Disable 3DSlider
 } SSettings3DS;
 
 

@@ -158,6 +158,7 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_PICKER    (11000, "  屏幕比例", "您希望屏幕以何种方式显示?", optionsForStretch, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体(仅适用于字母和数字)", optionsForFont, DIALOGCOLOR_CYAN),
     MENU_MAKE_CHECKBOX  (15001, "  隐藏下屏幕的文本", 0),
+    MENU_MAKE_CHECKBOX  (21001, "  禁用3D调节杆", 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_CHECKBOX  (21000, "  退出时自动保存即时存档并在启动时自动加载", 0),
     MENU_MAKE_DISABLED  (""),
@@ -1127,6 +1128,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
     config3dsReadWriteInt32("ButtonMappingInsertCoin2=%d\n", &settings3DS.OtherOptions[SETTINGS_GLOBALINSERTCOIN2]);
 
     // All new options should come here!
+    config3dsReadWriteInt32("Disable3DSlider=%d\n", &settings3DS.Disable3DSlider, 0, 1);
 
     config3dsCloseFile();
     return true;
@@ -1243,6 +1245,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
     UPDATE_SETTINGS(settings3DS.UseGlobalTurbo, -1, 20001);
     UPDATE_SETTINGS(settings3DS.UseGlobalVolume, -1, 20002);
     UPDATE_SETTINGS(settings3DS.AutoSavestate, -1, 21000);
+    UPDATE_SETTINGS(settings3DS.Disable3DSlider, -1, 21001);
     UPDATE_SETTINGS(settings3DS.NESPalette, -1, 69696);
 
     UPDATE_SETTINGS(settings3DS.UseGlobalEmuControlKeys, -1, 50003);
