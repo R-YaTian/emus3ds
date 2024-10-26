@@ -56,6 +56,12 @@ SSettings3DS settings3DS;
 // Menu options
 //----------------------------------------------------------------------
 
+SMenuItem optionsForScreenSwap[] = {
+    MENU_MAKE_DIALOG_ACTION (0, "上屏幕",               ""),
+    MENU_MAKE_DIALOG_ACTION (1, "下屏幕",                  ""),
+    MENU_MAKE_LASTITEM  ()
+};
+
 SMenuItem optionsForFont[] = {
     MENU_MAKE_DIALOG_ACTION (0, "Tempesta",               ""),
     MENU_MAKE_DIALOG_ACTION (1, "Ronda",                  ""),
@@ -184,7 +190,8 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_HEADER1   ("全局设置"),
     MENU_MAKE_PICKER    (11000, "  屏幕比例", "您希望屏幕以何种方式显示?", optionsForStretch, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体(仅适用于字母和数字)", optionsForFont, DIALOGCOLOR_CYAN),
-    MENU_MAKE_CHECKBOX  (15001, "  隐藏下屏幕的文本", 0),
+    MENU_MAKE_PICKER    (15000, "  游戏显示屏幕", "选择使用上屏或下屏进行游玩", optionsForScreenSwap, DIALOGCOLOR_CYAN),
+    MENU_MAKE_CHECKBOX  (15001, "  隐藏副屏幕的文本", 0),
     MENU_MAKE_CHECKBOX  (12003, "  禁用3D调节杆", 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_CHECKBOX  (12002, "  退出时自动保存即时存档并在启动时自动加载", 0),
@@ -774,7 +781,7 @@ void impl3dsEmulationBegin()
 	gpu3dsDisableAlphaTest();
 	gpu3dsDisableStencilTest();
 	gpu3dsSetTextureEnvironmentReplaceTexture0();
-	gpu3dsSetRenderTargetToTopFrameBuffer();
+	gpu3dsSetRenderTargetToFrameBuffer(screenSettings.GameScreen);
 	gpu3dsFlush();
 	//if (emulator.isReal3DS)
 	//	gpu3dsWaitForPreviousFlush();
@@ -836,7 +843,7 @@ void impl3dsRenderDrawTextureToTopFrameBuffer(SGPUTexture *texture, int tx_offse
     // Draw a black colored rectangle covering the entire screen.
     //
     gpu3dsUseShader(1);
-    gpu3dsSetRenderTargetToTopFrameBuffer();
+    gpu3dsSetRenderTargetToFrameBuffer(screenSettings.GameScreen);
 	switch (settings3DS.ScreenStretch)
 	{
 		case 0:
@@ -1040,7 +1047,7 @@ void impl3dsEmulationRunOneFrame(bool firstFrame, bool skipDrawingFrame)
 	if (!skipDrawingPreviousFrame)
 	{
 		t3dsStartTiming(16, "Transfer");
-		gpu3dsTransferToScreenBuffer();
+		gpu3dsTransferToScreenBuffer(screenSettings.GameScreen);
 		t3dsEndTiming(16);
 
 		t3dsStartTiming(19, "SwapBuffers");
@@ -1363,6 +1370,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
 
     // All new options should come here!
     config3dsReadWriteInt32("Disable3DSlider=%d\n", &settings3DS.Disable3DSlider, 0, 1);
+    config3dsReadWriteInt32("GameScreen=%d\n", &settings3DS.GameScreen, 0, 1);
 
     config3dsCloseFile();
     return true;
@@ -1482,6 +1490,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
     bool settingsUpdated = false;
     UPDATE_SETTINGS(settings3DS.Font, -1, 18000);
     UPDATE_SETTINGS(settings3DS.ScreenStretch, -1, 11000);
+    UPDATE_SETTINGS(settings3DS.GameScreen, -1, 15000);
     UPDATE_SETTINGS(settings3DS.HideUnnecessaryBottomScrText, -1, 15001);
     UPDATE_SETTINGS(settings3DS.MaxFrameSkips, -1, 10000);
     UPDATE_SETTINGS(settings3DS.ForceFrameRate, -1, 12000);

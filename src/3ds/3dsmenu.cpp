@@ -95,7 +95,7 @@ void menu3dsSwapBuffersAndWaitForVBlank()
 {
     if (transferGameScreenCount)
     {
-        gpu3dsTransferToScreenBuffer();
+        gpu3dsTransferToScreenBuffer(screenSettings.SecondScreen);
 		if (emulator.isReal3DS)
 			gspWaitForPPF();
         transferGameScreenCount --;

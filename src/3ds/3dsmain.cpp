@@ -33,6 +33,7 @@
 #include "lodepng.h"
 
 SEmulator emulator;
+ScreenSettings screenSettings;
 
 int frameCount60 = 60;
 u64 frameCountTick = 0;
@@ -41,16 +42,15 @@ const char *romFileName = 0;
 char romFileNameFullPath[_MAX_PATH];
 char romFileNameLastSelected[_MAX_PATH];
 
-
-
 //-------------------------------------------------------
-// Clear top screen with logo.
+// Clear screen with logo.
 //-------------------------------------------------------
-void clearTopScreenWithLogo()
+void clearScreenWithLogo()
 {
 	unsigned char* image;
 	unsigned width, height;
 
+    int widthAdjust = screenSettings.GameScreen == GFX_TOP ? 0 : 40;
     int error = lodepng_decode32_file(&image, &width, &height, impl3dsTitleImage);
 
     if (!error && width == 400 && height == 240)
@@ -59,8 +59,9 @@ void clearTopScreenWithLogo()
         for (int i = 0; i < 2; i++)
         {
             u8* src = image;
-            uint32* fb = (uint32 *) gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
+            uint32* fb = (uint32 *) gfxGetFramebuffer(screenSettings.GameScreen, GFX_LEFT, NULL, NULL);
             for (int y = 0; y < 240; y++)
+            {
                 for (int x = 0; x < 400; x++)
                 {
                     uint32 r = *src++;
@@ -68,14 +69,60 @@ void clearTopScreenWithLogo()
                     uint32 b = *src++;
                     uint32 a = *src++;
 
+                    if (x < widthAdjust || x >= (screenSettings.GameScreenWidth + widthAdjust))
+                        continue;
+
                     uint32 c = ((r << 24) | (g << 16) | (b << 8) | 0xff);
-                    fb[x * 240 + (239 - y)] = c;
+                    fb[(x - widthAdjust) * 240 + (239 - y)] = c;
                 }
-            gfxScreenSwapBuffers(GFX_TOP, false);
+            }
+            gfxScreenSwapBuffers(screenSettings.GameScreen, false);
         }
 
         free(image);
     }
+}
+
+
+//-------------------------------------------------------
+// Clear target screen
+//-------------------------------------------------------
+void clearScreen(gfxScreen_t targetScreen) {
+    uint bytes = 0;
+    switch (gfxGetScreenFormat(targetScreen))
+    {
+        case GSP_RGBA8_OES:
+            bytes = 4;
+            break;
+
+        case GSP_BGR8_OES:
+            bytes = 3;
+            break;
+
+        case GSP_RGB565_OES:
+        case GSP_RGB5_A1_OES:
+        case GSP_RGBA4_OES:
+            bytes = 2;
+            break;
+    }
+
+    u8 *frame = gfxGetFramebuffer(targetScreen, GFX_LEFT, NULL, NULL);
+    memset(frame, 0, (targetScreen == GFX_TOP ? 400 : 320) * 240 * bytes);
+}
+
+
+//-------------------------------------------------------
+// Do swap screen transition
+//-------------------------------------------------------
+void swapScreenTransition()
+{
+    gfxSetScreenFormat(screenSettings.SecondScreen, GSP_RGB565_OES);
+    gfxSetDoubleBuffering(screenSettings.SecondScreen, true);
+    gfxSetScreenFormat(screenSettings.GameScreen, GSP_RGBA8_OES);
+    gfxSetDoubleBuffering(screenSettings.GameScreen, false);
+    clearScreen(screenSettings.GameScreen);
+    gfxScreenSwapBuffers(screenSettings.GameScreen, false);
+    gspWaitForVBlank();
 }
 
 
@@ -279,7 +326,7 @@ bool emulatorSettingsSave(bool includeGlobalSettings, bool includeGameSettings, 
 //----------------------------------------------------------------------
 void menuSelectFile(void)
 {
-    gfxSetDoubleBuffering(GFX_BOTTOM, true);
+    gfxSetDoubleBuffering(screenSettings.SecondScreen, true);
 
     fileGetAllFiles();
     int previousFileID = fileFindLastSelectedFile();
@@ -335,7 +382,7 @@ void menuSelectFile(void)
                 else
                 {
                     menu3dsHideMenu();
-                    consoleInit(GFX_BOTTOM, NULL);
+                    consoleInit(screenSettings.SecondScreen, NULL);
                     consoleClear();
                     return;
                 }
@@ -397,7 +444,7 @@ bool menuSelectedChanged(int ID, int value)
 //----------------------------------------------------------------------
 void menuPause()
 {
-    gfxSetDoubleBuffering(GFX_BOTTOM, true);
+    gfxSetDoubleBuffering(screenSettings.SecondScreen, true);
 
     bool settingsUpdated = false;
     bool cheatsUpdated = false;
@@ -640,7 +687,10 @@ void menuPause()
     }
     impl3dsApplyAllSettings();
 
-    cheat3dsSaveCheatTextFile (file3dsReplaceFilenameExtension(romFileNameFullPath, ".chx"));
+    ui3dsUpdateScreenSettings((gfxScreen_t) settings3DS.GameScreen);
+    swapScreenTransition();
+
+    cheat3dsSaveCheatTextFile(file3dsReplaceFilenameExtension(romFileNameFullPath, ".chx"));
 
     if (returnToEmulation)
     {
@@ -660,7 +710,7 @@ void menuPause()
 //-------------------------------------------------------
 SMenuItem cheatMenu[401] =
 {
-    MENU_MAKE_HEADER2   ("Cheats"),
+    MENU_MAKE_HEADER2   ("金手指"),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -695,6 +745,8 @@ void emulatorInitialize()
     emulator.waitBehavior = 0;
 
     file3dsInitialize();
+    emulatorSettingsLoad(true, false, true);
+    ui3dsUpdateScreenSettings((gfxScreen_t) settings3DS.GameScreen);
 
     romFileNameLastSelected[0] = 0;
 
@@ -725,8 +777,6 @@ void emulatorInitialize()
     osSetSpeedupEnable(1);    // Performance: use the higher clock speed for new 3DS.
 
     enableAptHooks();
-
-    emulatorSettingsLoad(true, false, true);
 
     // Do this one more time.
     if (file3dsGetCurrentDir()[0] == 0)
@@ -786,7 +836,6 @@ void emulatorFinalize()
 }
 
 
-
 bool firstFrame = true;
 
 
@@ -824,7 +873,6 @@ void updateFrameCount()
         frameCount60 = 60;
         framesSkippedCount = 0;
 
-
 #if !defined(EMU_RELEASE) && !defined(DEBUG_CPU) && !defined(DEBUG_APU)
         printf ("\n\n");
         for (int i=0; i<100; i++)
@@ -839,9 +887,6 @@ void updateFrameCount()
 
     frameCount60--;
 }
-
-
-
 
 
 //----------------------------------------------------------
@@ -874,9 +919,10 @@ void emulatorLoop()
     bool skipDrawingFrame = false;
 
     // Reinitialize the console.
-    consoleInit(GFX_BOTTOM, NULL);
-    gfxSetDoubleBuffering(GFX_TOP, true);
-    gfxSetDoubleBuffering(GFX_BOTTOM, false);
+    consoleInit(screenSettings.SecondScreen, NULL);
+    gfxSetDoubleBuffering(screenSettings.GameScreen, true);
+    gfxSetDoubleBuffering(screenSettings.SecondScreen, false);
+
     menu3dsDrawBlackScreen();
     if (settings3DS.HideUnnecessaryBottomScrText == 0)
     {
@@ -1013,7 +1059,7 @@ void emulatorLoop()
 int main()
 {
     emulatorInitialize();
-    clearTopScreenWithLogo();
+    clearScreenWithLogo();
 
     gbk3dsLoadGBKImage();
     menuSelectFile();

@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <3ds.h>
 
+#include "3dsinterface.h"
 #include "3dstypes.h"
 #include "3dsui.h"
 #include "3dsfont.h"
@@ -108,6 +109,29 @@ void ui3dsInitialize()
     viewportY2 = 240;
 }
 
+//---------------------------------------------------------------
+// Get the target screen width
+//---------------------------------------------------------------
+int ui3dsGetScreenWidth(gfxScreen_t targetScreen) {
+    return (targetScreen == GFX_TOP) ? SCREEN_TOP_WIDTH : SCREEN_BOTTOM_WIDTH;
+}
+
+//---------------------------------------------------------------
+// this is called on init and if game screen has swapped
+//---------------------------------------------------------------
+void ui3dsUpdateScreenSettings(gfxScreen_t gameScreen) {
+    screenSettings.GameScreen = gameScreen;
+    screenSettings.SecondScreen = (screenSettings.GameScreen == GFX_TOP) ? GFX_BOTTOM : GFX_TOP;
+    screenSettings.GameScreenWidth  = ui3dsGetScreenWidth(screenSettings.GameScreen);
+    screenSettings.SecondScreenWidth  = ui3dsGetScreenWidth(screenSettings.SecondScreen);
+
+    // reset menu viewport
+    viewportX1 = 0;
+    viewportY1 = 0;
+    viewportX2 = screenSettings.SecondScreenWidth;
+    viewportY2 = 240;
+    viewportStackCount = 0;
+}
 
 //---------------------------------------------------------------
 // Sets the font to be used to display text to the screen.
@@ -132,7 +156,7 @@ void ui3dsSetViewport(int x1, int y1, int x2, int y2)
     viewportY2 = y2;
 
     if (viewportX1 < 0) viewportX1 = 0;
-    if (viewportX2 > 320) viewportX2 = 320;
+    if (viewportX2 > screenSettings.SecondScreenWidth) viewportX2 = screenSettings.SecondScreenWidth;
     if (viewportY1 < 0) viewportY1 = 0;
     if (viewportY2 > 240) viewportY2 = 240;
 }
@@ -396,6 +420,23 @@ void ui3dsSetColor(int newForeColor, int newBackColor)
 
 
 //---------------------------------------------------------------
+// Draws a rectangle with the color (in RGBA8 format).
+//
+// Note: x0,y0 are inclusive. x1,y1 are exclusive.
+//---------------------------------------------------------------
+static void ui3dsDraw32BitRect(uint32 * fb, int x0, int y0, int x1, int y1, int color, float alpha)
+{
+    uint32 c = ui3dsApplyAlphaToColor(color, alpha) << 8;
+    
+    for (int y = y0; y < y1; y++) {
+        for (int x = x0; x < x1; x++) {
+            int fbofs = x * 240 + (239 - y);
+            fb[fbofs] = c;
+        }
+    }
+}
+
+//---------------------------------------------------------------
 // Draws a rectangle with the colour (in RGB888 format).
 //
 // Note: x0,y0 are inclusive. x1,y1 are exclusive.
@@ -404,10 +445,6 @@ void ui3dsDrawRect(int x0, int y0, int x1, int y1, int color, float alpha)
 {
     if (color < 0)
         return;
-
-    color = CONVERT_TO_565(color);
-
-    uint16* fb = (uint16 *) gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
 
     x0 += translateX;
     x1 += translateX;
@@ -421,6 +458,12 @@ void ui3dsDrawRect(int x0, int y0, int x1, int y1, int color, float alpha)
 
     if (alpha < 0) alpha = 0;
     if (alpha > 1.0f) alpha = 1.0f;
+
+    uint16* fb = (uint16 *) gfxGetFramebuffer(screenSettings.SecondScreen, GFX_LEFT, NULL, NULL);
+    if (gfxGetScreenFormat(screenSettings.SecondScreen) == GSP_RGBA8_OES) {
+        return ui3dsDraw32BitRect((uint32 *)fb, x0, y0, x1, y1, color, alpha);
+    }
+    color = CONVERT_TO_565(color);
 
     if (alpha == 1.0f)
     {
@@ -608,7 +651,7 @@ void ui3dsDrawStringWithWrapping(int x0, int y0, int x1, int y1, int color, int 
             strLineCount++;
         }
 
-        uint16* fb = (uint16 *) gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
+        uint16* fb = (uint16 *) gfxGetFramebuffer(screenSettings.SecondScreen, GFX_LEFT, NULL, NULL);
         for (int i = 0; i < strLineCount; i++)
         {
             int x = x0;
@@ -646,7 +689,7 @@ void ui3dsDrawStringWithNoWrapping(int x0, int y0, int x1, int y1, int color, in
 
     if (buffer != NULL)
     {
-        uint16* fb = (uint16 *) gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
+        uint16* fb = (uint16 *) gfxGetFramebuffer(screenSettings.SecondScreen, GFX_LEFT, NULL, NULL);
         int maxWidth = x1 - x0;
         int x = x0;
         if (horizontalAlignment >= HALIGN_CENTER)
@@ -670,8 +713,8 @@ void ui3dsDrawStringWithNoWrapping(int x0, int y0, int x1, int y1, int color, in
 //---------------------------------------------------------------
 void ui3dsCopyFromFrameBuffer(uint16 *destBuffer)
 {
-    uint16* fb = (uint16 *) gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
-    memcpy(destBuffer, fb, 320*240*2);
+    uint16* fb = (uint16 *) gfxGetFramebuffer(screenSettings.SecondScreen, GFX_LEFT, NULL, NULL);
+    memcpy(destBuffer, fb, screenSettings.SecondScreenWidth * 240 * 2);
 }
 
 
@@ -680,7 +723,7 @@ void ui3dsCopyFromFrameBuffer(uint16 *destBuffer)
 //---------------------------------------------------------------
 void ui3dsBlitToFrameBuffer(uint16 *srcBuffer, float alpha)
 {
-    uint16* fb = (uint16 *) gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
+    uint16* fb = (uint16 *) gfxGetFramebuffer(screenSettings.SecondScreen, GFX_LEFT, NULL, NULL);
 
     int a = (int)(alpha * MAX_ALPHA);
     for (int x = viewportX1; x < viewportX2; x++)

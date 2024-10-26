@@ -1,6 +1,3 @@
-
-
-
 #include "3ds.h"
 #include "3dsdbg.h"
 

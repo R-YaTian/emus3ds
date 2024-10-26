@@ -97,7 +97,9 @@ typedef struct
 
     int     GlobalButtonHotkeyDisableFramelimit; // Stores button that can be held to disable the frame limit.
 
-    int     Disable3DSlider = 0;              // Disable 3DSlider
+    int     Disable3DSlider = 0;            // Disable 3DSlider
+
+    int     GameScreen = 0;       // Game screen target
 } SSettings3DS;
 
 
@@ -386,7 +388,17 @@ bool impl3dsAddCheat(bool cheatEnabled, char *name, char *code);
 //----------------------------------------------------------------------
 void impl3dsSetCheatEnabledFlag(int cheatIdx, bool enabled);
 
+#define SCREEN_TOP_WIDTH        400
+#define SCREEN_BOTTOM_WIDTH     320
 
+typedef struct
+{
+    gfxScreen_t GameScreen = GFX_TOP;
+    gfxScreen_t SecondScreen = GFX_BOTTOM;
+    int GameScreenWidth = SCREEN_TOP_WIDTH;
+    int SecondScreenWidth = SCREEN_BOTTOM_WIDTH;
+} ScreenSettings;
 
+extern ScreenSettings screenSettings;
 
 #endif

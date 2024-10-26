@@ -5,6 +5,7 @@
 #include "3dsgpu.h"
 #include "3dsopt.h"
 #include "3dsvideo.h"
+#include "3dsinterface.h"
 
 typedef struct
 {
@@ -178,7 +179,7 @@ void video3dsStartNewHardwareRenderedFrame()
 void video3dsTransferFrameBufferToScreenAndSwap()
 {
     t3dsStartTiming(16, "Transfer");
-    gpu3dsTransferToScreenBuffer();
+    gpu3dsTransferToScreenBuffer(screenSettings.GameScreen);
     t3dsEndTiming(16);
 
     t3dsStartTiming(19, "SwapBuffers");

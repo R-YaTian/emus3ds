@@ -11,6 +11,18 @@ void ui3dsInitialize();
 
 
 //---------------------------------------------------------------
+// Get the target screen width
+//---------------------------------------------------------------
+int ui3dsGetScreenWidth(gfxScreen_t targetScreen);
+
+
+//---------------------------------------------------------------
+// this is called on init and if game screen has swapped
+//---------------------------------------------------------------
+void ui3dsUpdateScreenSettings(gfxScreen_t gameScreen);
+
+
+//---------------------------------------------------------------
 // Sets the font to be used to display text to the screen.
 //---------------------------------------------------------------
 void ui3dsSetFont(int fontIndex);

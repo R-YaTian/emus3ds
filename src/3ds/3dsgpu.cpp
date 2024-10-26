@@ -466,7 +466,7 @@ bool gpu3dsInitialize()
 
     // Initialize the bottom screen for console output.
     //
-    consoleInit(GFX_BOTTOM, NULL);
+    consoleInit(screenSettings.SecondScreen, NULL);
 
     // Create the command buffers
     //
@@ -518,7 +518,7 @@ bool gpu3dsInitialize()
     printf ("gpu3dsInitialize - Set GPU statuses\n");
 #endif
 	//GPUCMD_SetBufferOffset(0);
-    gpu3dsSetRenderTargetToTopFrameBuffer(true);
+    gpu3dsSetRenderTargetToFrameBuffer(screenSettings.GameScreen, true);
 
 	GPU_DepthMap(-1.0f, 0.0f);
 	GPU_SetDepthTestAndWriteMask(false, GPU_GEQUAL, GPU_WRITE_ALL);
@@ -744,10 +744,12 @@ void gpu3dsUseShader(int shaderIndex)
         GPU3DS.currentShader = shaderIndex;
         shaderProgramUse(&GPU3DS.shaders[shaderIndex].shaderProgram);
 
+        u32 *mainScreen = (screenSettings.GameScreen == GFX_TOP) ? (u32 *)GPU3DS.projectionTopScreen : (u32 *)GPU3DS.projectionBottomScreen;
+
         if (!GPU3DS.currentRenderTarget)
         {
-            GPU_SetFloatUniform(GPU_VERTEX_SHADER, renderTargetVertexShaderRegister, (u32 *)GPU3DS.projectionTopScreen, 4);
-            GPU_SetFloatUniform(GPU_GEOMETRY_SHADER, renderTargetGeometryShaderRegister, (u32 *)GPU3DS.projectionTopScreen, 4);
+            GPU_SetFloatUniform(GPU_VERTEX_SHADER, renderTargetVertexShaderRegister, mainScreen, 4);
+            GPU_SetFloatUniform(GPU_GEOMETRY_SHADER, renderTargetGeometryShaderRegister, mainScreen, 4);
         }
         else
         {
@@ -959,20 +961,21 @@ supports only the following frame buffer format types:
 const uint32 GPUREG_COLORBUFFER_FORMAT_VALUES[5] = { 0x0002, 0x00010001, 0x00020000, 0x00030000, 0x00040000 };
 
 
-void gpu3dsSetRenderTargetToTopFrameBuffer(bool initialize)
+void gpu3dsSetRenderTargetToFrameBuffer(gfxScreen_t targetScreen, bool initialize)
 {
     if (initialize || GPU3DS.currentRenderTarget != NULL)
     {
-        GPU_SetFloatUniform(GPU_VERTEX_SHADER, renderTargetVertexShaderRegister, (u32 *)GPU3DS.projectionTopScreen, 4);
-        GPU_SetFloatUniform(GPU_GEOMETRY_SHADER, renderTargetGeometryShaderRegister, (u32 *)GPU3DS.projectionTopScreen, 4);
+        u32 *screen = (targetScreen == GFX_TOP) ? (u32 *)GPU3DS.projectionTopScreen : (u32 *)GPU3DS.projectionBottomScreen;
+
+        GPU_SetFloatUniform(GPU_VERTEX_SHADER, renderTargetVertexShaderRegister, screen, 4);
+        GPU_SetFloatUniform(GPU_GEOMETRY_SHADER, renderTargetGeometryShaderRegister, screen, 4);
 
         GPU3DS.currentRenderTarget = NULL;
 
         GPU_SetViewport(
-            //(u32 *)osConvertVirtToPhys(GPU3DS.frameDepthBuffer),
             GPU3DS.frameDepthBuffer == NULL ? NULL : (u32 *)osConvertVirtToPhys(GPU3DS.frameDepthBuffer),
             (u32 *)osConvertVirtToPhys(GPU3DS.frameBuffer),
-            0, 0, 240, 400);
+            0, 0, 240, (targetScreen == GFX_TOP) ? SCREEN_TOP_WIDTH : SCREEN_BOTTOM_WIDTH);
 
         GPUCMD_AddSingleParam(0x000F0117, GPUREG_COLORBUFFER_FORMAT_VALUES[GPU3DS.frameBufferFormat]); //color buffer format
     }
@@ -1083,13 +1086,14 @@ const uint32 GX_TRANSFER_SCREEN_FORMAT_VALUES[5]= {
     GX_TRANSFER_FMT_RGBA8, GX_TRANSFER_FMT_RGB8, GX_TRANSFER_FMT_RGB565, GX_TRANSFER_FMT_RGB5A1, GX_TRANSFER_FMT_RGBA4 };
 
 
-void gpu3dsTransferToScreenBuffer()
+void gpu3dsTransferToScreenBuffer(gfxScreen_t screen)
 {
-    gpu3dsWaitForPreviousFlush();
+    int screenWidth = (screen == screenSettings.GameScreen) ? screenSettings.GameScreenWidth : screenSettings.SecondScreenWidth;
 
-    GX_DisplayTransfer(GPU3DS.frameBuffer, GX_BUFFER_DIM(240, 400),
-        (u32 *)gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL),
-        GX_BUFFER_DIM(240, 400),
+    gpu3dsWaitForPreviousFlush();
+    GX_DisplayTransfer(GPU3DS.frameBuffer, GX_BUFFER_DIM(240, screenWidth),
+        (u32 *)gfxGetFramebuffer(screen, GFX_LEFT, NULL, NULL),
+        GX_BUFFER_DIM(240, screenWidth),
         GX_TRANSFER_IN_FORMAT(GX_TRANSFER_FRAMEBUFFER_FORMAT_VALUES[GPU3DS.frameBufferFormat]) |
         GX_TRANSFER_OUT_FORMAT(GX_TRANSFER_SCREEN_FORMAT_VALUES[GPU3DS.screenFormat]));
 }

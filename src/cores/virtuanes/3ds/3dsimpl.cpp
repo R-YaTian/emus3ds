@@ -60,6 +60,12 @@ SSettings3DS settings3DS;
 // Menu options
 //----------------------------------------------------------------------
 
+SMenuItem optionsForScreenSwap[] = {
+    MENU_MAKE_DIALOG_ACTION (0, "上屏幕",               ""),
+    MENU_MAKE_DIALOG_ACTION (1, "下屏幕",                  ""),
+    MENU_MAKE_LASTITEM  ()
+};
+
 SMenuItem optionsForFont[] = {
     MENU_MAKE_DIALOG_ACTION (0, "Tempesta",               ""),
     MENU_MAKE_DIALOG_ACTION (1, "Ronda",                  ""),
@@ -157,7 +163,8 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_HEADER1   ("全局设置"),
     MENU_MAKE_PICKER    (11000, "  屏幕比例", "您希望屏幕以何种方式显示?", optionsForStretch, DIALOGCOLOR_CYAN),
     MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体(仅适用于字母和数字)", optionsForFont, DIALOGCOLOR_CYAN),
-    MENU_MAKE_CHECKBOX  (15001, "  隐藏下屏幕的文本", 0),
+    MENU_MAKE_PICKER    (15000, "  游戏显示屏幕", "选择使用上屏或下屏进行游玩", optionsForScreenSwap, DIALOGCOLOR_CYAN),
+    MENU_MAKE_CHECKBOX  (15001, "  隐藏副屏幕的文本", 0),
     MENU_MAKE_CHECKBOX  (21001, "  禁用3D调节杆", 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_CHECKBOX  (21000, "  退出时自动保存即时存档并在启动时自动加载", 0),
@@ -627,7 +634,7 @@ void impl3dsEmulationBegin()
 	gpu3dsDisableAlphaTest();
 	gpu3dsDisableStencilTest();
 	gpu3dsSetTextureEnvironmentReplaceTexture0();
-	gpu3dsSetRenderTargetToTopFrameBuffer();
+	gpu3dsSetRenderTargetToFrameBuffer(screenSettings.GameScreen);
 	gpu3dsFlush();
 	//if (emulator.isReal3DS)
 	//	gpu3dsWaitForPreviousFlush();
@@ -689,6 +696,7 @@ int lastWait = 0;
 void impl3dsRenderDrawTextureToFrameBuffer()
 {
 	t3dsStartTiming(14, "Draw Texture");
+    int widthAdjust = screenSettings.GameScreen == GFX_TOP ? 0 : 40;
 
     // Draw a black colored rectangle covering the entire screen.
     //
@@ -696,40 +704,46 @@ void impl3dsRenderDrawTextureToFrameBuffer()
 	{
 		case 0:
             gpu3dsSetTextureEnvironmentReplaceColor();
-            gpu3dsDrawRectangle(0, 0, 72, 240, 0, 0x000000ff);
-            gpu3dsDrawRectangle(328, 0, 400, 240, 0, 0x000000ff);
+            gpu3dsDrawRectangle(0, 0, 72 - widthAdjust, 240, 0, 0x000000ff);
+            gpu3dsDrawRectangle(328 - widthAdjust, 0, screenSettings.GameScreenWidth, 240, 0, 0x000000ff);
 
             gpu3dsSetTextureEnvironmentReplaceTexture0();
             gpu3dsBindTextureMainScreen(video3dsGetPreviousScreenTexture(), GPU_TEXUNIT0);
-			gpu3dsAddQuadVertexes(72, 0, 328, 240, 8, 0, 264, 240, 0);
+			gpu3dsAddQuadVertexes(72 - widthAdjust, 0, 328 - widthAdjust, 240, 8, 0, 264, 240, 0);
 			break;
 		case 1:
-            gpu3dsSetTextureEnvironmentReplaceColor();
-            gpu3dsDrawRectangle(0, 0, 40, 240, 0, 0x000000ff);
-            gpu3dsDrawRectangle(360, 0, 400, 240, 0, 0x000000ff);
+            if (screenSettings.GameScreen == GFX_TOP)
+            {
+                gpu3dsSetTextureEnvironmentReplaceColor();
+                gpu3dsDrawRectangle(0, 0, 40, 240, 0, 0x000000ff);
+                gpu3dsDrawRectangle(360, 0, screenSettings.GameScreenWidth, 240, 0, 0x000000ff);
+            }
 
             gpu3dsSetTextureEnvironmentReplaceTexture0();
             gpu3dsBindTextureMainScreen(video3dsGetPreviousScreenTexture(), GPU_TEXUNIT0);
-			gpu3dsAddQuadVertexes(40, 0, 360, 240, 8.2, 0, 263.8, 240, 0);
+			gpu3dsAddQuadVertexes(40 - widthAdjust, 0, 360 - widthAdjust, 240, 8.2, 0, 263.8, 240, 0);
 			break;
 		case 2:
             gpu3dsSetTextureEnvironmentReplaceTexture0();
             gpu3dsBindTextureMainScreen(video3dsGetPreviousScreenTexture(), GPU_TEXUNIT0);
-			gpu3dsAddQuadVertexes(0, 0, 400, 240, 8.2, 0, 263.8, 240, 0);
+			gpu3dsAddQuadVertexes(0, 0, screenSettings.GameScreenWidth, 240, 8.2, 0, 263.8, 240, 0);
 			break;
 		case 3:
-            gpu3dsSetTextureEnvironmentReplaceColor();
-            gpu3dsDrawRectangle(0, 0, 40, 240, 0, 0x000000ff);
-            gpu3dsDrawRectangle(360, 0, 400, 240, 0, 0x000000ff);
+            if (screenSettings.GameScreen == GFX_TOP)
+            {
+                gpu3dsSetTextureEnvironmentReplaceColor();
+                gpu3dsDrawRectangle(0, 0, 40, 240, 0, 0x000000ff);
+                gpu3dsDrawRectangle(360, 0, screenSettings.GameScreenWidth, 240, 0, 0x000000ff);
+            }
 
             gpu3dsSetTextureEnvironmentReplaceTexture0();
             gpu3dsBindTextureMainScreen(video3dsGetPreviousScreenTexture(), GPU_TEXUNIT0);
-			gpu3dsAddQuadVertexes(40, 0, 360, 240, 8.2 + 8, 0 + 8, 263.8 - 8, 240 - 8, 0);
+			gpu3dsAddQuadVertexes(40 - widthAdjust, 0, 360 - widthAdjust, 240, 8.2 + 8, 0 + 8, 263.8 - 8, 240 - 8, 0);
 			break;
 		case 4:
             gpu3dsSetTextureEnvironmentReplaceTexture0();
             gpu3dsBindTextureMainScreen(video3dsGetPreviousScreenTexture(), GPU_TEXUNIT0);
-			gpu3dsAddQuadVertexes(0, 0, 400, 240, 8.2 + 8, 0 + 8, 263.8 - 8, 240 - 8, 0);
+			gpu3dsAddQuadVertexes(0, 0, screenSettings.GameScreenWidth, 240, 8.2 + 8, 0 + 8, 263.8 - 8, 240 - 8, 0);
 			break;
 	}
     gpu3dsDrawVertexes();
@@ -1129,6 +1143,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
 
     // All new options should come here!
     config3dsReadWriteInt32("Disable3DSlider=%d\n", &settings3DS.Disable3DSlider, 0, 1);
+    config3dsReadWriteInt32("GameScreen=%d\n", &settings3DS.GameScreen, 0, 1);
 
     config3dsCloseFile();
     return true;
@@ -1238,6 +1253,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
     bool settingsUpdated = false;
     UPDATE_SETTINGS(settings3DS.Font, -1, 18000);
     UPDATE_SETTINGS(settings3DS.ScreenStretch, -1, 11000);
+    UPDATE_SETTINGS(settings3DS.GameScreen, -1, 15000);
     UPDATE_SETTINGS(settings3DS.HideUnnecessaryBottomScrText, -1, 15001);
     UPDATE_SETTINGS(settings3DS.MaxFrameSkips, -1, 10000);
     UPDATE_SETTINGS(settings3DS.ForceFrameRate, -1, 12000);
@@ -1297,7 +1313,6 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
     UPDATE_SETTINGS(settings3DS.OtherOptions[SETTINGS_ALLSPRITES], -1, 19000);     // sprite flicker
 
     return settingsUpdated;
-
 }
 
 
