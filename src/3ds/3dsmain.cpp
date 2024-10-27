@@ -117,11 +117,8 @@ void clearScreen(gfxScreen_t targetScreen) {
 void swapScreenTransition()
 {
     gfxSetScreenFormat(screenSettings.SecondScreen, GSP_RGB565_OES);
-    gfxSetDoubleBuffering(screenSettings.SecondScreen, true);
     gfxSetScreenFormat(screenSettings.GameScreen, GSP_RGBA8_OES);
-    gfxSetDoubleBuffering(screenSettings.GameScreen, false);
     clearScreen(screenSettings.GameScreen);
-    gfxScreenSwapBuffers(screenSettings.GameScreen, false);
     gspWaitForVBlank();
 }
 
@@ -294,11 +291,13 @@ bool emulatorSettingsLoad(bool includeGlobalSettings, bool includeGameSettings, 
 //----------------------------------------------------------------------
 bool emulatorSettingsSave(bool includeGlobalSettings, bool includeGameSettings, bool showMessage)
 {
+    int widthAdjust = screenSettings.GameScreen == GFX_TOP ? 0 : 40;
+
     if (showMessage)
     {
         consoleClear();
-        ui3dsDrawRect(50, 140, 270, 154, 0x000000);
-        ui3dsDrawStringWithNoWrapping(50, 140, 270, 154, 0x3f7fff, HALIGN_CENTER, "保存设置到SD卡...");
+        ui3dsDrawRect(50 + widthAdjust, 140, 270 + widthAdjust, 154, 0x000000);
+        ui3dsDrawStringWithNoWrapping(50 + widthAdjust, 140, 270 + widthAdjust, 154, 0x3f7fff, HALIGN_CENTER, "保存设置到SD卡...");
     }
 
     if (includeGameSettings)
@@ -313,12 +312,11 @@ bool emulatorSettingsSave(bool includeGlobalSettings, bool includeGameSettings, 
 
     if (showMessage)
     {
-        ui3dsDrawRect(50, 140, 270, 154, 0x000000);
+        ui3dsDrawRect(50 + widthAdjust, 140, 270 + widthAdjust, 154, 0x000000);
     }
 
     return true;
 }
-
 
 
 //----------------------------------------------------------------------
@@ -405,7 +403,6 @@ void menuSelectFile(void)
     while (selection == -1);
 
     menu3dsHideMenu();
-
 }
 
 
@@ -674,7 +671,6 @@ void menuPause()
                 break;
             }
         }
-
     }
 
     menu3dsHideMenu();
@@ -687,8 +683,13 @@ void menuPause()
     }
     impl3dsApplyAllSettings();
 
-    ui3dsUpdateScreenSettings((gfxScreen_t) settings3DS.GameScreen);
-    swapScreenTransition();
+    if (emulator.emulatorState != EMUSTATE_END && settings3DS.GameScreen != (int) screenSettings.GameScreen)
+    {
+        ui3dsDrawRect(0, 0, screenSettings.SecondScreenWidth, 240, 0x000000, 1.0f);
+        ui3dsUpdateScreenSettings((gfxScreen_t) settings3DS.GameScreen);
+        ui3dsDrawRect(0, 0, screenSettings.SecondScreenWidth, 240, 0x000000, 1.0f);
+        swapScreenTransition();
+    }
 
     cheat3dsSaveCheatTextFile(file3dsReplaceFilenameExtension(romFileNameFullPath, ".chx"));
 
@@ -697,12 +698,6 @@ void menuPause()
         emulator.emulatorState = EMUSTATE_EMULATE;
         consoleClear();
     }
-
-    // Loads the new ROM if a ROM was selected.
-    //
-    //if (loadRomBeforeExit)
-    //    emulatorLoadRom();
-
 }
 
 //-------------------------------------------------------
@@ -745,8 +740,6 @@ void emulatorInitialize()
     emulator.waitBehavior = 0;
 
     file3dsInitialize();
-    emulatorSettingsLoad(true, false, true);
-    ui3dsUpdateScreenSettings((gfxScreen_t) settings3DS.GameScreen);
 
     romFileNameLastSelected[0] = 0;
 
@@ -777,6 +770,11 @@ void emulatorInitialize()
     osSetSpeedupEnable(1);    // Performance: use the higher clock speed for new 3DS.
 
     enableAptHooks();
+
+    emulatorSettingsLoad(true, false, true);
+
+    ui3dsUpdateScreenSettings((gfxScreen_t) settings3DS.GameScreen);
+    swapScreenTransition();
 
     // Do this one more time.
     if (file3dsGetCurrentDir()[0] == 0)
@@ -926,7 +924,9 @@ void emulatorLoop()
     menu3dsDrawBlackScreen();
     if (settings3DS.HideUnnecessaryBottomScrText == 0)
     {
-        ui3dsDrawStringWithNoWrapping(0, 100, 320, 115, 0x7f7f7f, HALIGN_CENTER, "点触屏幕呼出菜单");
+        ui3dsDrawStringWithNoWrapping(0, 100, screenSettings.SecondScreenWidth, 115,
+            0x7f7f7f, HALIGN_CENTER,
+            screenSettings.GameScreen == GFX_BOTTOM ? "点触下屏幕呼出菜单" : "点触屏幕呼出菜单");
     }
 
     snd3dsInitialize();

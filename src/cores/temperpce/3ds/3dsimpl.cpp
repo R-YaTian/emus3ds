@@ -72,9 +72,9 @@ SMenuItem optionsForFont[] = {
 SMenuItem optionsForStretch[] = {
     MENU_MAKE_DIALOG_ACTION (0, "不拉伸",               "点对点"),
     MENU_MAKE_DIALOG_ACTION (1, "适配4:3",                  "拉伸到320x240"),
-    MENU_MAKE_DIALOG_ACTION (2, "全屏",               "拉伸到400x240"),
+    MENU_MAKE_DIALOG_ACTION (2, "全屏",               "拉伸到全屏幕"),
     MENU_MAKE_DIALOG_ACTION (3, "裁剪适配4:3",          "裁剪并拉伸到320x240"),
-    MENU_MAKE_DIALOG_ACTION (4, "裁剪全屏",       "裁剪并拉伸到400x240"),
+    MENU_MAKE_DIALOG_ACTION (4, "裁剪全屏",       "裁剪并拉伸到全屏幕"),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -1094,16 +1094,16 @@ void impl3dsEmulationEnd()
 //---------------------------------------------------------
 void impl3dsEmulationPaused()
 {
-    {
-        ui3dsDrawRect(50, 140, 270, 154, 0x000000);
-        ui3dsDrawStringWithNoWrapping(50, 140, 270, 154, 0x3f7fff, HALIGN_CENTER, "正在保存SRAM到SD卡...");
+    int widthAdjust = screenSettings.GameScreen == GFX_TOP ? 0 : 40;
 
-        char path_name[MAX_PATH];
-        //if(cd.uses_bram)
-        {
-            get_bram_path(path_name);
-            save_bram(path_name);
-        }
+    ui3dsDrawRect(50 + widthAdjust, 140, 270 + widthAdjust, 154, 0x000000);
+    ui3dsDrawStringWithNoWrapping(50 + widthAdjust, 140, 270 + widthAdjust, 154, 0x3f7fff, HALIGN_CENTER, "正在保存SRAM到SD卡...");
+
+    char path_name[MAX_PATH];
+    //if(cd.uses_bram)
+    {
+        get_bram_path(path_name);
+        save_bram(path_name);
     }
 }
 

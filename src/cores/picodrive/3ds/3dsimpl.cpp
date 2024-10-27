@@ -110,10 +110,10 @@ SMenuItem optionsForStretch[] = {
     MENU_MAKE_DIALOG_ACTION (7, "宽度适配NTSC制式4:3",         "拉伸宽度到320像素"),
     MENU_MAKE_DIALOG_ACTION (1, "适配NTSC制式4:3",           "拉伸到320x240"),
     MENU_MAKE_DIALOG_ACTION (5, "适配PAL制式5:4",            "拉伸到300x240"),
-    MENU_MAKE_DIALOG_ACTION (2, "全屏",               "拉伸到400x240"),
+    MENU_MAKE_DIALOG_ACTION (2, "全屏",               "拉伸到全屏幕"),
     MENU_MAKE_DIALOG_ACTION (3, "裁剪适配NTSC制式4:3",   "裁剪拉伸到320x240"),
     MENU_MAKE_DIALOG_ACTION (6, "裁剪适配PAL制式5:4",    "裁剪拉伸到300x240"),
-    MENU_MAKE_DIALOG_ACTION (4, "裁剪全屏",       "裁剪拉伸到400x240"),
+    MENU_MAKE_DIALOG_ACTION (4, "裁剪全屏",       "裁剪拉伸到全屏幕"),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -1067,8 +1067,10 @@ void impl3dsEmulationEnd()
 //---------------------------------------------------------
 void impl3dsEmulationPaused()
 {
-    ui3dsDrawRect(50, 140, 270, 154, 0x000000);
-    ui3dsDrawStringWithNoWrapping(50, 140, 270, 154, 0x3f7fff, HALIGN_CENTER, "正在保存SRAM到SD卡...");
+    int widthAdjust = screenSettings.GameScreen == GFX_TOP ? 0 : 40;
+
+    ui3dsDrawRect(50 + widthAdjust, 140, 270 + widthAdjust, 154, 0x000000);
+    ui3dsDrawStringWithNoWrapping(50 + widthAdjust, 140, 270 + widthAdjust, 154, 0x3f7fff, HALIGN_CENTER, "正在保存SRAM到SD卡...");
 
     // ** Save SRAM
     emu_save_load_sram(file3dsReplaceFilenameExtension(romFileNameFullPath, ".sram"), 0);

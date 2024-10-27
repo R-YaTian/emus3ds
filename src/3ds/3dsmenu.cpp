@@ -95,7 +95,7 @@ void menu3dsSwapBuffersAndWaitForVBlank()
 {
     if (transferGameScreenCount)
     {
-        gpu3dsTransferToScreenBuffer(screenSettings.SecondScreen);
+        gpu3dsTransferToScreenBuffer(screenSettings.GameScreen);
 		if (emulator.isReal3DS)
 			gspWaitForPPF();
         transferGameScreenCount --;
@@ -1204,8 +1204,8 @@ bool menu3dsTakeScreenshot(const char* path)
 
     // Modified this to take only the top screen
     //
-    u32 bitmapsize = 400*240*2;
-    u8* tempbuf = (u8*)linearAlloc(0x8A + 400*240*2);
+    u32 bitmapsize = screenSettings.GameScreenWidth * 240 * 2;
+    u8* tempbuf = (u8*)linearAlloc(0x8A + screenSettings.GameScreenWidth * 240 * 2);
     if (tempbuf == NULL)
     {
         fclose(pFile);
@@ -1217,7 +1217,7 @@ bool menu3dsTakeScreenshot(const char* path)
     *(u32*)&tempbuf[0x2] = 0x8A + bitmapsize;
     *(u32*)&tempbuf[0xA] = 0x8A;
     *(u32*)&tempbuf[0xE] = 0x28;
-    *(u32*)&tempbuf[0x12] = 400;
+    *(u32*)&tempbuf[0x12] = screenSettings.GameScreenWidth;
     *(u32*)&tempbuf[0x16] = 240;
     *(u32*)&tempbuf[0x1A] = 0x1;
     *(u32*)&tempbuf[0x1C] = 0x10;
@@ -1228,13 +1228,13 @@ bool menu3dsTakeScreenshot(const char* path)
     *(u32*)&tempbuf[0x3E] = 0x0000001F;
     *(u32*)&tempbuf[0x42] = 0x00000000;
 
-    u8* framebuf = (u8*)gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
+    u8* framebuf = (u8*)gfxGetFramebuffer(screenSettings.GameScreen, GFX_LEFT, NULL, NULL);
     for (y = 0; y < 240; y++)
     {
-        for (x = 0; x < 400; x++)
+        for (x = 0; x < screenSettings.GameScreenWidth; x++)
         {
             int si = 1 + (((239 - y) + (x * 240)) * 4);
-            int di = 0x8A + (x + ((239 - y) * 400)) * 2;
+            int di = 0x8A + (x + ((239 - y) * screenSettings.GameScreenWidth)) * 2;
 
             u16 word = RGB8_to_565(framebuf[si++], framebuf[si++], framebuf[si++]);
             tempbuf[di++] = word & 0xFF;
