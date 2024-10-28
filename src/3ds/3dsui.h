@@ -1,8 +1,8 @@
-
 #ifndef _3DSUI_H_
 #define _3DSUI_H_
 
 #include "3dstypes.h"
+#include "3dsthemes.h"
 
 //---------------------------------------------------------------
 // Initialize this library

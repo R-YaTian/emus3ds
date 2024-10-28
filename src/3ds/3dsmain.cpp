@@ -145,7 +145,7 @@ bool emulatorLoadRom()
 {
     impl3dsClearAllCheats();
 
-    menu3dsShowDialog("加载 ROM", "加载中... 请稍后.", DIALOGCOLOR_CYAN, NULL);
+    menu3dsShowDialog("加载 ROM", "加载中... 请稍后.", Themes[settings3DS.Theme].dialogColorInfo, NULL);
 
     char romFileNameFullPathOriginal[_MAX_PATH];
     strncpy(romFileNameFullPathOriginal, romFileNameFullPath, _MAX_PATH - 1);
@@ -374,7 +374,7 @@ void menuSelectFile(void)
             {
                 if (!emulatorLoadRom())
                 {
-                    menu3dsShowDialog("加载 ROM", "无法加载 ROM.", DIALOGCOLOR_RED, optionsForOk);
+                    menu3dsShowDialog("加载 ROM", "无法加载 ROM.", Themes[settings3DS.Theme].dialogColorWarn, optionsForOk);
                     menu3dsHideDialog();
                 }
                 else
@@ -388,7 +388,7 @@ void menuSelectFile(void)
         }
         else if (selection == 6001)
         {
-            int result = menu3dsShowDialog("退出",  "立即退出?", DIALOGCOLOR_RED, optionsForNoYes);
+            int result = menu3dsShowDialog("退出",  "立即退出?", Themes[settings3DS.Theme].dialogColorWarn, optionsForNoYes);
             menu3dsHideDialog();
 
             if (result == 1)
@@ -513,12 +513,12 @@ void menuPause()
 
                 bool loadRom = true;
                 if (settings3DS.AutoSavestate) {
-                    menu3dsShowDialog("即时存档", "自动保存...", DIALOGCOLOR_RED, NULL);
+                    menu3dsShowDialog("即时存档", "自动保存...", Themes[settings3DS.Theme].dialogColorWarn, NULL);
                     bool result = impl3dsSaveState(0);
                     menu3dsHideDialog();
 
                     if (!result) {
-                        int choice = menu3dsShowDialog("自动保存失败", "自动保存失败.\n强制加载?", DIALOGCOLOR_RED, optionsForNoYes);
+                        int choice = menu3dsShowDialog("自动保存失败", "自动保存失败.\n强制加载?", Themes[settings3DS.Theme].dialogColorWarn, optionsForNoYes);
                         if (choice != 1) {
                             loadRom = false;
                         }
@@ -542,7 +542,7 @@ void menuPause()
 
                     if (!emulatorLoadRom())
                     {
-                        menu3dsShowDialog("选择ROM", "无法加载ROM.", DIALOGCOLOR_RED, optionsForOk);
+                        menu3dsShowDialog("选择ROM", "无法加载ROM.", Themes[settings3DS.Theme].dialogColorWarn, optionsForOk);
                         menu3dsHideDialog();
                     }
                     else
@@ -556,20 +556,20 @@ void menuPause()
             char text[200];
 
             sprintf(text, "保存到存档位 %d...\n请稍后", slot);
-            menu3dsShowDialog("即时存档", text, DIALOGCOLOR_CYAN, NULL);
+            menu3dsShowDialog("即时存档", text, Themes[settings3DS.Theme].dialogColorInfo, NULL);
             bool result = impl3dsSaveState(slot);
             menu3dsHideDialog();
 
             if (result)
             {
                 sprintf(text, "存档位 %d 保存完成.", slot);
-                result = menu3dsShowDialog("即时存档", text, DIALOGCOLOR_GREEN, optionsForOk);
+                result = menu3dsShowDialog("即时存档", text, Themes[settings3DS.Theme].dialogColorSuccess, optionsForOk);
                 menu3dsHideDialog();
             }
             else
             {
                 sprintf(text, "无法保存到存档位 %d!", slot);
-                result = menu3dsShowDialog("即时存档", text, DIALOGCOLOR_RED, optionsForOk);
+                result = menu3dsShowDialog("即时存档", text, Themes[settings3DS.Theme].dialogColorWarn, optionsForOk);
                 menu3dsHideDialog();
             }
 
@@ -590,13 +590,13 @@ void menuPause()
             else
             {
                 sprintf(text, "无法加载存档位 %d!", slot);
-                menu3dsShowDialog("即时存档", text, DIALOGCOLOR_RED, optionsForOk);
+                menu3dsShowDialog("即时存档", text, Themes[settings3DS.Theme].dialogColorWarn, optionsForOk);
                 menu3dsHideDialog();
             }
         }
         else if (selection == 4001)
         {
-            menu3dsShowDialog("截屏", "开始截屏...\n请稍后.", DIALOGCOLOR_CYAN, NULL);
+            menu3dsShowDialog("截屏", "开始截屏...\n请稍后.", Themes[settings3DS.Theme].dialogColorInfo, NULL);
 
             char ext[256];
             const char *path = NULL;
@@ -626,18 +626,18 @@ void menuPause()
             {
                 char text[600];
                 snprintf(text, 600, "完成! 文件已保存到 %s", path);
-                menu3dsShowDialog("截屏", text, DIALOGCOLOR_GREEN, optionsForOk);
+                menu3dsShowDialog("截屏", text, Themes[settings3DS.Theme].dialogColorSuccess, optionsForOk);
                 menu3dsHideDialog();
             }
             else
             {
-                menu3dsShowDialog("截屏", "截屏时发生错误!", DIALOGCOLOR_RED, optionsForOk);
+                menu3dsShowDialog("截屏", "截屏时发生错误!", Themes[settings3DS.Theme].dialogColorWarn, optionsForOk);
                 menu3dsHideDialog();
             }
         }
         else if (selection == 5001)
         {
-            int result = menu3dsShowDialog("重置控制台", "确定吗?", DIALOGCOLOR_RED, optionsForNoYes);
+            int result = menu3dsShowDialog("重置控制台", "确定吗?", Themes[settings3DS.Theme].dialogColorWarn, optionsForNoYes);
             menu3dsHideDialog();
 
             if (result == 1)
@@ -652,7 +652,7 @@ void menuPause()
         }
         else if (selection == 6001)
         {
-            int result = menu3dsShowDialog("退出",  "立即退出?", DIALOGCOLOR_RED, optionsForNoYes);
+            int result = menu3dsShowDialog("退出",  "立即退出?", Themes[settings3DS.Theme].dialogColorWarn, optionsForNoYes);
             if (result == 1)
             {
                 emulator.emulatorState = EMUSTATE_END;
@@ -685,9 +685,9 @@ void menuPause()
 
     if (emulator.emulatorState != EMUSTATE_END && settings3DS.GameScreen != (int) screenSettings.GameScreen)
     {
-        ui3dsDrawRect(0, 0, screenSettings.SecondScreenWidth, 240, 0x000000, 1.0f);
+        menu3dsDrawBlackScreen();
         ui3dsUpdateScreenSettings((gfxScreen_t) settings3DS.GameScreen);
-        ui3dsDrawRect(0, 0, screenSettings.SecondScreenWidth, 240, 0x000000, 1.0f);
+        menu3dsDrawBlackScreen();
         swapScreenTransition();
     }
 
@@ -943,7 +943,7 @@ void emulatorLoop()
             break;
 
         gpu3dsStartNewFrame();
-        if(!settings3DS.Disable3DSlider) {
+        if(screenSettings.GameScreen == GFX_TOP && !settings3DS.Disable3DSlider) {
             gfxSet3D(true);
             gpu3dsCheckSlider();
         } else

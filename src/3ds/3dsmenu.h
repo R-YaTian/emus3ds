@@ -1,4 +1,3 @@
-
 #ifndef _3DSMENU_H_
 #define _3DSMENU_H_
 
@@ -191,10 +190,5 @@ bool menu3dsTakeScreenshot(const char *path);
 
 extern SMenuItem optionsForNoYes[];
 extern SMenuItem optionsForOk[];
-
-
-#define DIALOGCOLOR_RED     0xF44336
-#define DIALOGCOLOR_GREEN   0x4CAF50
-#define DIALOGCOLOR_CYAN    0x0097A7
 
 #endif

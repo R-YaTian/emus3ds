@@ -58,7 +58,13 @@ SSettings3DS settings3DS;
 
 SMenuItem optionsForScreenSwap[] = {
     MENU_MAKE_DIALOG_ACTION (0, "上屏幕",               ""),
-    MENU_MAKE_DIALOG_ACTION (1, "下屏幕",                  ""),
+    MENU_MAKE_DIALOG_ACTION (1, "下屏幕",               ""),
+    MENU_MAKE_LASTITEM  ()
+};
+
+SMenuItem optionsForTheme[] = {
+    MENU_MAKE_DIALOG_ACTION (0, "原始",                ""),
+    MENU_MAKE_DIALOG_ACTION (1, "暗黑模式",            ""),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -188,20 +194,21 @@ SMenuItem optionsForPaletteFix[] =
 
 SMenuItem optionMenu[] = {
     MENU_MAKE_HEADER1   ("全局设置"),
-    MENU_MAKE_PICKER    (11000, "  屏幕比例", "您希望屏幕以何种方式显示?", optionsForStretch, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体(仅适用于字母和数字)", optionsForFont, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (15000, "  游戏显示屏幕", "选择使用上屏或下屏进行游玩", optionsForScreenSwap, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (11000, "  屏幕比例", "您希望屏幕以何种方式显示?", optionsForStretch, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (23000, "  主题", "选择应用于界面的主题", optionsForTheme, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体(仅适用于字母和数字)", optionsForFont, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (15000, "  游戏显示屏幕", "选择使用上屏或下屏进行游玩", optionsForScreenSwap, Themes[settings3DS.Theme].dialogColorInfo),
     MENU_MAKE_CHECKBOX  (15001, "  隐藏副屏幕的文本", 0),
     MENU_MAKE_CHECKBOX  (12003, "  禁用3D调节杆", 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_CHECKBOX  (12002, "  退出时自动保存即时存档并在启动时自动加载", 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER1   ("游戏设置"),
-    MENU_MAKE_PICKER    (22000, "  CPU核心", "游戏出现卡死时可选择原生CPU核心", optionsForCPUCore, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (20000, "  空闲态循环补丁", "改变此项配置后需重启ROM", optionsForIdleLoopPatch, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (10000, "  跳帧", "跳帧可以加快游戏速度,但可能会导致画面不平滑", optionsForFrameskip, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (21000, "  BIOS", "BIOS文件必须放置在根目录的 /emus3ds/temperpce_3ds/syscards 文件夹. 改变此项配置后将重启ROM", optionsForBIOS, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (16000, "  调色板", "可修改游戏画面色彩效果", optionsForPaletteFix, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (22000, "  CPU核心", "游戏出现卡死时可选择原生CPU核心", optionsForCPUCore, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (20000, "  空闲态循环补丁", "改变此项配置后需重启ROM", optionsForIdleLoopPatch, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (10000, "  跳帧", "跳帧可以加快游戏速度,但可能会导致画面不平滑", optionsForFrameskip, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (21000, "  BIOS", "BIOS文件必须放置在根目录的 /emus3ds/temperpce_3ds/syscards 文件夹. 改变此项配置后将重启ROM", optionsForBIOS, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (16000, "  调色板", "可修改游戏画面色彩效果", optionsForPaletteFix, Themes[settings3DS.Theme].dialogColorInfo),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER1   ("音频"),
     MENU_MAKE_CHECKBOX  (50002, "  将音量设置应用于所有游戏", 0),
@@ -216,57 +223,57 @@ SMenuItem controlsMenu[] = {
     MENU_MAKE_CHECKBOX  (50001, "  为所有游戏映射连发按键", 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER2   ("3DS A键"),
-    MENU_MAKE_PICKER    (13010, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13020, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13010, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (13020, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
     MENU_MAKE_GAUGE     (13000, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER2   ("3DS B键"),
-    MENU_MAKE_PICKER    (13011, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13021, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13011, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (13021, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
     MENU_MAKE_GAUGE     (13001, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER2   ("3DS X键"),
-    MENU_MAKE_PICKER    (13012, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13022, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13012, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (13022, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
     MENU_MAKE_GAUGE     (13002, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER2   ("3DS Y键"),
-    MENU_MAKE_PICKER    (13013, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13023, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13013, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (13023, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
     MENU_MAKE_GAUGE     (13003, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER2   ("3DS L键"),
-    MENU_MAKE_PICKER    (13014, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13024, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13014, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (13024, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
     MENU_MAKE_GAUGE     (13004, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER2   ("3DS R键"),
-    MENU_MAKE_PICKER    (13015, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13025, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13015, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (13025, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
     MENU_MAKE_GAUGE     (13005, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER2   ("New3DS ZL键"),
-    MENU_MAKE_PICKER    (13016, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13026, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13016, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (13026, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
     MENU_MAKE_GAUGE     (13006, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER2   ("New3DS ZR键"),
-    MENU_MAKE_PICKER    (13017, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13027, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13017, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (13027, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
     MENU_MAKE_GAUGE     (13007, "  连发速度", 0, 10, 0),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER2   ("3DS SELECT键"),
-    MENU_MAKE_PICKER    (13018, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13028, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13018, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (13028, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER2   ("3DS START键"),
-    MENU_MAKE_PICKER    (13019, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (13029, "  映射到", "", optionsForButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (13019, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (13029, "  映射到", "", optionsForButtons, Themes[settings3DS.Theme].dialogColorInfo),
     MENU_MAKE_DISABLED  (""),
     MENU_MAKE_HEADER1   ("模拟器功能设置"),
     MENU_MAKE_CHECKBOX  (50003, "为所有游戏应用映射", 0),
-    MENU_MAKE_PICKER    (23001, "打开模拟器菜单", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
-    MENU_MAKE_PICKER    (23002, "快进", "", optionsFor3DSButtons, DIALOGCOLOR_CYAN),
+    MENU_MAKE_PICKER    (23001, "打开模拟器菜单", "", optionsFor3DSButtons, Themes[settings3DS.Theme].dialogColorInfo),
+    MENU_MAKE_PICKER    (23002, "快进", "", optionsFor3DSButtons, Themes[settings3DS.Theme].dialogColorInfo),
     MENU_MAKE_DISABLED  ("  (在New3DS上效果更好. 可能会导致游戏卡死或出错.)"),
     MENU_MAKE_LASTITEM  ()
 };
@@ -1196,7 +1203,7 @@ bool impl3dsOnMenuSelectedChanged(int ID, int value)
             config.cd_system_type = CD_SYSTEM_TYPE_GECD;
 
         menu3dsHideDialog();
-        int result = menu3dsShowDialog("CD-ROM BIOS 更换成功", "要立即重置控制台吗?", DIALOGCOLOR_RED, optionsForNoYes);
+        int result = menu3dsShowDialog("CD-ROM BIOS 更换成功", "要立即重置控制台吗?", Themes[settings3DS.Theme].dialogColorWarn, optionsForNoYes);
         menu3dsHideDialog();
 
         if (result == 1)
@@ -1371,6 +1378,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
     // All new options should come here!
     config3dsReadWriteInt32("Disable3DSlider=%d\n", &settings3DS.Disable3DSlider, 0, 1);
     config3dsReadWriteInt32("GameScreen=%d\n", &settings3DS.GameScreen, 0, 1);
+    config3dsReadWriteInt32("Theme=%d\n", &settings3DS.Theme, 0, 1);
 
     config3dsCloseFile();
     return true;
@@ -1488,6 +1496,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
     }
 
     bool settingsUpdated = false;
+    UPDATE_SETTINGS(settings3DS.Theme, -1, 23000);
     UPDATE_SETTINGS(settings3DS.Font, -1, 18000);
     UPDATE_SETTINGS(settings3DS.ScreenStretch, -1, 11000);
     UPDATE_SETTINGS(settings3DS.GameScreen, -1, 15000);
@@ -1552,7 +1561,6 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
     UPDATE_SETTINGS(settings3DS.OtherOptions[SETTINGS_CPUCORE], -1, 22000);
 
     return settingsUpdated;
-
 }
 
 

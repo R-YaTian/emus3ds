@@ -99,7 +99,9 @@ typedef struct
 
     int     Disable3DSlider = 0;            // Disable 3DSlider
 
-    int     GameScreen = 0;       // Game screen target
+    int     GameScreen = 0;                 // Game screen target
+
+    int     Theme = 0;                      // current theme
 } SSettings3DS;
 
 
