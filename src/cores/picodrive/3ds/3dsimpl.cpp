@@ -713,6 +713,7 @@ void setSampleRate(bool preserveState)
 	soundSamplesPerSecond = snd3dsComputeSampleRate(sampleRate, soundLoopsPerSecond);
 
 	PicoIn.sndRate = currentConfig.s_PsndRate = defaultConfig.s_PsndRate = soundSamplesPerSecond;
+    snd3dsStopPlaying();
 	snd3dsSetSampleRate(
 		true,
 		soundSamplesPerSecond,
@@ -751,7 +752,6 @@ bool impl3dsLoadROM(char *romFilePath)
     video3dsClearAllSoftwareBuffers();
 
     impl3dsResetConsole();
-    snd3dsStopPlaying();
     setSampleRate(false);
 
 	return true;

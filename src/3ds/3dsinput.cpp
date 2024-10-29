@@ -93,7 +93,6 @@ u32 input3dsScanInputForEmulation()
         (!settings3DS.UseGlobalEmuControlKeys && (keysDown & settings3DS.ButtonHotkeyOpenMenu))
         )
     {
-        // snd3dsStopPlaying();
         impl3dsEmulationPaused();
 
         if (emulator.emulatorState == EMUSTATE_EMULATE)

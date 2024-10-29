@@ -165,7 +165,7 @@ void snd3dsMixSamples()
     t3dsStartTiming(43, "Mix-Flush");
     blockCount++;
     if (blockCount % MIN_FORWARD_BLOCKS == 0)
-        GSPGPU_FlushDataCache(snd3DS.fullBuffers, SAMPLEBUFFER_SIZE * 2 * 2);
+        CSND_FlushDataCache(snd3DS.fullBuffers, SAMPLEBUFFER_SIZE * 2 * 2);
     t3dsEndTiming(43);
 }
 

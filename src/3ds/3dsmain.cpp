@@ -118,7 +118,7 @@ void swapScreenTransition()
 {
     gfxSetScreenFormat(screenSettings.SecondScreen, GSP_RGB565_OES);
     gfxSetScreenFormat(screenSettings.GameScreen, GSP_RGBA8_OES);
-    clearScreen(screenSettings.GameScreen);
+    //clearScreen(screenSettings.GameScreen);
     gspWaitForVBlank();
 }
 
@@ -1056,10 +1056,7 @@ void emulatorLoop()
 	}
 
     if (!appSuspended)
-    {
         snd3dsStopPlaying();
-        //snd3dsFinalize();
-    }
 
     // Wait for the sound thread to leave the snd3dsMixSamples entirely
     // to prevent a race condition between the PTMU_GetBatteryChargeState (when
@@ -1067,7 +1064,7 @@ void emulatorLoop()
     //
     // (There's probably a better way to do this, but this will do for now)
     //
-    svcSleepThread(500000);
+    // svcSleepThread(500000);
 }
 
 

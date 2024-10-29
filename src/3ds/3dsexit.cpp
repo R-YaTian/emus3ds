@@ -20,7 +20,6 @@ void handleAptHook(APT_HookType hook, void* param)
             if (emulator.emulatorState == EMUSTATE_EMULATE) {
                 snd3dsStopPlaying();
                 impl3dsEmulationPaused();
-                //snd3dsFinalize();
             }
             break;
         case APTHOOK_ONRESTORE:
