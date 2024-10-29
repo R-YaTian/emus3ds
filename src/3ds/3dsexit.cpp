@@ -18,9 +18,9 @@ void handleAptHook(APT_HookType hook, void* param)
         case APTHOOK_ONSLEEP:
             appSuspended = 1;
             if (emulator.emulatorState == EMUSTATE_EMULATE) {
-                impl3dsEmulationPaused();
                 snd3dsStopPlaying();
-                snd3dsFinalize();
+                impl3dsEmulationPaused();
+                //snd3dsFinalize();
             }
             break;
         case APTHOOK_ONRESTORE:

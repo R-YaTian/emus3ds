@@ -840,9 +840,10 @@ void impl3dsRenderTransferSoftRenderedScreenToTexture(u32 *buffer, int textureIn
 }
 
 
-void impl3dsRenderDrawTextureToTopFrameBuffer(SGPUTexture *texture, int tx_offset, int ty_offset)
+void impl3dsRenderDrawTextureToFrameBuffer(SGPUTexture *texture, int tx_offset, int ty_offset)
 {
-	t3dsStartTiming(14, "Draw Texture");
+    t3dsStartTiming(14, "Draw Texture");
+    int widthAdjust = screenSettings.GameScreen == GFX_TOP ? 0 : 40;
 
     int scrWidth;
     bool cropped = false;
@@ -860,22 +861,26 @@ void impl3dsRenderDrawTextureToTopFrameBuffer(SGPUTexture *texture, int tx_offse
             scrWidth = 320;
 			break;
 		case 2:
-            scrWidth = 400;
+            scrWidth = screenSettings.GameScreenWidth;
 			break;
 		case 3:
             scrWidth = 320;
             cropped = true;
 			break;
 		case 4:
-            scrWidth = 400;
+            scrWidth = screenSettings.GameScreenWidth;
             cropped = true;
 			break;
 	}
 
-    int sideBorderWidth = (400 - scrWidth) / 2;
-    gpu3dsSetTextureEnvironmentReplaceColor();
-    gpu3dsDrawRectangle(0, 0, sideBorderWidth, 240, 0, 0x000000ff);
-    gpu3dsDrawRectangle(400 - sideBorderWidth, 0, 400, 240, 0, 0x000000ff);
+    int sideBorderWidth = (screenSettings.GameScreenWidth - scrWidth) / 2;
+    if (sideBorderWidth != 0)
+    {
+        gpu3dsSetTextureEnvironmentReplaceColor();
+        gpu3dsDrawRectangle(0, 0, sideBorderWidth, 240, 0, 0x000000ff);
+        gpu3dsDrawRectangle(screenSettings.GameScreenWidth - sideBorderWidth, 0,
+                            screenSettings.GameScreenWidth, 240, 0, 0x000000ff);
+    }
 
     gpu3dsUseShader(0);
     gpu3dsSetTextureEnvironmentReplaceTexture0();
@@ -916,7 +921,8 @@ void impl3dsRenderDrawTextureToTopFrameBuffer(SGPUTexture *texture, int tx_offse
         }
 
         gpu3dsAddQuadVertexes(
-            sideBorderWidth + xOffset, startY, 400 - sideBorderWidth - xOffset, endY + 1,
+            sideBorderWidth + xOffset, startY, screenSettings.GameScreenWidth - sideBorderWidth - xOffset,
+            endY + 1,
             tx0 + tx_offset, ty0 + ty_offset,
             tx1 + tx_offset, ty1 + ty_offset, 0);
     }
@@ -930,7 +936,6 @@ void impl3dsRenderDrawTextureToTopFrameBuffer(SGPUTexture *texture, int tx_offse
     //gpu3dsDrawVertexes();
 
 	t3dsEndTiming(14);
-
 }
 
 
@@ -1021,15 +1026,16 @@ void impl3dsEmulationRunOneFrame(bool firstFrame, bool skipDrawingFrame)
         gpu3dsDrawVertexes();
 
         // debugging only
-        /*render_psg(soundSamplesPerGeneration * 2);
+        /*
+        render_psg(soundSamplesPerGeneration * 2);
 
         for (int i = 0; i < soundSamplesPerGeneration * 2; i += 2)
         {
             printf ("%4x", (u16)audio.buffer[i*2]);
         }
         printf ("---------------------------\n\n");
-*/
-        /*printf ("%10llx - %10llx = %10lld\n",
+
+        printf ("%10llx - %10llx = %10lld\n",
             cpu.global_cycles, psg.cpu_sync_cycles >> step_fractional_bits_clock,
             cpu.global_cycles - (psg.cpu_sync_cycles >> step_fractional_bits_clock));
         */
@@ -1047,9 +1053,7 @@ void impl3dsEmulationRunOneFrame(bool firstFrame, bool skipDrawingFrame)
     */
 
 	if (!skipDrawingFrame)
-	{
-		impl3dsRenderDrawTextureToTopFrameBuffer(emuMainScreenHWTarget, 32, 0);
-	}
+		impl3dsRenderDrawTextureToFrameBuffer(emuMainScreenHWTarget, 32, 0);
 
 	if (!skipDrawingPreviousFrame)
 	{

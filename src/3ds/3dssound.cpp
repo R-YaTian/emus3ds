@@ -18,7 +18,7 @@ SSND3DS snd3DS;
 
 int debugSoundCounter = 0;
 
-int csndTicksPerSecond = 267951600;           // use this for 44100 Khz
+int csndTicksPerSecond = 267951600LL;           // use this for 44100 Khz
 int snd3dsSampleRate = 44100;
 int snd3dsSamplesPerLoop = 735;
 bool snd3dsIsStereo = true;
@@ -92,7 +92,7 @@ void snd3dsMixSamples()
 
     t3dsStartTiming(44, "Mix");
     bool generateSound = false;
-    if (snd3DS.isPlaying)
+    if (snd3DS.isPlaying && !snd3DS.generateSilence)
     {
         impl3dsGenerateSoundSamples(snd3dsSamplesPerLoop);
         generateSound = true;
@@ -164,8 +164,8 @@ void snd3dsMixSamples()
     //
     t3dsStartTiming(43, "Mix-Flush");
     blockCount++;
-    if (blockCount % MIN_FORWARD_BLOCKS == 0 && snd3DS.isPlaying)
-        CSND_FlushDataCache(snd3DS.fullBuffers, SAMPLEBUFFER_SIZE * 2 * 2);
+    if (blockCount % MIN_FORWARD_BLOCKS == 0)
+        GSPGPU_FlushDataCache(snd3DS.fullBuffers, SAMPLEBUFFER_SIZE * 2 * 2);
     t3dsEndTiming(43);
 }
 
@@ -184,10 +184,9 @@ void snd3dsMixingThread(void *p)
     while (!snd3DS.terminateMixingThread)
     {
         if (!emulator.isReal3DS)
-            svcSleepThread(100000 * 1);
+            svcSleepThread(1000000 * 1);
 
-        if (snd3DS.isPlaying)
-            snd3dsMixSamples();
+        snd3dsMixSamples();
     }
     snd3DS.terminateMixingThread = -1;
     svcExitThread();
@@ -226,8 +225,8 @@ void snd3dsPlaySound(int chn, u32 flags, u32 sampleRate, float vol, float pan, v
 	flags &= ~0xFFFF001F;
 	flags |= SOUND_ENABLE | SOUND_CHANNEL(chn) | (timer << 16);
 
-  // compute the ticks per second.
-  csndTicksPerSecond = (uint64)timer * 4 * sampleRate;
+    // compute the ticks per second.
+    csndTicksPerSecond = (uint64)timer * 4 * sampleRate;
 
 	u32 volumes = CSND_VOL(vol, pan);
 	CSND_SetChnRegs(flags, paddr0, paddr1, size, volumes, volumes);
@@ -267,8 +266,9 @@ void snd3dsStartPlaying()
         // Flush CSND command buffers
         csndExecCmds(true);
         snd3DS.startTick = svcGetSystemTick();
-        snd3DS.upToSamplePosition = snd3dsGetSamplePosition();
+        snd3DS.upToSamplePosition = 0;
         snd3DS.isPlaying = true;
+        snd3DS.generateSilence = false;
     }
 }
 
@@ -409,22 +409,22 @@ bool snd3dsInitialize()
         if (snd3dsSpawnMixingThread)
         {
 #ifndef EMU_RELEASE
-          printf ("snd3dsInit - DSP Stack: %x\n", snd3DS.mixingThreadStack);
-          printf ("snd3dsInit - DSP ThreadFunc: %x\n", &snd3dsMixingThread);
+            printf ("snd3dsInit - DSP Stack: %x\n", snd3DS.mixingThreadStack);
+            printf ("snd3dsInit - DSP ThreadFunc: %x\n", &snd3dsMixingThread);
 #endif
-          ret = svcCreateThread(&snd3DS.mixingThreadHandle, snd3dsMixingThread, 0,
-              (u32*)(snd3DS.mixingThreadStack+0x4000), 0x18, 1);
-          if (ret)
-          {
-              printf("Unable to start DSP thread: %x\n", ret);
-              snd3dsFinalize();
-              DEBUG_WAIT_L_KEY
-              return false;
-          }
+            ret = svcCreateThread(&snd3DS.mixingThreadHandle, snd3dsMixingThread, 0,
+                (u32*)(snd3DS.mixingThreadStack+0x4000), 0x18, 1);
+            if (ret)
+            {
+                printf("Unable to start DSP thread: %x\n", ret);
+                snd3dsFinalize();
+                DEBUG_WAIT_L_KEY
+                return false;
+            }
 #ifndef EMU_RELEASE
-          printf ("snd3dsInit - Create DSP thread %x\n", snd3DS.mixingThreadHandle);
+            printf ("snd3dsInit - Create DSP thread %x\n", snd3DS.mixingThreadHandle);
 #endif
-      }
+        }
     }
 
 #ifndef EMU_RELEASE
@@ -440,19 +440,19 @@ bool snd3dsInitialize()
 //---------------------------------------------------------
 void snd3dsFinalize()
 {
-     snd3DS.terminateMixingThread = true;
+    snd3DS.terminateMixingThread = true;
 
-     if (snd3DS.mixingThreadHandle)
-     {
-         // Wait (at most 1 second) for the sound thread to finish,
+    if (snd3DS.mixingThreadHandle)
+    {
+        // Wait (at most 1 second) for the sound thread to finish,
 #ifndef EMU_RELEASE
-         printf ("Join mixingThreadHandle\n");
+        printf ("Join mixingThreadHandle\n");
 #endif
-         svcWaitSynchronization(snd3DS.mixingThreadHandle, 1000 * 1000000);
-         svcCloseHandle(snd3DS.mixingThreadHandle);
-     }
+        svcWaitSynchronization(snd3DS.mixingThreadHandle, 1000 * 1000000);
+        svcCloseHandle(snd3DS.mixingThreadHandle);
+    }
 
-    if (snd3DS.fullBuffers)  linearFree(snd3DS.fullBuffers);
+    if (snd3DS.fullBuffers) linearFree(snd3DS.fullBuffers);
 
     if (snd3DS.audioType == 1)
     {

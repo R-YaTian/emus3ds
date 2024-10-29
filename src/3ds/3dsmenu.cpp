@@ -630,7 +630,7 @@ int menu3dsMenuSelectItem(bool (*itemChangedCallback)(int ID, int value))
             framesDKeyHeld ++;
         else
             framesDKeyHeld = 0;
-        if (keysDown & KEY_B)
+        if (aptCheckHomePressRejected() || (keysDown & KEY_B))
         {
             returnResult = -1;
             break;

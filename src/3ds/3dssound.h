@@ -8,6 +8,7 @@
 typedef struct
 {
     bool        isPlaying = false;
+    bool        generateSilence = false;
 
     int         audioType = 0;              // 0 - no audio, 1 - CSND, 2 - DSP
     short       *fullBuffers;

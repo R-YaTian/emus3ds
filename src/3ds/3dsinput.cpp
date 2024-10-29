@@ -88,7 +88,7 @@ u32 input3dsScanInputForEmulation()
     // -----------------------------------------------
 #endif
 
-    if ((keysDown & KEY_TOUCH) ||
+    if (aptCheckHomePressRejected() || (keysDown & KEY_TOUCH) ||
         (settings3DS.UseGlobalEmuControlKeys && (keysDown & settings3DS.GlobalButtonHotkeyOpenMenu)) ||
         (!settings3DS.UseGlobalEmuControlKeys && (keysDown & settings3DS.ButtonHotkeyOpenMenu))
         )
@@ -99,9 +99,9 @@ u32 input3dsScanInputForEmulation()
         if (emulator.emulatorState == EMUSTATE_EMULATE)
             emulator.emulatorState = EMUSTATE_PAUSEMENU;
     }
+
     lastKeysHeld = currKeysHeld;
     return keysDown;
-
 }
 
 

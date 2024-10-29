@@ -563,6 +563,7 @@ bool impl3dsInitializeCore()
         }
     }
 
+    aptSetHomeAllowed(false);
     return true;
 }
 
@@ -750,6 +751,7 @@ bool impl3dsLoadROM(char *romFilePath)
     video3dsClearAllSoftwareBuffers();
 
     impl3dsResetConsole();
+    snd3dsStopPlaying();
     setSampleRate(false);
 
 	return true;
@@ -829,7 +831,6 @@ void impl3dsEmulationBegin()
 	//	gpu3dsWaitForPreviousFlush();
 
 	PicoLoopPrepare();
-
 }
 
 
@@ -889,7 +890,8 @@ int currentFrameIndex = 0;
 //---------------------------------------------------------
 void impl3dsRenderDrawTextureToFrameBuffer()
 {
-	t3dsStartTiming(14, "Draw Texture");
+    t3dsStartTiming(14, "Draw Texture");
+    int widthAdjust = screenSettings.GameScreen == GFX_TOP ? 0 : 40;
 
     gpu3dsUseShader(0);
     gpu3dsSetRenderTargetToFrameBuffer(screenSettings.GameScreen);
@@ -910,81 +912,89 @@ void impl3dsRenderDrawTextureToFrameBuffer()
         ty1 += 16; ty2 -= 16;
     }
 
-    int bx = (400 - (tx2 - tx1)) / 2;
+    int bx = (screenSettings.GameScreenWidth - (tx2 - tx1)) / 2;
 	switch (settings3DS.ScreenStretch)
 	{
 		case 0:
             // No stretch
             gpu3dsSetTextureEnvironmentReplaceColor();
-            gpu3dsDrawRectangle(0, 0, 400, 240, 0, 0x000000ff);
-            //gpu3dsDrawRectangle(328, 0, 400, 240, 0, 0x000000ff);
+            gpu3dsDrawRectangle(0, 0, screenSettings.GameScreenWidth, 240, 0, 0x000000ff);
 
             gpu3dsSetTextureEnvironmentReplaceTexture0();
             gpu3dsBindTextureMainScreen(video3dsGetPreviousScreenTexture(), GPU_TEXUNIT0);
 
-            gpu3dsAddQuadVertexes(bx, 0, 400 - bx, 240, tx1, 0, tx2, 240, 0);
+            gpu3dsAddQuadVertexes(bx, 0, screenSettings.GameScreenWidth - bx, 240, tx1, 0, tx2, 240, 0);
 			break;
 		case 7:
             // 4:3 NTSC Stretch Width (320x2??)
-            gpu3dsSetTextureEnvironmentReplaceColor();
-            gpu3dsDrawRectangle(0, 0, 40, 240, 0, 0x000000ff);
-            gpu3dsDrawRectangle(360, 0, 400, 240, 0, 0x000000ff);
+            if (screenSettings.GameScreen == GFX_TOP)
+            {
+                gpu3dsSetTextureEnvironmentReplaceColor();
+                gpu3dsDrawRectangle(0, 0, 40, 240, 0, 0x000000ff);
+                gpu3dsDrawRectangle(360, 0, 400, 240, 0, 0x000000ff);
+            }
 
             gpu3dsSetTextureEnvironmentReplaceTexture0();
             gpu3dsBindTextureMainScreen(video3dsGetPreviousScreenTexture(), GPU_TEXUNIT0);
-			gpu3dsAddQuadVertexes(40, 0, 360, 240, tx1, 0, tx2, 240, 0);
+			gpu3dsAddQuadVertexes(40 - widthAdjust, 0, 360 - widthAdjust, 240, tx1, 0, tx2, 240, 0);
 			break;
 		case 1:
             // 4:3 NTSC Fit (320x240)
-            gpu3dsSetTextureEnvironmentReplaceColor();
-            gpu3dsDrawRectangle(0, 0, 40, 240, 0, 0x000000ff);
-            gpu3dsDrawRectangle(360, 0, 400, 240, 0, 0x000000ff);
+            if (screenSettings.GameScreen == GFX_TOP)
+            {
+                gpu3dsSetTextureEnvironmentReplaceColor();
+                gpu3dsDrawRectangle(0, 0, 40, 240, 0, 0x000000ff);
+                gpu3dsDrawRectangle(360, 0, 400, 240, 0, 0x000000ff);
+            }
 
             gpu3dsSetTextureEnvironmentReplaceTexture0();
             gpu3dsBindTextureMainScreen(video3dsGetPreviousScreenTexture(), GPU_TEXUNIT0);
-			gpu3dsAddQuadVertexes(40, 0, 360, 240, tx1, ty1, tx2, ty2, 0);
+			gpu3dsAddQuadVertexes(40 - widthAdjust, 0, 360 - widthAdjust, 240, tx1, ty1, tx2, ty2, 0);
 			break;
 		case 5:
             // 5:4 PAL Fit (300x240)
             gpu3dsSetTextureEnvironmentReplaceColor();
-            gpu3dsDrawRectangle(0, 0, 50, 240, 0, 0x000000ff);
-            gpu3dsDrawRectangle(350, 0, 400, 240, 0, 0x000000ff);
+            gpu3dsDrawRectangle(0, 0, 50 - widthAdjust, 240, 0, 0x000000ff);
+            gpu3dsDrawRectangle(350 - widthAdjust, 0, screenSettings.GameScreenWidth, 240, 0, 0x000000ff);
 
             gpu3dsSetTextureEnvironmentReplaceTexture0();
             gpu3dsBindTextureMainScreen(video3dsGetPreviousScreenTexture(), GPU_TEXUNIT0);
-			gpu3dsAddQuadVertexes(50, 0, 350, 240, tx1, ty1, tx2, ty2, 0);
+			gpu3dsAddQuadVertexes(50 - widthAdjust, 0, 350 - widthAdjust, 240, tx1, ty1, tx2, ty2, 0);
 			break;
 		case 2:
             // Full Screen (400x240)
             gpu3dsSetTextureEnvironmentReplaceTexture0();
             gpu3dsBindTextureMainScreen(video3dsGetPreviousScreenTexture(), GPU_TEXUNIT0);
-			gpu3dsAddQuadVertexes(0, 0, 400, 240, tx1, ty1, tx2, ty2, 0);
+			gpu3dsAddQuadVertexes(0, 0, screenSettings.GameScreenWidth, 240, tx1, ty1, tx2, ty2, 0);
 			break;
 		case 3:
             // Cropped 4:3 NTSC (320x240)
-            gpu3dsSetTextureEnvironmentReplaceColor();
-            gpu3dsDrawRectangle(0, 0, 40, 240, 0, 0x000000ff);
-            gpu3dsDrawRectangle(360, 0, 400, 240, 0, 0x000000ff);
+            if (screenSettings.GameScreen == GFX_TOP)
+            {
+                gpu3dsSetTextureEnvironmentReplaceColor();
+                gpu3dsDrawRectangle(0, 0, 40, 240, 0, 0x000000ff);
+                gpu3dsDrawRectangle(360, 0, 400, 240, 0, 0x000000ff);
+            }
 
             gpu3dsSetTextureEnvironmentReplaceTexture0();
             gpu3dsBindTextureMainScreen(video3dsGetPreviousScreenTexture(), GPU_TEXUNIT0);
-			gpu3dsAddQuadVertexes(40, 0, 360, 240, tx1 + 8, ty1 + 8, tx2 - 8, ty2 - 8, 0);
+			gpu3dsAddQuadVertexes(40 - widthAdjust, 0, 360 - widthAdjust, 240, tx1 + 8, ty1 + 8, tx2 - 8, ty2 - 8, 0);
 			break;
 		case 6:
-            // Cropped 4:3 PAL (320x240)
+            // Cropped 4:3 PAL (300x240)
             gpu3dsSetTextureEnvironmentReplaceColor();
-            gpu3dsDrawRectangle(0, 0, 50, 240, 0, 0x000000ff);
-            gpu3dsDrawRectangle(350, 0, 400, 240, 0, 0x000000ff);
+            gpu3dsDrawRectangle(0, 0, 50 - widthAdjust, 240, 0, 0x000000ff);
+            gpu3dsDrawRectangle(350 - widthAdjust, 0, 400, 240, 0, 0x000000ff);
 
             gpu3dsSetTextureEnvironmentReplaceTexture0();
             gpu3dsBindTextureMainScreen(video3dsGetPreviousScreenTexture(), GPU_TEXUNIT0);
-			gpu3dsAddQuadVertexes(50, 0, 350, 240, tx1 + 8, ty1 + 8, tx2 - 8, ty2 - 8, 0);
+			gpu3dsAddQuadVertexes(50 - widthAdjust, 0, 350 - widthAdjust, 240, tx1 + 8, ty1 + 8, tx2 - 8, ty2 - 8, 0);
 			break;
 		case 4:
             // Cropped Fullscreen (400x240)
             gpu3dsSetTextureEnvironmentReplaceTexture0();
             gpu3dsBindTextureMainScreen(video3dsGetPreviousScreenTexture(), GPU_TEXUNIT0);
-			gpu3dsAddQuadVertexes(0, 0, 400, 240, tx1 + 8, ty1 + 8, tx2 - 8, ty2 - 8, 0);
+			gpu3dsAddQuadVertexes(0, 0, screenSettings.GameScreenWidth, 240, tx1 + 8, ty1 + 8, tx2 - 8, ty2 - 8, 0);
 			break;
 	}
 

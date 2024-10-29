@@ -181,6 +181,7 @@ bool emulatorLoadRom()
         impl3dsLoadState(0);
 
     emulator.emulatorState = EMUSTATE_EMULATE;
+    aptCheckHomePressRejected();
 
     cheat3dsLoadCheatTextFile(file3dsReplaceFilenameExtension(romFileNameFullPath, ".chx"));
     menu3dsHideDialog();
@@ -448,7 +449,6 @@ void menuPause()
     bool settingsSaved = false;
     bool returnToEmulation = false;
 
-
     menu3dsClearMenuTabs();
     menu3dsAddTab("模拟器", emulatorMenu);
     menu3dsAddTab("设置", optionMenu);
@@ -585,6 +585,7 @@ void menuPause()
             {
                 emulator.emulatorState = EMUSTATE_EMULATE;
                 consoleClear();
+                aptCheckHomePressRejected();
                 break;
             }
             else
@@ -645,7 +646,7 @@ void menuPause()
                 impl3dsResetConsole();
                 emulator.emulatorState = EMUSTATE_EMULATE;
                 consoleClear();
-
+                aptCheckHomePressRejected();
                 break;
             }
 
@@ -697,6 +698,7 @@ void menuPause()
     {
         emulator.emulatorState = EMUSTATE_EMULATE;
         consoleClear();
+        aptCheckHomePressRejected();
     }
 }
 
@@ -757,6 +759,12 @@ void emulatorInitialize()
         exit(0);
     }
 
+    if (!snd3dsInitialize())
+    {
+        printf ("Unable to initialize CSND\n");
+        exit (0);
+    }
+
     ui3dsInitialize();
 
     if (romfsInit())
@@ -773,8 +781,11 @@ void emulatorInitialize()
 
     emulatorSettingsLoad(true, false, true);
 
-    ui3dsUpdateScreenSettings((gfxScreen_t) settings3DS.GameScreen);
-    swapScreenTransition();
+    if (settings3DS.GameScreen != (int) screenSettings.GameScreen)
+    {
+        ui3dsUpdateScreenSettings((gfxScreen_t) settings3DS.GameScreen);
+        swapScreenTransition();
+    }
 
     // Do this one more time.
     if (file3dsGetCurrentDir()[0] == 0)
@@ -798,6 +809,11 @@ void emulatorFinalize()
     gspWaitForVBlank();
     gpu3dsWaitForPreviousFlush();
     gspWaitForVBlank();
+
+#ifndef EMU_RELEASE
+    printf("snd3dsFinalize:\n");
+#endif
+    snd3dsFinalize();
 
 #ifndef EMU_RELEASE
     printf("gpu3dsFinalize:\n");
@@ -906,6 +922,8 @@ void emulatorLoop()
     bool firstFrame = true;
     appSuspended = 0;
 
+    snd3DS.generateSilence = false;
+
     gpu3dsResetState();
 
     frameCount60 = 60;
@@ -929,7 +947,7 @@ void emulatorLoop()
             screenSettings.GameScreen == GFX_BOTTOM ? "点触下屏幕呼出菜单" : "点触屏幕呼出菜单");
     }
 
-    snd3dsInitialize();
+    snd3dsStartPlaying();
 
     impl3dsEmulationBegin();
     initIRED();
@@ -1040,7 +1058,7 @@ void emulatorLoop()
     if (!appSuspended)
     {
         snd3dsStopPlaying();
-        snd3dsFinalize();
+        //snd3dsFinalize();
     }
 
     // Wait for the sound thread to leave the snd3dsMixSamples entirely

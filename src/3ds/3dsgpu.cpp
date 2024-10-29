@@ -456,13 +456,12 @@ bool gpu3dsInitialize()
         return false;
     }
 
-	// GX_MemoryFill(
-  	// 	GPU3DS.frameBuffer, 0, &GPU3DS.frameBuffer[240*400],
-    //     GX_FILL_TRIGGER | GX_FILL_32BIT_DEPTH,
-    //     //NULL, 0, NULL, 0);
-  	// 	GPU3DS.frameDepthBuffer, 0, &GPU3DS.frameDepthBuffer[240*400],
-    //     GX_FILL_TRIGGER | GX_FILL_32BIT_DEPTH);
-    // gspWaitForPSC0();
+    GX_MemoryFill(
+        GPU3DS.frameBuffer, 0, &GPU3DS.frameBuffer[240*400],
+        GX_FILL_TRIGGER | GX_FILL_32BIT_DEPTH,
+        GPU3DS.frameDepthBuffer, 0, &GPU3DS.frameDepthBuffer[240*400],
+        GX_FILL_TRIGGER | GX_FILL_32BIT_DEPTH);
+    gspWaitForPSC0();
 
     // Initialize the bottom screen for console output.
     //
@@ -914,7 +913,6 @@ void gpu3dsEnableSubtractiveDiv2Blending()
 
 void gpu3dsResetState()
 {
-    //GPU3DS.currentShader = -1;
 	//GPUCMD_SetBufferOffset(0);
 
 	GPU_DepthMap(-1.0f, 0.0f);
@@ -1060,7 +1058,6 @@ void gpu3dsWaitForPreviousFlush()
             gspWaitForP3D();
         somethingWasFlushed = false;
     }
-
 }
 
 /*

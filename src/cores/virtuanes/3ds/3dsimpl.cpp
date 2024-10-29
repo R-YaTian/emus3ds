@@ -445,6 +445,7 @@ bool impl3dsInitializeCore()
         return false;
     }
 
+    aptSetHomeAllowed(false);
 	gpu3dsUseShader(0);
     return true;
 }
@@ -534,6 +535,7 @@ bool impl3dsLoadROM(char *romFilePath)
     int numberOfGenerationsPerSecond = nes->nescfg->FrameRate * 2;
     soundSamplesPerGeneration = snd3dsComputeSamplesPerLoop(nesSampleRate, numberOfGenerationsPerSecond);
 	soundSamplesPerSecond = snd3dsComputeSampleRate(nesSampleRate, numberOfGenerationsPerSecond);
+    snd3dsStopPlaying();
 	snd3dsSetSampleRate(
 		false,
 		nesSampleRate,
@@ -568,9 +570,6 @@ bool impl3dsLoadROM(char *romFilePath)
     }
     for (int i = 1; i <= 8; i++)
         optionsForDisk[i].Type = (fdsDiskNo >= i) ? MENUITEM_ACTION : MENUITEM_DISABLED;
-
-
-	//svcSleepThread((long)10000000000);
 
 	return true;
 }
@@ -702,7 +701,7 @@ int lastWait = 0;
 
 void impl3dsRenderDrawTextureToFrameBuffer()
 {
-	t3dsStartTiming(14, "Draw Texture");
+    t3dsStartTiming(14, "Draw Texture");
     int widthAdjust = screenSettings.GameScreen == GFX_TOP ? 0 : 40;
 
     // Draw a black colored rectangle covering the entire screen.
@@ -812,7 +811,6 @@ if (frameCount60 == 59)
 
 	skipDrawingPreviousFrame = skipDrawingFrame;
 	t3dsEndTiming(1);
-
 }
 
 
