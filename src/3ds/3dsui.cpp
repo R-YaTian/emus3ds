@@ -152,6 +152,7 @@ void ui3dsSetTheme(int themeIndex)
 {
     if (themeIndex >= 0 && themeIndex < 2)
         settings3DS.Theme = themeIndex;
+    impl3dsReadWriteSettingsGlobal(true);
 }
 
 //---------------------------------------------------------------

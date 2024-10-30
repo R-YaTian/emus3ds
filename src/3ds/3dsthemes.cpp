@@ -34,7 +34,7 @@ Theme3ds Themes[] = {
         0x999999, //tabTextColor
         0x1aa1fa, //selectedTabIndicatorColor
         0x2e2e2e, //menuBottomBarColor
-        0xffffff, // menuBottomBarTextColor
+        0xffffff, //menuBottomBarTextColor
         0x1c1c1c, //menuBackColor
         0x2e2e2e, //selectedItemBackColor
         0xffffff, //selectedItemTextColor

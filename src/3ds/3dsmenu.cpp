@@ -122,7 +122,6 @@ void menu3dsDrawItems(
     int selectedItemBackColor,
     int selectedItemTextColor,
     int selectedItemDescriptionTextColor,
-    int checkedItemTextColor,
     int normalItemTextColor,
     int normalItemDescriptionTextColor,
     int disabledItemTextColor,
@@ -146,7 +145,7 @@ void menu3dsDrawItems(
     }
 
     int line = 0;
-    int color = 0xffffff;
+    int color = Themes[settings3DS.Theme].selectedTabTextColor;
 
     // Draw all the individual items
     //
@@ -235,7 +234,7 @@ void menu3dsDrawItems(
             int pos = (currentTab->MenuItems[i].Value - currentTab->MenuItems[i].GaugeMinValue) * (max - 1) / diff;
 
             for (int j = 0; j < max; j++)
-                gauge[j] = (j == pos) ? '\xfa' : '\xfb';
+                gauge[j] = (j == pos) ? (settings3DS.Theme == THEME_ORIGINAL ? '\xfa' :  '\xfc') : '\xfb';
             gauge[max] = 0;
             ui3dsDrawStringWithNoWrapping(245 + widthAdjust, y, screenSettings.SecondScreenWidth - horizontalPadding, y + fontHeight, color, HALIGN_RIGHT, gauge);
         }
@@ -301,9 +300,9 @@ void menu3dsDrawMenu(int menuItemFrame, int translateY)
 
     // Draw the flat background
     //
-    ui3dsDrawRect(0, 0, screenSettings.SecondScreenWidth, 24, 0x1976D2);
-    ui3dsDrawRect(0, 24, screenSettings.SecondScreenWidth, 220, 0xFFFFFF);
-    ui3dsDrawRect(0, 220, screenSettings.SecondScreenWidth, 240, 0x1976D2);
+    ui3dsDrawRect(0, 0, screenSettings.SecondScreenWidth, 24, Themes[settings3DS.Theme].menuTopBarColor);
+    ui3dsDrawRect(0, 24, screenSettings.SecondScreenWidth, 220, Themes[settings3DS.Theme].menuBackColor);
+    ui3dsDrawRect(0, 220, screenSettings.SecondScreenWidth, 240, Themes[settings3DS.Theme].menuBottomBarColor);
 
     // Draw the tabs at the top
     //
@@ -311,18 +310,20 @@ void menu3dsDrawMenu(int menuItemFrame, int translateY)
     int tabPadding = (screenSettings.SecondScreenWidth - tabWidth * menuTabCount) / 2;
     for (int i = 0; i < menuTabCount; i++)
     {
-        int color = i == currentMenuTab ? 0xFFFFFF : 0x90CAF9 ;
+        int color = i == currentMenuTab ?
+                         Themes[settings3DS.Theme].selectedTabTextColor :
+                         Themes[settings3DS.Theme].tabTextColor;
         ui3dsDrawStringWithNoWrapping(i * tabWidth + tabPadding, 6, (i+1)*tabWidth + tabPadding, 21, color, HALIGN_CENTER,
             menuTab[i].Title);
 
         if (i == currentMenuTab)
-            ui3dsDrawRect(i * tabWidth + tabPadding, 21, (i+1)*tabWidth + tabPadding, 24, 0xFFFFFF);
+            ui3dsDrawRect(i * tabWidth + tabPadding, 21, (i+1)*tabWidth + tabPadding, 24, Themes[settings3DS.Theme].selectedTabIndicatorColor);
     }
 
-    ui3dsDrawStringWithNoWrapping(10, 223, 285, 240, 0xFFFFFF, HALIGN_LEFT,
-        "A:选择  B:取消  X+上/下:翻页");
-    ui3dsDrawStringWithNoWrapping(10 + widthAdjust, 223, 285 + widthAdjust, 240, 0xFFFFFF, HALIGN_RIGHT,
-        impl3dsTitleText);
+    ui3dsDrawStringWithNoWrapping(10, 223, 285, 240, Themes[settings3DS.Theme].menuBottomBarTextColor,
+        HALIGN_LEFT, "A:选择  B:取消  X+上/下:翻页");
+    ui3dsDrawStringWithNoWrapping(10 + widthAdjust, 223, 285 + widthAdjust, 240,
+        Themes[settings3DS.Theme].menuBottomBarTextColor, HALIGN_RIGHT, impl3dsTitleText);
 
     //battery display
     const int maxBatteryLevel = 5;
@@ -342,21 +343,21 @@ void menu3dsDrawMenu(int menuItemFrame, int translateY)
         battY1 + battHeadSpacing,
         battX2 - battFullLevelWidth - battBorderWidth,
         battY2 - battHeadSpacing,
-        0xFFFFFF, 1.0f);
+        Themes[settings3DS.Theme].selectedTabTextColor, 1.0f);
     // battery body
     ui3dsDrawRect(
         battX2 - battFullLevelWidth - battBorderWidth,
         battY1 - battBorderWidth,
         battX2 + battBorderWidth,
         battY2 + battBorderWidth,
-        0xFFFFFF, 1.0f);
+        Themes[settings3DS.Theme].selectedTabTextColor, 1.0f);
     // battery's empty insides
     ui3dsDrawRect(
         battX2 - battFullLevelWidth,
         battY1,
         battX2,
         battY2,
-        0x1976D2, 1.0f);
+        Themes[settings3DS.Theme].menuBottomBarColor, 1.0f);
 
     ptmuInit();
 
@@ -365,7 +366,7 @@ void menu3dsDrawMenu(int menuItemFrame, int translateY)
     if(R_SUCCEEDED(PTMU_GetBatteryChargeState(&batteryChargeState)) && batteryChargeState) {
         ui3dsDrawRect(
             battX2-battFullLevelWidth + 1, battY1 + 1,
-            battX2 - 1, battY2 - 1, 0xFF9900, 1.0f);
+            battX2 - 1, battY2 - 1, Themes[settings3DS.Theme].accentColor, 1.0f);
     } else if(R_SUCCEEDED(PTMU_GetBatteryLevel(&batteryLevel))) {
         if (batteryLevel > 5)
             batteryLevel = 5;
@@ -373,7 +374,7 @@ void menu3dsDrawMenu(int menuItemFrame, int translateY)
         {
             ui3dsDrawRect(
                 battX2-battLevelWidth*(i+1), battY1 + 1,
-                battX2-battLevelWidth*(i) - 1, battY2 - 1, 0xFFFFFF, 1.0f);
+                battX2-battLevelWidth*(i) - 1, battY2 - 1, Themes[settings3DS.Theme].accentColor, 1.0f);
         }
     }
 
@@ -389,16 +390,15 @@ void menu3dsDrawMenu(int menuItemFrame, int translateY)
     {
         menu3dsDrawItems(
             currentTab, 20, menuStartY, maxItems,
-            0x333333,       // selectedItemBackColor
-            0xffffff,       // selectedItemTextColor
-            0x777777,       // selectedItemDescriptionTextColor
+            Themes[settings3DS.Theme].selectedItemBackColor,       // selectedItemBackColor
+            Themes[settings3DS.Theme].selectedItemTextColor,       // selectedItemTextColor
+            Themes[settings3DS.Theme].selectedItemDescriptionTextColor,       // selectedItemDescriptionTextColor
 
-            0x000000,       // checkedItemTextColor
-            0x333333,       // normalItemTextColor
-            0x777777,       // normalItemDescriptionTextColor
-            0x888888,       // disabledItemTextColor
-            0x1E88E5,       // headerItemTextColor
-            0x1E88E5);      // subtitleTextColor
+            Themes[settings3DS.Theme].normalItemTextColor,       // normalItemTextColor
+            Themes[settings3DS.Theme].normalItemDescriptionTextColor,       // normalItemDescriptionTextColor
+            Themes[settings3DS.Theme].disabledItemTextColor,       // disabledItemTextColor
+            Themes[settings3DS.Theme].headerItemTextColor,       // headerItemTextColor
+            Themes[settings3DS.Theme].subtitleTextColor);      // subtitleTextColor
     }
     else
     {
@@ -406,20 +406,19 @@ void menu3dsDrawMenu(int menuItemFrame, int translateY)
             menuItemFrame = -menuItemFrame;
         float alpha = (float)(ANIMATE_TAB_STEPS - menuItemFrame + 1) / (ANIMATE_TAB_STEPS + 1);
 
-        int white = ui3dsApplyAlphaToColor(0xFFFFFF, 1.0f - alpha);
+        int menuBackColorAlpha = ui3dsApplyAlphaToColor(Themes[settings3DS.Theme].menuBackColor, 1.0f - alpha);
 
-         menu3dsDrawItems(
+        menu3dsDrawItems(
             currentTab, 20, menuStartY, maxItems,
-            ui3dsApplyAlphaToColor(0x333333, alpha) + white,
-            ui3dsApplyAlphaToColor(0xffffff, alpha) + white,       // selectedItemTextColor
-            ui3dsApplyAlphaToColor(0x777777, alpha) + white,       // selectedItemDescriptionTextColor
+            ui3dsApplyAlphaToColor(Themes[settings3DS.Theme].selectedItemBackColor, alpha) + menuBackColorAlpha,
+            ui3dsApplyAlphaToColor(Themes[settings3DS.Theme].selectedItemTextColor, alpha) + menuBackColorAlpha,       // selectedItemTextColor
+            ui3dsApplyAlphaToColor(Themes[settings3DS.Theme].selectedItemDescriptionTextColor, alpha) + menuBackColorAlpha,       // selectedItemDescriptionTextColor
 
-            ui3dsApplyAlphaToColor(0x000000, alpha) + white,       // checkedItemTextColor
-            ui3dsApplyAlphaToColor(0x333333, alpha) + white,       // normalItemTextColor
-            ui3dsApplyAlphaToColor(0x777777, alpha) + white,       // normalItemDescriptionTextColor
-            ui3dsApplyAlphaToColor(0x888888, alpha) + white,       // disabledItemTextColor
-            ui3dsApplyAlphaToColor(0x1E88E5, alpha) + white,       // headerItemTextColor
-            ui3dsApplyAlphaToColor(0x1E88E5, alpha) + white);      // subtitleTextColor
+            ui3dsApplyAlphaToColor(Themes[settings3DS.Theme].normalItemTextColor, alpha) + menuBackColorAlpha,       // normalItemTextColor
+            ui3dsApplyAlphaToColor(Themes[settings3DS.Theme].normalItemDescriptionTextColor, alpha) + menuBackColorAlpha,       // normalItemDescriptionTextColor
+            ui3dsApplyAlphaToColor(Themes[settings3DS.Theme].disabledItemTextColor, alpha) + menuBackColorAlpha,       // disabledItemTextColor
+            ui3dsApplyAlphaToColor(Themes[settings3DS.Theme].headerItemTextColor, alpha) + menuBackColorAlpha,       // headerItemTextColor
+            ui3dsApplyAlphaToColor(Themes[settings3DS.Theme].subtitleTextColor, alpha) + menuBackColorAlpha);      // subtitleTextColor
     }
 }
 
@@ -485,7 +484,6 @@ void menu3dsDrawDialog()
         Themes[settings3DS.Theme].selectedItemTextColor,        // selectedItemTextColor
         dialogItemDescriptionTextColor,     // selectedItemDescriptionColor
 
-        dialogItemTextColor,                // checkedItemTextColor
         dialogItemTextColor,                // normalItemTextColor
         dialogItemDescriptionTextColor,     // normalItemDescriptionTextColor
         dialogItemDescriptionTextColor,     // disabledItemTextColor
@@ -790,7 +788,6 @@ int menu3dsMenuSelectItem(bool (*itemChangedCallback)(int ID, int value))
                 currentTab->FirstItemIndex = currentTab->SelectedItemIndex - maxItems + 1;
 
             menu3dsDrawEverything();
-
         }
         if (keysDown & KEY_DOWN || ((thisKeysHeld & KEY_DOWN) && (framesDKeyHeld > 15) && (framesDKeyHeld % 2 == 0)))
         {
@@ -1106,7 +1103,7 @@ int menu3dsShowDialog(const char *title, const char *dialogText, int newDialogBa
         while (true)
         {
             if (menuItems[itemCount].Type != MENUITEM_LASTITEM && itemCount < 1000)
-                itemCount ++;
+                itemCount++;
             else
                 break;
         }
