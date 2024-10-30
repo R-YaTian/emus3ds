@@ -936,6 +936,11 @@ bool impl3dsOnMenuSelectedChanged(int ID, int value)
         ui3dsSetFont(value);
         return false;
     }
+    if (ID == 23000)
+    {
+        ui3dsSetTheme(value);
+        return false;
+    }
     if (ID == 30000)
     {
         switch (value)

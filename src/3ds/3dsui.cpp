@@ -146,6 +146,15 @@ void ui3dsSetFont(int fontIndex)
 }
 
 //---------------------------------------------------------------
+// Sets the menu theme.
+//---------------------------------------------------------------
+void ui3dsSetTheme(int themeIndex)
+{
+    if (themeIndex >= 0 && themeIndex < 2)
+        settings3DS.Theme = themeIndex;
+}
+
+//---------------------------------------------------------------
 // Sets the global viewport for all drawing
 //---------------------------------------------------------------
 void ui3dsSetViewport(int x1, int y1, int x2, int y2)
@@ -231,6 +240,32 @@ int ui3dsApplyAlphaToColor(int color, float alpha)
         ((((color >> 16) & 0xff) * a / 255) << 16) |
         ((((color >> 8) & 0xff) * a / 255) << 8) |
         ((((color >> 0) & 0xff) * a / 255) << 0);
+}
+
+
+// overlay blending mode: returns a color in RGB888 format
+// may have more performance impact than simple blending mode 
+// but will provide more vibrant colors
+// TODO: add alpha value support
+int ui3dsOverlayBlendColor(int backgroundColor, int foregroundColor) {
+    // Extract the red, green, and blue components of the colors
+    float baseR = ((backgroundColor >> 16) & 0xFF) / 255.0f;
+    float baseG = ((backgroundColor >> 8) & 0xFF) / 255.0f;
+    float baseB = (backgroundColor & 0xFF) / 255.0f;
+    
+    float blendR = ((foregroundColor >> 16) & 0xFF) / 255.0f;
+    float blendG = ((foregroundColor >> 8) & 0xFF) / 255.0f;
+    float blendB = (foregroundColor & 0xFF) / 255.0f;
+
+    float resultR = baseR <= 0.5f ? 2 * baseR * blendR : 1 - 2 * (1 - baseR) * (1 - blendR);
+    float resultG = baseG <= 0.5f ? 2 * baseG * blendG : 1 - 2 * (1 - baseG) * (1 - blendG);
+    float resultB = baseB <= 0.5f ? 2 * baseB * blendB : 1 - 2 * (1 - baseB) * (1 - blendB);
+
+    unsigned char r = static_cast<unsigned int>(resultR * 255);
+    unsigned char g = static_cast<unsigned int>(resultG * 255);
+    unsigned char b = static_cast<unsigned int>(resultB * 255);
+
+    return (r << 16) | (g << 8) | b;
 }
 
 

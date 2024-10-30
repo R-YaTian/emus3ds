@@ -29,6 +29,12 @@ void ui3dsSetFont(int fontIndex);
 
 
 //---------------------------------------------------------------
+// Sets the menu theme.
+//---------------------------------------------------------------
+void ui3dsSetTheme(int themeIndex);
+
+
+//---------------------------------------------------------------
 // Sets the global viewport for all drawing
 //---------------------------------------------------------------
 void ui3dsSetViewport(int x1, int y1, int x2, int y2);
@@ -63,6 +69,13 @@ void ui3dsSetColor(int newForeColor, int newBackColor);
 // and returns the results.
 //---------------------------------------------------------------
 int ui3dsApplyAlphaToColor(int color, float alpha);
+
+
+//---------------------------------------------------------------
+// overlay blending mode: returns a color in RGB888 format
+// may have more performance impact than simple blending mode
+//---------------------------------------------------------------
+int ui3dsOverlayBlendColor(int backgroundColor, int foregroundColor);
 
 
 //---------------------------------------------------------------

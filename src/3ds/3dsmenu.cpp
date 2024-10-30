@@ -424,10 +424,9 @@ void menu3dsDrawMenu(int menuItemFrame, int translateY)
 }
 
 
-int dialogBackColor = 0xEC407A;
+int dialogBackColor = 0x000000;
 int dialogTextColor = 0xffffff;
 int dialogItemTextColor = 0xffffff;
-int dialogSelectedItemTextColor = 0xffffff;
 int dialogSelectedItemBackColor = 0x000000;
 
 //-------------------------------------------------------
@@ -438,9 +437,12 @@ void menu3dsDrawDialog()
     int widthAdjust = screenSettings.GameScreen == GFX_TOP ? 0 : 40;
 
     // Dialog's Background
-    int dialogBackColor2 = ui3dsApplyAlphaToColor(dialogBackColor, 0.9f);
-    ui3dsDrawRect(0, 0, screenSettings.SecondScreenWidth, 75, dialogBackColor2);
-    ui3dsDrawRect(0, 75, screenSettings.SecondScreenWidth, 160, dialogBackColor);
+    int dialogBackColorBottom = settings3DS.Theme == THEME_ORIGINAL ? dialogBackColor : Themes[settings3DS.Theme].menuBackColor;
+    int dialogBackColorTop = settings3DS.Theme == THEME_ORIGINAL ?
+                           ui3dsApplyAlphaToColor(dialogBackColorBottom, 0.9f) :
+                           ui3dsOverlayBlendColor(dialogBackColorBottom, 0xaaaaaa);
+    ui3dsDrawRect(0, 0, screenSettings.SecondScreenWidth, 75, dialogBackColorTop);
+    ui3dsDrawRect(0, 75, screenSettings.SecondScreenWidth, 160, dialogBackColorBottom);
 
     // Left trim the dialog title
     int len = strlen(dialogTab.Title);
@@ -454,21 +456,33 @@ void menu3dsDrawDialog()
         }
     }
 
+    if (settings3DS.Theme == THEME_DARK_MODE) {    
+        ui3dsDrawRect(0, 73, screenSettings.SecondScreenWidth, 75, dialogBackColor);
+        ui3dsDrawRect(0, 75, screenSettings.SecondScreenWidth, 77, dialogBackColor);
+        dialogSelectedItemBackColor = Themes[settings3DS.Theme].selectedItemBackColor;
+    } else {
+        dialogSelectedItemBackColor = Themes[settings3DS.Theme].selectedItemBackColor == -1 ? -1 :
+        ui3dsApplyAlphaToColor(dialogBackColorBottom, 1.0f - Themes[settings3DS.Theme].dialogSelectedItemBackAlpha) + 
+        ui3dsApplyAlphaToColor(dialogSelectedItemBackColor, Themes[settings3DS.Theme].dialogSelectedItemBackAlpha);
+    }
+
     // Draw the dialog's title and descriptive text
     int dialogTitleTextColor =
-        ui3dsApplyAlphaToColor(dialogBackColor, 0.5f) +
-        ui3dsApplyAlphaToColor(dialogTextColor, 0.5f);
+        ui3dsApplyAlphaToColor(dialogBackColorTop, 1.0f - Themes[settings3DS.Theme].dialogTextAlpha) +
+        ui3dsApplyAlphaToColor(dialogTextColor, Themes[settings3DS.Theme].dialogTextAlpha);
+    int dialogItemDescriptionTextColor =
+        ui3dsApplyAlphaToColor(dialogBackColorBottom, 1.0f - Themes[settings3DS.Theme].dialogTextAlpha) +
+        ui3dsApplyAlphaToColor(dialogTextColor, Themes[settings3DS.Theme].dialogTextAlpha);
     ui3dsDrawStringWithNoWrapping(30, 10, 290 + widthAdjust, 25,
         dialogTitleTextColor, HALIGN_LEFT, &dialogTab.Title[startChar]);
     ui3dsDrawStringWithWrapping(30, 30, 290 + widthAdjust, 70,
-        dialogTextColor, HALIGN_LEFT, dialogTab.DialogText);
+        dialogItemDescriptionTextColor, HALIGN_LEFT, dialogTab.DialogText);
 
     // Draw the selectable items.
-    int dialogItemDescriptionTextColor = dialogTitleTextColor;
     menu3dsDrawItems(
         &dialogTab, 30, 80, DIALOG_HEIGHT,
         dialogSelectedItemBackColor,        // selectedItemBackColor
-        dialogSelectedItemTextColor,        // selectedItemTextColor
+        Themes[settings3DS.Theme].selectedItemTextColor,        // selectedItemTextColor
         dialogItemDescriptionTextColor,     // selectedItemDescriptionColor
 
         dialogItemTextColor,                // checkedItemTextColor

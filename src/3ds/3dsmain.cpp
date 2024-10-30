@@ -942,9 +942,13 @@ void emulatorLoop()
     menu3dsDrawBlackScreen();
     if (settings3DS.HideUnnecessaryBottomScrText == 0)
     {
+        std::string helpText = screenSettings.GameScreen == GFX_BOTTOM ? "点触下屏幕" : "点触屏幕";
+        if (!aptIsHomeAllowed())
+            helpText += "或按下Home键";
+        helpText += "呼出菜单";
         ui3dsDrawStringWithNoWrapping(0, 100, screenSettings.SecondScreenWidth, 115,
             0x7f7f7f, HALIGN_CENTER,
-            screenSettings.GameScreen == GFX_BOTTOM ? "点触下屏幕呼出菜单" : "点触屏幕呼出菜单");
+            helpText.c_str());
     }
 
     snd3dsStartPlaying();

@@ -432,8 +432,9 @@ bool impl3dsInitializeCore()
 	//
     int numberOfGenerationsPerSecond = 60 * 1;
     soundSamplesPerGeneration = snd3dsComputeSamplesPerLoop(44100, 60);
-	soundSamplesPerSecond = snd3dsComputeSampleRate(44100, 60);
+    soundSamplesPerSecond = snd3dsComputeSampleRate(44100, 60);
     audio.output_frequency = soundSamplesPerSecond;
+    snd3dsSetSampleRate(true, 44100, 60, true);
 
     config.per_game_bram = 1;
     snprintf(config.main_path, MAX_PATH, ".");
@@ -695,12 +696,6 @@ bool impl3dsLoadROM(char *romFilePath)
     }
 
     impl3dsResetConsole();
-
-	snd3dsSetSampleRate(
-		true,
-		44100,
-		60,
-		true);
 
 	return true;
 }
@@ -1190,6 +1185,11 @@ bool impl3dsOnMenuSelectedChanged(int ID, int value)
     if (ID == 18000)
     {
         ui3dsSetFont(value);
+        return false;
+    }
+    if (ID == 23000)
+    {
+        ui3dsSetTheme(value);
         return false;
     }
     if (ID == 21000)
