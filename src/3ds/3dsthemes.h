@@ -31,8 +31,12 @@ typedef struct
 
 #define THEME_ORIGINAL 0
 #define THEME_DARK_MODE 1
-
 #define TOTALTHEMECOUNT 2
+
+#define DIALOG_TYPE_INFO 0
+#define DIALOG_TYPE_SUCCESS 1
+#define DIALOG_TYPE_WARN 2
+
 extern Theme3ds Themes[TOTALTHEMECOUNT];
 
 #endif

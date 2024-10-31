@@ -725,10 +725,23 @@ int menu3dsMenuSelectItem(bool (*itemChangedCallback)(int ID, int value))
             if (currentTab->MenuItems[currentTab->SelectedItemIndex].Type == MENUITEM_PICKER ||
                 currentTab->MenuItems[currentTab->SelectedItemIndex].Type == MENUITEM_PICKER2)
             {
+                int pickerDialogBackColor;
+                switch (currentTab->MenuItems[currentTab->SelectedItemIndex].PickerBackType) {
+                    case DIALOG_TYPE_SUCCESS:
+                        pickerDialogBackColor = Themes[settings3DS.Theme].dialogColorSuccess;
+                        break;
+                    case DIALOG_TYPE_WARN:
+                        pickerDialogBackColor = Themes[settings3DS.Theme].dialogColorWarn;
+                        break;
+                    default:
+                        pickerDialogBackColor = Themes[settings3DS.Theme].dialogColorInfo;
+                        break;
+                }
+
                 snprintf(menuTextBuffer, 511, "%s", currentTab->MenuItems[currentTab->SelectedItemIndex].Text);
                 int resultValue = menu3dsShowDialog(menuTextBuffer,
                     currentTab->MenuItems[currentTab->SelectedItemIndex].PickerDescription,
-                    currentTab->MenuItems[currentTab->SelectedItemIndex].PickerBackColor,
+                    pickerDialogBackColor,
                     (SMenuItem *)currentTab->MenuItems[currentTab->SelectedItemIndex].PickerItems,
                     currentTab->MenuItems[currentTab->SelectedItemIndex].Value
                     );
@@ -746,8 +759,10 @@ int menu3dsMenuSelectItem(bool (*itemChangedCallback)(int ID, int value))
                         }
                     }
                 }
-                menu3dsDrawEverything();
                 menu3dsHideDialog();
+                if (resultValue != -1 && currentTab->MenuItems[currentTab->SelectedItemIndex].ID == 23000)
+                    ui3dsSetTheme(resultValue);
+                menu3dsDrawEverything();
             }
         }
         if (keysDown & KEY_UP || ((thisKeysHeld & KEY_UP) && (framesDKeyHeld > 15) && (framesDKeyHeld % 2 == 0)))

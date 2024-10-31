@@ -46,7 +46,7 @@ typedef struct
     const char    *PickerDescription;
     int     PickerItemCount;
     void    *PickerItems;
-    int     PickerBackColor;
+    int     PickerBackType;
 } SMenuItem;
 
 
