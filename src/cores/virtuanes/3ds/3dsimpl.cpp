@@ -66,19 +66,6 @@ SMenuItem optionsForScreenSwap[] = {
     MENU_MAKE_LASTITEM  ()
 };
 
-SMenuItem optionsForTheme[] = {
-    MENU_MAKE_DIALOG_ACTION (0, "原始",                ""),
-    MENU_MAKE_DIALOG_ACTION (1, "暗黑模式",            ""),
-    MENU_MAKE_LASTITEM  ()
-};
-
-SMenuItem optionsForFont[] = {
-    MENU_MAKE_DIALOG_ACTION (0, "Tempesta",               ""),
-    MENU_MAKE_DIALOG_ACTION (1, "Ronda",                  ""),
-    MENU_MAKE_DIALOG_ACTION (2, "Arial",                  ""),
-    MENU_MAKE_LASTITEM  ()
-};
-
 SMenuItem optionsForStretch[] = {
     MENU_MAKE_DIALOG_ACTION (0, "不拉伸",                    "点对点"),
     MENU_MAKE_DIALOG_ACTION (1, "适配4:3",                  "拉伸到320x240"),
@@ -160,16 +147,17 @@ SMenuItem optionsFor3DSButtons[] = {
 
 SMenuItem optionsForSpriteFlicker[] =
 {
-    MENU_MAKE_DIALOG_ACTION (0, "模拟实机",             "显示类似实机的闪烁效果"),
-    MENU_MAKE_DIALOG_ACTION (1, "视觉优先",             "以较低模拟精确度换取更好的显示效果"),
+    MENU_MAKE_DIALOG_ACTION (0, getText("模拟实机"),   getText("显示类似实机的闪烁效果")),
+    MENU_MAKE_DIALOG_ACTION (1, getText("视觉优先"),   getText("以较低模拟精确度换取更好的显示效果")),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionMenu[] = {
     MENU_MAKE_HEADER1   ("全局设置"),
+    MENU_MAKE_PICKER    (24000, getText("  语言"), getText("选择应用程序显示的语言"), &optionsForLanguage, DIALOG_TYPE_INFO),
     MENU_MAKE_PICKER    (11000, "  屏幕比例", "您希望屏幕以何种方式显示?", optionsForStretch, DIALOG_TYPE_INFO),
-    MENU_MAKE_PICKER    (23000, "  主题", "选择应用于界面的主题", optionsForTheme, DIALOG_TYPE_INFO),
-    MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体(仅适用于字母和数字)", optionsForFont, DIALOG_TYPE_INFO),
+    MENU_MAKE_PICKER    (23000, "  主题", "选择应用于界面的主题", &optionsForTheme, DIALOG_TYPE_INFO),
+    MENU_MAKE_PICKER    (18000, "  字体", "用于用户界面的字体(仅适用于ASCII字符)", &optionsForFont, DIALOG_TYPE_INFO),
     MENU_MAKE_PICKER    (15000, "  游戏显示屏幕", "选择使用上屏或下屏进行游玩", optionsForScreenSwap, DIALOG_TYPE_INFO),
     MENU_MAKE_CHECKBOX  (15001, "  隐藏副屏幕的文本", 0),
     MENU_MAKE_CHECKBOX  (21001, "  禁用3D调节杆", 0),
@@ -931,11 +919,6 @@ bool impl3dsOnMenuSelected(int ID)
 //---------------------------------------------------------
 bool impl3dsOnMenuSelectedChanged(int ID, int value)
 {
-    if (ID == 18000)
-    {
-        ui3dsSetFont(value);
-        return false;
-    }
     if (ID == 30000)
     {
         switch (value)
@@ -1152,6 +1135,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
     config3dsReadWriteInt32("Disable3DSlider=%d\n", &settings3DS.Disable3DSlider, 0, 1);
     config3dsReadWriteInt32("GameScreen=%d\n", &settings3DS.GameScreen, 0, 1);
     config3dsReadWriteInt32("Theme=%d\n", &settings3DS.Theme, 0, 1);
+    config3dsReadWriteInt32("Language=%d\n", &settings3DS.Language, 0, 1);
 
     config3dsCloseFile();
     return true;
@@ -1196,10 +1180,6 @@ bool impl3dsApplyAllSettings(bool updateGameSettings)
         settings3DS.StretchHeight = 240;
         settings3DS.CropPixels = 0;
     }
-
-    // Update the screen font
-    //
-    ui3dsSetFont(settings3DS.Font);
 
     // update global volume
     //
@@ -1259,6 +1239,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
 
     bool settingsUpdated = false;
     UPDATE_SETTINGS(settings3DS.Theme, -1, 23000);
+    UPDATE_SETTINGS(settings3DS.Language, -1, 24000);
     UPDATE_SETTINGS(settings3DS.Font, -1, 18000);
     UPDATE_SETTINGS(settings3DS.ScreenStretch, -1, 11000);
     UPDATE_SETTINGS(settings3DS.GameScreen, -1, 15000);

@@ -105,6 +105,8 @@ SHLISTFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.shlist)))
 
 BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
 
+MO_FILES	:=  $(foreach lang,en_US,$(APP_ROMFS)/locale/$(lang)/emus3ds.mo)
+
 #---------------------------------------------------------------------------------
 # use CXX for linking C++ projects, CC for standard C
 #---------------------------------------------------------------------------------
@@ -191,7 +193,7 @@ endif
 .PHONY: $(BUILD) clean all
 
 #---------------------------------------------------------------------------------
-all: $(BUILD) cia
+all: $(MO_FILES) $(BUILD) cia
 
 $(BUILD):
 	@[ -d $@ ] || mkdir -p $@
@@ -210,6 +212,13 @@ ifneq ($(MAKEROM),)
 else
 	$(error "CIA creation is not supported on this platform ($(UNAME_S)_$(UNAME_M))")
 endif
+
+
+#---------------------------------------------------------------------------------
+$(MO_FILES): $(APP_ROMFS)/locale/%/emus3ds.mo: $(TOPDIR)/po/%/emus3ds.po
+	@echo "Building $@"
+	@[ -d $(dir $@) ] || mkdir -p $(dir $@)
+	msgfmt -c --output-file=$@ $<
 
 
 #---------------------------------------------------------------------------------

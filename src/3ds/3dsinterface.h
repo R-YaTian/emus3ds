@@ -2,6 +2,7 @@
 #include "3dsgpu.h"
 #include "3dsmenu.h"
 #include "3dstypes.h"
+#include "3dsgettext.h"
 
 #ifndef _3DSINTERFACE_H
 #define _3DSINTERFACE_H
@@ -102,6 +103,8 @@ typedef struct
     int     GameScreen = 0;                 // Game screen target
 
     int     Theme = 0;                      // current theme
+
+    int     Language = 0;                   // current ui language
 } SSettings3DS;
 
 

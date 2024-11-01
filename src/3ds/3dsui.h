@@ -25,13 +25,19 @@ void ui3dsUpdateScreenSettings(gfxScreen_t gameScreen);
 //---------------------------------------------------------------
 // Sets the font to be used to display text to the screen.
 //---------------------------------------------------------------
-void ui3dsSetFont(int fontIndex);
+void ui3dsSetFont(int fontIndex, bool init = false);
 
 
 //---------------------------------------------------------------
 // Sets the menu theme.
 //---------------------------------------------------------------
 void ui3dsSetTheme(int themeIndex);
+
+
+//---------------------------------------------------------------
+// Sets the ui language.
+//---------------------------------------------------------------
+void ui3dsSetLanguage(int langIndex, bool init = false);
 
 
 //---------------------------------------------------------------

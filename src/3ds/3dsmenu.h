@@ -190,5 +190,8 @@ bool menu3dsTakeScreenshot(const char *path);
 
 extern SMenuItem optionsForNoYes[];
 extern SMenuItem optionsForOk[];
+extern SMenuItem optionsForLanguage[];
+extern SMenuItem optionsForTheme[];
+extern SMenuItem optionsForFont[];
 
 #endif

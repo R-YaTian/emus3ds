@@ -48,16 +48,34 @@ bool                swapBuffer = true;
 // Common options
 //-------------------------------------------------------
 SMenuItem optionsForNoYes[] = {
-    MENU_MAKE_ACTION(0, "否"),
-    MENU_MAKE_ACTION(1, "是"),
+    MENU_MAKE_ACTION(0, getText("否")),
+    MENU_MAKE_ACTION(1, getText("是")),
     MENU_MAKE_LASTITEM  ()
 };
 
 SMenuItem optionsForOk[] = {
-    MENU_MAKE_ACTION(0, "确定"),
+    MENU_MAKE_ACTION(0, getText("确定")),
     MENU_MAKE_LASTITEM  ()
 };
 
+SMenuItem optionsForLanguage[] = {
+    MENU_MAKE_DIALOG_ACTION (0, "简体中文",            ""),
+    MENU_MAKE_DIALOG_ACTION (1, "English",            ""),
+    MENU_MAKE_LASTITEM  ()
+};
+
+SMenuItem optionsForTheme[] = {
+    MENU_MAKE_DIALOG_ACTION (0, getText("原始"),                ""),
+    MENU_MAKE_DIALOG_ACTION (1, getText("暗黑模式"),            ""),
+    MENU_MAKE_LASTITEM  ()
+};
+
+SMenuItem optionsForFont[] = {
+    MENU_MAKE_DIALOG_ACTION (0, "Tempesta",               ""),
+    MENU_MAKE_DIALOG_ACTION (1, "Ronda",                  ""),
+    MENU_MAKE_DIALOG_ACTION (2, "Arial",                  ""),
+    MENU_MAKE_LASTITEM  ()
+};
 
 //-------------------------------------------------------
 // Sets a flag to tell the menu selector
@@ -157,7 +175,7 @@ void menu3dsDrawItems(
         if (currentTab->MenuItems[i].Text == NULL)
             snprintf (menuTextBuffer, 511, "");
         else
-            snprintf (menuTextBuffer, 511, "%s", currentTab->MenuItems[i].Text);
+            snprintf (menuTextBuffer, 511, "%s", getTextFromMap(currentTab->MenuItems[i].Text));
 
         // Draw the selected background
         //
@@ -235,6 +253,7 @@ void menu3dsDrawItems(
 
             for (int j = 0; j < max; j++)
                 gauge[j] = (j == pos) ? (settings3DS.Theme == THEME_ORIGINAL ? '\xfa' :  '\xfc') : '\xfb';
+
             gauge[max] = 0;
             ui3dsDrawStringWithNoWrapping(245 + widthAdjust, y, screenSettings.SecondScreenWidth - horizontalPadding, y + fontHeight, color, HALIGN_RIGHT, gauge);
         }
@@ -258,7 +277,7 @@ void menu3dsDrawItems(
                     {
                         if (pickerItems[j].ID == currentTab->MenuItems[i].Value)
                         {
-                            snprintf(selectedTextBuffer, 511, "%s", pickerItems[j].Text, j);
+                            snprintf(selectedTextBuffer, 511, "%s", getTextFromMap(pickerItems[j].Text), j);
                         }
                     }
                     ui3dsDrawStringWithNoWrapping(160 + widthAdjust, y, screenSettings.SecondScreenWidth - horizontalPadding, y + fontHeight, color, HALIGN_RIGHT, selectedTextBuffer);
@@ -293,6 +312,7 @@ void menu3dsDrawItems(
 //-------------------------------------------------------
 void menu3dsDrawMenu(int menuItemFrame, int translateY)
 {
+#define getText getTextFromMap
     SMenuTab *currentTab = &menuTab[currentMenuTab];
     int widthAdjust = screenSettings.GameScreen == GFX_TOP ? 0 : 80;
 
@@ -321,7 +341,7 @@ void menu3dsDrawMenu(int menuItemFrame, int translateY)
     }
 
     ui3dsDrawStringWithNoWrapping(10, 223, 285, 240, Themes[settings3DS.Theme].menuBottomBarTextColor,
-        HALIGN_LEFT, "A:选择  B:取消  X+上/下:翻页");
+        HALIGN_LEFT, getText("A:选择  B:取消  X+上/下:翻页"));
     ui3dsDrawStringWithNoWrapping(10 + widthAdjust, 223, 285 + widthAdjust, 240,
         Themes[settings3DS.Theme].menuBottomBarTextColor, HALIGN_RIGHT, impl3dsTitleText);
 
@@ -420,6 +440,7 @@ void menu3dsDrawMenu(int menuItemFrame, int translateY)
             ui3dsApplyAlphaToColor(Themes[settings3DS.Theme].headerItemTextColor, alpha) + menuBackColorAlpha,       // headerItemTextColor
             ui3dsApplyAlphaToColor(Themes[settings3DS.Theme].subtitleTextColor, alpha) + menuBackColorAlpha);      // subtitleTextColor
     }
+#undef getText
 }
 
 
@@ -738,7 +759,7 @@ int menu3dsMenuSelectItem(bool (*itemChangedCallback)(int ID, int value))
                         break;
                 }
 
-                snprintf(menuTextBuffer, 511, "%s", currentTab->MenuItems[currentTab->SelectedItemIndex].Text);
+                snprintf(menuTextBuffer, 511, "%s", getTextFromMap(currentTab->MenuItems[currentTab->SelectedItemIndex].Text));
                 int resultValue = menu3dsShowDialog(menuTextBuffer,
                     currentTab->MenuItems[currentTab->SelectedItemIndex].PickerDescription,
                     pickerDialogBackColor,
@@ -760,8 +781,12 @@ int menu3dsMenuSelectItem(bool (*itemChangedCallback)(int ID, int value))
                     }
                 }
                 menu3dsHideDialog();
+                if (resultValue != -1 && currentTab->MenuItems[currentTab->SelectedItemIndex].ID == 18000)
+                    ui3dsSetFont(resultValue);
                 if (resultValue != -1 && currentTab->MenuItems[currentTab->SelectedItemIndex].ID == 23000)
                     ui3dsSetTheme(resultValue);
+                if (resultValue != -1 && currentTab->MenuItems[currentTab->SelectedItemIndex].ID == 24000)
+                    ui3dsSetLanguage(resultValue);
                 menu3dsDrawEverything();
             }
         }

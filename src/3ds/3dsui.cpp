@@ -136,12 +136,17 @@ void ui3dsUpdateScreenSettings(gfxScreen_t gameScreen) {
 //---------------------------------------------------------------
 // Sets the font to be used to display text to the screen.
 //---------------------------------------------------------------
-void ui3dsSetFont(int fontIndex)
+void ui3dsSetFont(int fontIndex, bool init)
 {
     if (fontIndex >= 0 && fontIndex < 3)
     {
         fontBitmap = fontBitmapArray[fontIndex];
         fontWidth = fontWidthArray[fontIndex];
+        if (!init)
+        {
+            settings3DS.Font = fontIndex;
+            impl3dsReadWriteSettingsGlobal(true);
+        }
     }
 }
 
@@ -151,8 +156,35 @@ void ui3dsSetFont(int fontIndex)
 void ui3dsSetTheme(int themeIndex)
 {
     if (themeIndex >= 0 && themeIndex < 2)
+    {
         settings3DS.Theme = themeIndex;
-    impl3dsReadWriteSettingsGlobal(true);
+        impl3dsReadWriteSettingsGlobal(true);
+    }
+}
+
+//---------------------------------------------------------------
+// Sets the ui language.
+//---------------------------------------------------------------
+void ui3dsSetLanguage(int langIndex, bool init)
+{
+    if (!init)
+    {
+        if (langIndex >= 0 && langIndex < 2)
+        {
+            settings3DS.Language = langIndex;
+            impl3dsReadWriteSettingsGlobal(true);
+        }
+    }
+
+    switch(langIndex)
+    {
+        case 1:
+            setLanguage("en_US");
+            break;
+        default:
+            setLanguage("zh_Hans");
+            break;
+    }
 }
 
 //---------------------------------------------------------------

@@ -63,7 +63,7 @@ static struct CHINF moo[] =
 
 
 //
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// コンストラクタ
 //
 ROM::ROM( const char* fname )
 {
@@ -97,56 +97,55 @@ LONG	FileSize;
 	//try
 	{
 		if( !(fp = ::fopen( fname, "rb" )) ) {
-			// xxx �t�@�C�����J���܂���
+			// xxx ファイルを開けません
 			LPCSTR	szErrStr = CApp::GetErrorString( IDS_ERROR_OPEN );
 			::wsprintf( szErrorString, szErrStr, fname );
 			error =	szErrorString;
 			goto has_error;
 		}
 
-		// �t�@�C���T�C�Y�擾
+		// ファイルサイズ取得
 		::fseek( fp, 0, SEEK_END );
 		FileSize = ::ftell( fp );
 		::fseek( fp, 0, SEEK_SET );
-		// �t�@�C���T�C�Y�`�F�b�N(NES�w�b�_+1�o�C�g�ȏォ�H)
+		// ファイルサイズチェック(NESヘッダ+1バイト以上か？)
 		if( FileSize < 17 ) {
-			// �t�@�C���T�C�Y�����������܂�
+			// ファイルサイズが小さすぎます
 			error =	CApp::GetErrorString( IDS_ERROR_SMALLFILE );
 			goto has_error;
 		}
 
-		// �e���|�����������m��
+		// テンポラリメモリ確保
 		if( !(temp = (LPBYTE)::malloc( FileSize )) ) {
-			// ���������m�ۏo���܂���
+			// メモリを確保出来ません
 			error =	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
 			goto has_error;
 		}
 
-		// �T�C�Y���ǂݍ���
+		// サイズ分読み込み
 		if( ::fread( temp, FileSize, 1, fp ) != 1 ) {
-			// �t�@�C���̓ǂݍ��݂Ɏ��s���܂���
+			// ファイルの読み込みに失敗しました
 			error =	CApp::GetErrorString( IDS_ERROR_READ );
 			goto has_error;
 		}
 
 		FCLOSE( fp );
 
-		// �w�b�_�R�s�[
+		// ヘッダコピー
 		::memcpy( &header, temp, sizeof(NESHEADER) );
 
 		if( header.ID[0] == 'N' && header.ID[1] == 'E'
 		 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
-			// �w�b�_�R�s�[
+			// ヘッダコピー
 			memcpy( &header, temp, sizeof(NESHEADER) );
 		} else if( header.ID[0] == 'F' && header.ID[1] == 'D'
 			&& header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
-			// �w�b�_�R�s�[
+			// ヘッダコピー
 			memcpy( &header, temp, sizeof(NESHEADER) );
 			header.control1 = 0;
 		} else if( header.ID[0] == 0x01 && header.ID[1] == '*'
 			&& header.ID[2] == 'N' && header.ID[3] == 'I' &&
 			(FileSize % 65500) == 0) {
-			// �w�b�_�R�s�[
 			header.ID[0] = 'F';
 			header.ID[1] = 'D';
 			header.ID[2] = 'S';
@@ -155,25 +154,26 @@ LONG	FileSize;
 			header.control1 = 1;
 		} else if( header.ID[0] == 'N' && header.ID[1] == 'E'
 			&& header.ID[2] == 'S' && header.ID[3] == 'M') {
-			// �w�b�_�R�s�[
+			// ヘッダコピー
 			memcpy( &header, temp, sizeof(NESHEADER) );
 		} else {
 
 			FREE( temp );
-
-			/*if( !UnCompress( fname, &temp, (LPDWORD)&FileSize ) ) {
-				// ���Ή��`���ł�
+/*
+			if( !UnCompress( fname, &temp, (LPDWORD)&FileSize ) ) {
+				// 未対応形式です
 				throw	CApp::GetErrorString( IDS_ERROR_UNSUPPORTFORMAT );
 			}
-			// �w�b�_�R�s�[
-			::memcpy( &header, temp, sizeof(NESHEADER) );*/
+			// ヘッダコピー
+			::memcpy( &header, temp, sizeof(NESHEADER) );
+*/
 		}
 
 		// Since the zip/fds/nes is defrosted and raw, now apply the patch
 		if( Config.emulator.bAutoIPS ) {
 			LPBYTE	ipstemp = NULL;
 			if( !(ipstemp = (LPBYTE)::malloc( FileSize )) ) {
-				// ���������m�ۏo���܂���
+				// メモリを確保出来ません
 				error =	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
 				goto has_error;
 			}
@@ -193,7 +193,7 @@ LONG	FileSize;
 
 		if( header.ID[0] == 'N' && header.ID[1] == 'E'
 		 && header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
-		// ���ʂ�NES�t�@�C��
+		// 普通のNESファイル
 			PRGsize = (LONG)header.PRG_PAGE_SIZE*0x4000;
 			CHRsize = (LONG)header.CHR_PAGE_SIZE*0x2000;
 			PRGoffset = sizeof(NESHEADER);
@@ -205,14 +205,14 @@ LONG	FileSize;
 			}
 
 			if( PRGsize <= 0 || (PRGsize+CHRsize) > FileSize ) {
-				// NES�w�b�_���ُ��ł�
+				// NESヘッダが異常です
 				error =	CApp::GetErrorString( IDS_ERROR_INVALIDNESHEADER );
 				goto has_error;
 			}
 
 			// PRG BANK
 			if( !(lpPRG = (LPBYTE)malloc( PRGsize )) ) {
-				// ���������m�ۏo���܂���
+				// メモリを確保出来ません
 				error =	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
 				goto has_error;
 			}
@@ -222,7 +222,7 @@ LONG	FileSize;
 			// CHR BANK
 			if( CHRsize > 0 ) {
 				if( !(lpCHR = (LPBYTE)malloc( CHRsize )) ) {
-					// ���������m�ۏo���܂���
+					// メモリを確保出来ません
 					error =	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
 					goto has_error;
 				}
@@ -230,7 +230,7 @@ LONG	FileSize;
 				if( FileSize >= CHRoffset+CHRsize ) {
 					memcpy( lpCHR, temp+CHRoffset, CHRsize );
 				} else {
-					// CHR�o���N���Ȃ��c
+					// CHRバンク少ない…
 					CHRsize -= (CHRoffset+CHRsize - FileSize);
 					memcpy( lpCHR, temp+CHRoffset, CHRsize );
 				}
@@ -241,7 +241,7 @@ LONG	FileSize;
 			// Trainer
 			if( IsTRAINER() ) {
 				if( !(lpTrainer = (LPBYTE)malloc( 512 )) ) {
-					// ���������m�ۏo���܂���
+					// メモリを確保出来ません
 					error =	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
 					goto has_error;
 				}
@@ -255,7 +255,7 @@ LONG	FileSize;
 			&& header.ID[2] == 'I' && header.ID[3] == 'F' ) {
 
 			DWORD Signature, BlockLen;
-			DWORD ipos =0x20;//Ìø¹ýUNIFÍ·
+			DWORD ipos =0x20;
 			BYTE id,i;
 			BYTE *tPRG[0x10], *tCHR[0x10];
 			DWORD sizePRG[0x10],sizeCHR[0x10];
@@ -271,7 +271,6 @@ LONG	FileSize;
 
 			board = 0;
 			bUnif = TRUE;
-
 
 		//	header.PRG_PAGE_SIZE = (BYTE)diskno*4;
 		//	header.CHR_PAGE_SIZE = 0;
@@ -294,7 +293,7 @@ LONG	FileSize;
 
 				switch(Signature)
 				{
-					case MKID("MAPR")://boardÃû×Ö
+					case MKID("MAPR"):
 						memcpy( pboardname, &pUnif[ipos], BlockLen);
 						pboardname[BlockLen]=0;
 						//memcpy( info, &pUnif[ipos], BlockLen);
@@ -306,15 +305,15 @@ LONG	FileSize;
 						//fl.title = name;
 						ipos+=BlockLen;	break;
 
-					case MKID("TVCI")://µçÊÓÖÆÊ½
+					case MKID("TVCI"):
 						g_UnfTVMode = pUnif[ipos];
 						ipos+=BlockLen;	break;
 
-					case MKID("BATR")://Ê¹ÓÃµç³Ø¼ÇÒä
+					case MKID("BATR"):
 						header.control1 |=2;
 						ipos+=BlockLen;	break;
 
-					case MKID("FONT")://×Ö¿â
+					case MKID("FONT"):
 //						memcpy( pFont, &pUnif[ipos], BlockLen>65536?65536:BlockLen );
 						memcpy( pFont, &pUnif[ipos], BlockLen );
 						ipos+=BlockLen;	break;
@@ -416,30 +415,30 @@ LONG	FileSize;
 		} else if( header.ID[0] == 'F' && header.ID[1] == 'D'
 			&& header.ID[2] == 'S' && header.ID[3] == 0x1A ) {
 		// FDS(Nintendo Disk System)
-			// ƒfƒBƒXƒNƒTƒCƒY
+			// ディスクサイズ
 			diskno = header.PRG_PAGE_SIZE;
 
 			bool headerlessFDS = (header.control1 == 1);
 
 			if( header.control1 == 0 && FileSize < (16+65500*diskno) ) {
-				// �f�B�X�N�T�C�Y���ُ��ł�
+				// ディスクサイズが異常です
 				error =	CApp::GetErrorString( IDS_ERROR_ILLEGALDISKSIZE );
 				goto has_error;
 			}
 			if( header.control1 == 1 && FileSize < (65500*diskno) ) {
-				// �f�B�X�N�T�C�Y���ُ��ł�
+				// ディスクサイズが異常です
 				error =	CApp::GetErrorString( IDS_ERROR_ILLEGALDISKSIZE );
 				goto has_error;
 			}
 			if( diskno > 8 ) {
-				// 8�ʂ��葽���f�B�X�N�͑Ή����Ă��܂���
+				// 8面より多いディスクは対応していません
 				error =	CApp::GetErrorString( IDS_ERROR_UNSUPPORTDISK );
 				goto has_error;
 			}
 
 			ZEROMEMORY( &header, sizeof(NESHEADER) );
 
-			// ƒ_ƒ~[ƒwƒbƒ_‚ðì‚é
+			// ダミーヘッダを作る
 			header.ID[0] = 'N';
 			header.ID[1] = 'E';
 			header.ID[2] = 'S';
@@ -452,13 +451,13 @@ LONG	FileSize;
 			PRGsize = sizeof(NESHEADER)+65500*(LONG)diskno;
 			// PRG BANK
 			if( !(lpPRG = (LPBYTE)malloc( PRGsize )) ) {
-				// ���������m�ۏo���܂���
+				// メモリを確保出来ません
 				error =	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
 				goto has_error;
 			}
-			// �f�[�^�̃o�b�N�A�b�v�p
+			// データのバックアップ用
 			if( !(lpDisk = (LPBYTE)malloc( PRGsize )) ) {
-				// ���������m�ۏo���܂���
+				// メモリを確保出来ません
 				error =	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
 				goto has_error;
 			}
@@ -471,7 +470,7 @@ LONG	FileSize;
 				::memcpy( lpPRG+sizeof(NESHEADER), temp, 65500*(LONG)diskno );
 			else
 				::memcpy( lpPRG+sizeof(NESHEADER), temp+sizeof(NESHEADER), 65500*(LONG)diskno );
-			// �f�[�^�̏��������ꏊ�����p
+			// データの書き換え場所特定用
 			ZEROMEMORY( lpDisk, PRGsize );
 //			memcpy( lpDisk, &header, sizeof(NESHEADER) );
 //			memcpy( lpDisk+sizeof(NESHEADER), temp+sizeof(NESHEADER), PRGsize-sizeof(NESHEADER) );
@@ -482,12 +481,12 @@ LONG	FileSize;
 			lpPRG[3] = 0x1A;
 			lpPRG[4] = (BYTE)diskno;
 
-			// DISKSYSTEM BIOS�̃��[�h
+			// DISKSYSTEM BIOSのロード
 			//string	Path = CPathlib::MakePathExt( CApp::GetModulePath(), "DISKSYS", "ROM" );
 			string Path = "/emus3ds/virtuanes_3ds/bios/disksys.rom";
 
 			if( !(fp = fopen( Path.c_str(), "rb" )) ) {
-				// DISKSYS.ROM�������܂���
+				// DISKSYS.ROMがありません
 				error =	CApp::GetErrorString( IDS_ERROR_NODISKBIOS );
 				goto has_error;
 			}
@@ -496,33 +495,33 @@ LONG	FileSize;
 			FileSize = ::ftell( fp );
 			::fseek( fp, 0, SEEK_SET );
 			if( FileSize < 17 ) {
-				// �t�@�C���T�C�Y�����������܂�
+				// ファイルサイズが小さすぎます
 				error =	CApp::GetErrorString( IDS_ERROR_SMALLFILE );
 				goto has_error;
 			}
 			if( !(bios = (LPBYTE)malloc( FileSize )) ) {
-				// ���������m�ۏo���܂���
+				// メモリを確保出来ません
 				error =	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
 				goto has_error;
 			}
 			if( fread( bios, FileSize, 1, fp ) != 1 ) {
-				// �t�@�C���̓ǂݍ��݂Ɏ��s���܂���
+				// ファイルの読み込みに失敗しました
 				error =	CApp::GetErrorString( IDS_ERROR_READ );
 				goto has_error;
 			}
 			FCLOSE( fp );
 
 			if( !(lpDiskBios = (LPBYTE)malloc( 8*1024 )) ) {
-				// ���������m�ۏo���܂���
+				// メモリを確保出来ません
 				error =	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
 				goto has_error;
 			}
 
 			if( bios[0] == 'N' && bios[1] == 'E' && bios[2] == 'S' && bios[3] == 0x1A ) {
-			// NESŒ`Ž®BIOS
+			// NES形式BIOS
 				::memcpy( lpDiskBios, bios+0x6010, 8*1024 );
 			} else {
-			// ¶BIOS
+			// 生BIOS
 				::memcpy( lpDiskBios, bios, 8*1024 );
 			}
 			FREE( bios );
@@ -532,7 +531,7 @@ LONG	FileSize;
 			bNSF = TRUE;
 			ZEROMEMORY( &header, sizeof(NESHEADER) );
 
-			// ƒwƒbƒ_ƒRƒs[
+			// ヘッダコピー
 			memcpy( &nsfheader, temp, sizeof(NSFHEADER) );
 
 			PRGsize = FileSize-sizeof(NSFHEADER);
@@ -540,7 +539,7 @@ LONG	FileSize;
 			PRGsize = (PRGsize+0x0FFF)&~0x0FFF;
 //DEBUGOUT( "PRGSIZE:%d\n", PRGsize );
 			if( !(lpPRG = (LPBYTE)malloc( PRGsize )) ) {
-				// ���������m�ۏo���܂���
+				// メモリを確保出来ません
 				error =	CApp::GetErrorString( IDS_ERROR_OUTOFMEMORY );
 				//throw	szErrorString;
 				goto has_error;
@@ -551,23 +550,23 @@ LONG	FileSize;
 			NSF_PAGE_SIZE = PRGsize>>12;
 //DEBUGOUT( "PAGESIZE:%d\n", NSF_PAGE_SIZE );
 		} else {
-			// ���Ή��`���ł�
+			// 未対応形式です
 			error =	CApp::GetErrorString( IDS_ERROR_UNSUPPORTFORMAT );
 			goto has_error;
 		}
 
-		// ƒpƒX/ƒtƒ@ƒCƒ‹–¼Žæ“¾
+		// パス/ファイル名取得
 		{
 		string	tempstr;
 		tempstr = CPathlib::SplitPath( fname );
 		::strcpy( path, tempstr.c_str() );
 		tempstr = CPathlib::SplitFname( fname );
 		::strcpy( name, tempstr.c_str() );
-		// ƒIƒŠƒWƒiƒ‹ƒtƒ@ƒCƒ‹–¼(ƒtƒ‹ƒpƒX)
+		// オリジナルファイル名(フルパス)
 		::strcpy( fullpath, fname );
 		}
 
-		// ƒ}ƒbƒpÝ’è
+		// マッパ設定
 		if( !bNSF ) {
 			// Clean up the header (based on logic from FCEUX)
 			//
@@ -593,7 +592,7 @@ LONG	FileSize;
 			crc = crcall = crcvrom = 0;
 
 			if( mapper != 20 ) {
-				// PRG crc‚ÌŒvŽZ(NesToy‚ÌPRG CRC‚Æ“¯‚¶)
+				// PRG crcの計算(NesToyのPRG CRCと同じ)
 				if( IsTRAINER() ) {
 					crcall  = CRC::CrcRev( 512+PRGsize+CHRsize, temp+sizeof(NESHEADER) );
 					crc     = CRC::CrcRev( 512+PRGsize, temp+sizeof(NESHEADER) );
@@ -632,7 +631,7 @@ has_error:
 	//catch( CHAR* str )
 	if (error)
 	{
-		// �������킩���Ă����G���[����
+		// 原因がわかっているエラー処理
 		FCLOSE( fp );
 		FREE( temp );
 		FREE( bios );
@@ -647,7 +646,7 @@ has_error:
 
 /*#ifndef	_DEBUG
 	} catch(...) {
-		// ���ʕی��G���[�Ƃ��o�����������̂�...(^^;
+		// 一般保護エラーとか出したく無いので...(^^;
 		FCLOSE( fp );
 		FREE( temp );
 		FREE( bios );
@@ -663,14 +662,14 @@ has_error:
 		FREE( PROM_ACCESS );
 #endif
 
-		// •s–¾‚ÈƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½
+		// 不明なエラーが発生しました
 		throw	CApp::GetErrorString( IDS_ERROR_UNKNOWN );
 #endif	// !_DEBUG*/
 	}
 }
 
 //
-// ƒfƒXƒgƒ‰ƒNƒ^
+// デストラクタ
 //
 ROM::~ROM()
 {
@@ -682,7 +681,7 @@ ROM::~ROM()
 }
 
 //
-// ROMƒtƒ@ƒCƒ‹ƒ`ƒFƒbƒN
+// ROMファイルチェック
 //
 INT	ROM::IsRomFile( const char* fname )
 {
@@ -692,7 +691,7 @@ NESHEADER	header;
 	if( !(fp = fopen( fname, "rb" )) )
 		return	IDS_ERROR_OPEN;
 
-	// ƒTƒCƒY•ª“Ç‚Ýž‚Ý
+	// サイズ分読み込み
 	if( fread( &header, sizeof(header), 1, fp ) != 1 ) {
 		FCLOSE( fp );
 		return	IDS_ERROR_READ;
@@ -736,7 +735,8 @@ NESHEADER	header;
 		} else if( header.ID[0] == 'N' && header.ID[1] == 'E'
 			&& header.ID[2] == 'S' && header.ID[3] == 'M') {
 			return	0;
-		}*/
+		}
+		*/
 	}
 
 	return	IDS_ERROR_UNSUPPORTFORMAT;
@@ -762,7 +762,7 @@ char *strcasestr(const char *s, const char *find)
 }
 
 //
-// ROMƒtƒ@ƒCƒ‹–¼‚Ìƒ`ƒFƒbƒN(PAL‚ðŽ©“®”»•Ê)
+// ROMファイル名のチェック(PALを自動判別)
 //
 void	ROM::FilenameCheck( const char* fname )
 {
@@ -783,5 +783,4 @@ void	ROM::FilenameCheck( const char* fname )
 		p++;
 	}
 	*/
-
 }
