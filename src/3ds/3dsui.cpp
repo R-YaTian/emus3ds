@@ -628,7 +628,7 @@ void ui3dsDrawStringOnly(uint16 *fb, int absoluteX, int absoluteY, int color, co
 //---------------------------------------------------------------
 // Draws a string with the forecolor, with wrapping
 //---------------------------------------------------------------
-void ui3dsDrawStringWithWrapping(int x0, int y0, int x1, int y1, int color, int horizontalAlignment, const char *buffer)
+void ui3dsDrawStringWithWrapping(int x0, int y0, int x1, int y1, int color, int horizontalAlignment, const char *buffer_in, bool isTextCFormat)
 {
     int strLineCount = 0;
     int strLineStart[30];
@@ -642,8 +642,9 @@ void ui3dsDrawStringWithWrapping(int x0, int y0, int x1, int y1, int color, int 
     ui3dsPushViewport(x0, y0, x1, y1);
     //ui3dsDrawRect(x0, y0, x1, y1, backColor);  // Draw the background color
 
-    if (buffer != NULL)
+    if (buffer_in != NULL)
     {
+        char *buffer = (settings3DS.Language != 0 && !isTextCFormat) ? (char *) getTextFromMap(buffer_in) : (char *) buffer_in;
         int maxWidth = x1 - x0;
         int slen = strlen(buffer);
 
@@ -745,7 +746,7 @@ void ui3dsDrawStringWithWrapping(int x0, int y0, int x1, int y1, int color, int 
 //---------------------------------------------------------------
 // Draws a string with the forecolor, with no wrapping
 //---------------------------------------------------------------
-void ui3dsDrawStringWithNoWrapping(int x0, int y0, int x1, int y1, int color, int horizontalAlignment, const char *buffer)
+void ui3dsDrawStringWithNoWrapping(int x0, int y0, int x1, int y1, int color, int horizontalAlignment, const char *buffer_in, int startPos, bool isTextCFormat)
 {
     x0 += translateX;
     x1 += translateX;
@@ -755,8 +756,9 @@ void ui3dsDrawStringWithNoWrapping(int x0, int y0, int x1, int y1, int color, in
     ui3dsPushViewport(x0, y0, x1, y1);
     //ui3dsDrawRect(x0, y0, x1, y1, backColor);  // Draw the background color
 
-    if (buffer != NULL)
+    if (buffer_in != NULL)
     {
+        char *buffer = (char *) ((settings3DS.Language != 0 && !isTextCFormat) ? &getTextFromMap(buffer_in)[startPos] : &buffer_in[startPos]);
         uint16* fb = (uint16 *) gfxGetFramebuffer(screenSettings.SecondScreen, GFX_LEFT, NULL, NULL);
         int maxWidth = x1 - x0;
         int x = x0;

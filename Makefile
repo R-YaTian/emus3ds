@@ -15,7 +15,7 @@ CPPFILES :=	$(wildcard src/3ds/*.cpp) \
             $(wildcard src/cores/virtuanes/3ds/*.cpp) \
             $(wildcard src/cores/picodrive/3ds/*.cpp)
 
-po/%.po: $(TOPDIR)/$(notdir $(TARGET)).pot
+po/%/emus3ds.po: $(TOPDIR)/$(notdir $(TARGET)).pot
 	@echo "Building $@"
 	@[ -d $(dir $@) ] || mkdir -p $(dir $@)
 	@if [ -f $@ ]; \
@@ -27,7 +27,7 @@ po/%.po: $(TOPDIR)/$(notdir $(TARGET)).pot
 
 pot: $(CFILES) $(CPPFILES)
 	@echo "Building $(TARGET).pot"
-	xgettext -o $(TARGET).pot $^ -kgetText -C -c \
+	xgettext -o $(TARGET).pot $^ -kgetText -c \
 		--from-code="UTF-8" \
 		--copyright-holder="R-YaTian" \
 		--package-name="$(APP_TITLE)" \

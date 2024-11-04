@@ -104,9 +104,9 @@ SMenuItem optionsForStretch[] = {
     MENU_MAKE_DIALOG_ACTION (1, getText("适配NTSC制式4:3"),         getText("拉伸到320x240")),
     MENU_MAKE_DIALOG_ACTION (5, getText("适配PAL制式5:4"),          getText("拉伸到300x240")),
     MENU_MAKE_DIALOG_ACTION (2, getText("全屏"),                    getText("拉伸到全屏幕")),
-    MENU_MAKE_DIALOG_ACTION (3, getText("裁剪适配NTSC制式4:3"),     getText("裁剪拉伸到320x240")),
-    MENU_MAKE_DIALOG_ACTION (6, getText("裁剪适配PAL制式5:4"),      getText("裁剪拉伸到300x240")),
-    MENU_MAKE_DIALOG_ACTION (4, getText("裁剪全屏"),                getText("裁剪拉伸到全屏幕")),
+    MENU_MAKE_DIALOG_ACTION (3, getText("裁剪适配NTSC制式4:3"),     getText("裁剪并拉伸到320x240")),
+    MENU_MAKE_DIALOG_ACTION (6, getText("裁剪适配PAL制式5:4"),      getText("裁剪并拉伸到300x240")),
+    MENU_MAKE_DIALOG_ACTION (4, getText("裁剪全屏"),                getText("裁剪并拉伸到全屏幕")),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -121,8 +121,8 @@ SMenuItem optionsForFrameskip[] = {
 
 SMenuItem optionsForFrameRate[] = {
     MENU_MAKE_DIALOG_ACTION (0, getText("跟随ROM或地区制式配置"),     ""),
-    MENU_MAKE_DIALOG_ACTION (1, getText("50 FPS"),                   ""),
-    MENU_MAKE_DIALOG_ACTION (2, getText("60 FPS"),                   ""),
+    MENU_MAKE_DIALOG_ACTION (1, "50 FPS",                   ""),
+    MENU_MAKE_DIALOG_ACTION (2, "60 FPS",                   ""),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -189,13 +189,6 @@ SMenuItem optionsForIdleLoopPatch[] =
 {
     MENU_MAKE_DIALOG_ACTION (1, getText("开启"),       getText("较快运行但可能会出现卡死")),
     MENU_MAKE_DIALOG_ACTION (0, getText("关闭"),       getText("较慢运行以换取更高兼容性")),
-    MENU_MAKE_LASTITEM  ()
-};
-
-SMenuItem optionsForCPUCore[] =
-{
-    MENU_MAKE_DIALOG_ACTION (1, getText("快速"),       getText("更快速,采用高度优化的CPU核心")),
-    MENU_MAKE_DIALOG_ACTION (2, getText("兼容"),       getText("更高兼容性,采用较慢的CPU核心")),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -285,22 +278,6 @@ SMenuItem controlsMenu[] = {
     MENU_MAKE_PICKER    (23001, getText("打开模拟器菜单"), "", optionsFor3DSButtons, DIALOG_TYPE_INFO),
     MENU_MAKE_PICKER    (23002, getText("快进"), "", optionsFor3DSButtons, DIALOG_TYPE_INFO),
     MENU_MAKE_DISABLED  (getText("  (在New3DS上效果更好. 可能会导致游戏卡死或出错.)")),
-    MENU_MAKE_LASTITEM  ()
-};
-
-
-//-------------------------------------------------------
-SMenuItem optionsForDisk[] =
-{
-    MENU_MAKE_DIALOG_ACTION (0, getText("插入磁盘"),          ""),
-    MENU_MAKE_DIALOG_ACTION (1, getText("切换到磁盘1的A面"),  ""),
-    MENU_MAKE_DIALOG_ACTION (2, getText("切换到磁盘1的B面"),  ""),
-    MENU_MAKE_DIALOG_ACTION (3, getText("切换到磁盘2的A面"),  ""),
-    MENU_MAKE_DIALOG_ACTION (4, getText("切换到磁盘2的B面"),  ""),
-    MENU_MAKE_DIALOG_ACTION (5, getText("切换到磁盘3的A面"),  ""),
-    MENU_MAKE_DIALOG_ACTION (6, getText("切换到磁盘3的B面"),  ""),
-    MENU_MAKE_DIALOG_ACTION (7, getText("切换到磁盘4的A面"),  ""),
-    MENU_MAKE_DIALOG_ACTION (8, getText("切换到磁盘4的B面"),  ""),
     MENU_MAKE_LASTITEM  ()
 };
 
@@ -1046,7 +1023,6 @@ void impl3dsEmulationEnd()
 }
 
 
-
 //---------------------------------------------------------
 // This is called when the bottom screen is touched
 // during emulation, and the emulation engine is ready
@@ -1056,7 +1032,6 @@ void impl3dsEmulationEnd()
 //---------------------------------------------------------
 void impl3dsEmulationPaused()
 {
-#define getText getTextFromMap
     int widthAdjust = screenSettings.GameScreen == GFX_TOP ? 0 : 40;
 
     ui3dsDrawRect(50 + widthAdjust, 140, 270 + widthAdjust, 154, 0x000000);
@@ -1098,6 +1073,7 @@ bool impl3dsSaveState(int slotNumber)
 //
 // The slotNumbers passed in start from 1.
 //---------------------------------------------------------
+extern bool IsFileExists(const char * filename);
 bool impl3dsLoadState(int slotNumber)
 {
 	char ext[_MAX_PATH];
@@ -1105,6 +1081,9 @@ bool impl3dsLoadState(int slotNumber)
 	    sprintf(ext, ".sta");
     else
 	    sprintf(ext, ".st%d", slotNumber - 1);
+
+    if (!IsFileExists(file3dsReplaceFilenameExtension(romFileNameFullPath, ext)))
+        return false;
 
     impl3dsResetConsole();
 
@@ -1128,7 +1107,6 @@ bool impl3dsOnMenuSelected(int ID)
 }
 
 
-
 //---------------------------------------------------------
 // This function will be called everytime the user
 // changes the value in the specified menu item.
@@ -1138,25 +1116,8 @@ bool impl3dsOnMenuSelected(int ID)
 //---------------------------------------------------------
 bool impl3dsOnMenuSelectedChanged(int ID, int value)
 {
-    if (ID == 21000)
-    {
-        settings3DS.OtherOptions[SETTINGS_BIOS] = value;
-
-        menu3dsHideDialog();
-        int result = menu3dsShowDialog(getText("CD-ROM BIOS 更换成功"), getText("要立即重置控制台吗?"), Themes[settings3DS.Theme].dialogColorWarn, optionsForNoYes);
-        menu3dsHideDialog();
-
-        if (result == 1)
-        {
-            impl3dsResetConsole();
-            return true;
-        }
-    }
-
     return false;
-#undef getText
 }
-
 
 
 //---------------------------------------------------------

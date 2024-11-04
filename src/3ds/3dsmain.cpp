@@ -156,7 +156,6 @@ bool emulatorSettingsSave(bool, bool, bool);
 
 bool emulatorLoadRom()
 {
-#define getText getTextFromMap
     impl3dsClearAllCheats();
 
     menu3dsShowDialog(getText("加载 ROM"), getText("加载中... 请稍后."), Themes[settings3DS.Theme].dialogColorInfo, NULL);
@@ -559,7 +558,7 @@ void menuPause()
 
                     if (!emulatorLoadRom())
                     {
-                        menu3dsShowDialog(getText("选择ROM"), getText("无法加载ROM."), Themes[settings3DS.Theme].dialogColorWarn, optionsForOk);
+                        menu3dsShowDialog(getText("选择ROM"), getText("无法加载 ROM."), Themes[settings3DS.Theme].dialogColorWarn, optionsForOk);
                         menu3dsHideDialog();
                     }
                     else
@@ -571,22 +570,22 @@ void menuPause()
         {
             int slot = selection - 2000;
             char text[200];
-
+#define getText getTextFromMap
             sprintf(text, getText("保存到存档位 %d...\n请稍后"), slot);
-            menu3dsShowDialog(getText("即时存档"), text, Themes[settings3DS.Theme].dialogColorInfo, NULL);
+            menu3dsShowDialog(getText("即时存档"), text, Themes[settings3DS.Theme].dialogColorInfo, NULL, -1, true);
             bool result = impl3dsSaveState(slot);
             menu3dsHideDialog();
 
             if (result)
             {
                 sprintf(text, getText("存档位 %d 保存完成."), slot);
-                result = menu3dsShowDialog(getText("即时存档"), text, Themes[settings3DS.Theme].dialogColorSuccess, optionsForOk);
+                result = menu3dsShowDialog(getText("即时存档"), text, Themes[settings3DS.Theme].dialogColorSuccess, optionsForOk, -1, true);
                 menu3dsHideDialog();
             }
             else
             {
                 sprintf(text, getText("无法保存到存档位 %d!"), slot);
-                result = menu3dsShowDialog(getText("即时存档"), text, Themes[settings3DS.Theme].dialogColorWarn, optionsForOk);
+                result = menu3dsShowDialog(getText("即时存档"), text, Themes[settings3DS.Theme].dialogColorWarn, optionsForOk, -1, true);
                 menu3dsHideDialog();
             }
 
@@ -608,7 +607,8 @@ void menuPause()
             else
             {
                 sprintf(text, getText("无法加载存档位 %d!"), slot);
-                menu3dsShowDialog(getText("即时存档"), text, Themes[settings3DS.Theme].dialogColorWarn, optionsForOk);
+                menu3dsShowDialog(getText("即时存档"), text, Themes[settings3DS.Theme].dialogColorWarn, optionsForOk, -1, true);
+#undef getText
                 menu3dsHideDialog();
             }
         }
@@ -643,8 +643,10 @@ void menuPause()
             if (success)
             {
                 char text[600];
+#define getText getTextFromMap
                 snprintf(text, 600, getText("完成! 文件已保存到 %s"), path);
-                menu3dsShowDialog(getText("截屏"), text, Themes[settings3DS.Theme].dialogColorSuccess, optionsForOk);
+                menu3dsShowDialog(getText("截屏"), text, Themes[settings3DS.Theme].dialogColorSuccess, optionsForOk, -1, true);
+#undef getText
                 menu3dsHideDialog();
             }
             else
@@ -666,7 +668,6 @@ void menuPause()
                 aptCheckHomePressRejected();
                 break;
             }
-
         }
         else if (selection == 6001)
         {
@@ -932,13 +933,15 @@ void emulatorLoop()
     menu3dsDrawBlackScreen();
     if (settings3DS.HideUnnecessaryBottomScrText == 0)
     {
+#define getText getTextFromMap
         std::string helpText = screenSettings.GameScreen == GFX_BOTTOM ? getText("点触下屏幕") : getText("点触屏幕");
         if (!aptIsHomeAllowed())
             helpText += getText("或按下Home键");
         helpText += getText("呼出菜单");
         ui3dsDrawStringWithNoWrapping(0, 100, screenSettings.SecondScreenWidth, 115,
             0x7f7f7f, HALIGN_CENTER,
-            helpText.c_str());
+            helpText.c_str(), 0, true);
+#undef getText
     }
 
     snd3dsStartPlaying();
@@ -1059,7 +1062,6 @@ void emulatorLoop()
     // (There's probably a better way to do this, but this will do for now)
     //
     // svcSleepThread(500000);
-#undef getText
 }
 
 

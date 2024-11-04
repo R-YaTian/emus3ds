@@ -103,13 +103,13 @@ void ui3dsDrawRect(int x0, int y0, int x1, int y1, int color, float alpha = 1.0f
 //---------------------------------------------------------------
 // Draws a string with the forecolor, with wrapping
 //---------------------------------------------------------------
-void ui3dsDrawStringWithWrapping(int x0, int y0, int x1, int y1, int color, int horizontalAlignment, const char *buffer);
+void ui3dsDrawStringWithWrapping(int x0, int y0, int x1, int y1, int color, int horizontalAlignment, const char *buffer, bool isTextCFormat = false);
 
 
 //---------------------------------------------------------------
 // Draws a string with the forecolor, with no wrapping
 //---------------------------------------------------------------
-void ui3dsDrawStringWithNoWrapping(int x0, int y0, int x1, int y1, int color, int horizontalAlignment, const char *buffer);
+void ui3dsDrawStringWithNoWrapping(int x0, int y0, int x1, int y1, int color, int horizontalAlignment, const char *buffer, int startPos = 0, bool isTextCFormat = false);
 
 
 //---------------------------------------------------------------

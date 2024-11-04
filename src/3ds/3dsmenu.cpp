@@ -23,11 +23,12 @@ typedef struct
 {
     SMenuItem   *MenuItems;
     char        SubTitle[256];
-    const char        *Title;
-    const char        *DialogText;
+    const char  *Title;
+    const char  *DialogText;
     int         ItemCount;
     int         FirstItemIndex;
     int         SelectedItemIndex;
+    bool        IsTextCFormat;
 } SMenuTab;
 
 
@@ -156,7 +157,7 @@ void menu3dsDrawItems(
     if (currentTab->SubTitle[0])
     {
         maxItems--;
-        snprintf (menuTextBuffer, 511, "%s", currentTab->SubTitle);
+        snprintf(menuTextBuffer, 511, "%s", currentTab->SubTitle);
         ui3dsDrawStringWithNoWrapping(20, menuStartY, 300 + widthAdjust, menuStartY + fontHeight,
             subtitleTextColor, HALIGN_LEFT, menuTextBuffer);
         menuStartY += fontHeight;
@@ -175,7 +176,7 @@ void menu3dsDrawItems(
         if (currentTab->MenuItems[i].Text == NULL)
             snprintf (menuTextBuffer, 511, "");
         else
-            snprintf (menuTextBuffer, 511, "%s", getTextFromMap(currentTab->MenuItems[i].Text));
+            snprintf (menuTextBuffer, 511, "%s", currentTab->MenuItems[i].Text);
 
         // Draw the selected background
         //
@@ -277,7 +278,7 @@ void menu3dsDrawItems(
                     {
                         if (pickerItems[j].ID == currentTab->MenuItems[i].Value)
                         {
-                            snprintf(selectedTextBuffer, 511, "%s", getTextFromMap(pickerItems[j].Text), j);
+                            snprintf(selectedTextBuffer, 511, "%s", pickerItems[j].Text, j);
                         }
                     }
                     ui3dsDrawStringWithNoWrapping(160 + widthAdjust, y, screenSettings.SecondScreenWidth - horizontalPadding, y + fontHeight, color, HALIGN_RIGHT, selectedTextBuffer);
@@ -312,7 +313,6 @@ void menu3dsDrawItems(
 //-------------------------------------------------------
 void menu3dsDrawMenu(int menuItemFrame, int translateY)
 {
-#define getText getTextFromMap
     SMenuTab *currentTab = &menuTab[currentMenuTab];
     int widthAdjust = screenSettings.GameScreen == GFX_TOP ? 0 : 80;
 
@@ -440,7 +440,6 @@ void menu3dsDrawMenu(int menuItemFrame, int translateY)
             ui3dsApplyAlphaToColor(Themes[settings3DS.Theme].headerItemTextColor, alpha) + menuBackColorAlpha,       // headerItemTextColor
             ui3dsApplyAlphaToColor(Themes[settings3DS.Theme].subtitleTextColor, alpha) + menuBackColorAlpha);      // subtitleTextColor
     }
-#undef getText
 }
 
 
@@ -494,9 +493,9 @@ void menu3dsDrawDialog()
         ui3dsApplyAlphaToColor(dialogBackColorBottom, 1.0f - Themes[settings3DS.Theme].dialogTextAlpha) +
         ui3dsApplyAlphaToColor(dialogTextColor, Themes[settings3DS.Theme].dialogTextAlpha);
     ui3dsDrawStringWithNoWrapping(30, 10, 290 + widthAdjust, 25,
-        dialogTitleTextColor, HALIGN_LEFT, &dialogTab.Title[startChar]);
+        dialogTitleTextColor, HALIGN_LEFT, dialogTab.Title, startChar, dialogTab.IsTextCFormat);
     ui3dsDrawStringWithWrapping(30, 30, 290 + widthAdjust, 70,
-        dialogItemDescriptionTextColor, HALIGN_LEFT, dialogTab.DialogText);
+        dialogItemDescriptionTextColor, HALIGN_LEFT, dialogTab.DialogText, dialogTab.IsTextCFormat);
 
     // Draw the selectable items.
     menu3dsDrawItems(
@@ -759,7 +758,7 @@ int menu3dsMenuSelectItem(bool (*itemChangedCallback)(int ID, int value))
                         break;
                 }
 
-                snprintf(menuTextBuffer, 511, "%s", getTextFromMap(currentTab->MenuItems[currentTab->SelectedItemIndex].Text));
+                snprintf(menuTextBuffer, 511, "%s", currentTab->MenuItems[currentTab->SelectedItemIndex].Text);
                 int resultValue = menu3dsShowDialog(menuTextBuffer,
                     currentTab->MenuItems[currentTab->SelectedItemIndex].PickerDescription,
                     pickerDialogBackColor,
@@ -780,13 +779,13 @@ int menu3dsMenuSelectItem(bool (*itemChangedCallback)(int ID, int value))
                         }
                     }
                 }
+                if (resultValue != -1 && currentTab->MenuItems[currentTab->SelectedItemIndex].ID == 24000)
+                    ui3dsSetLanguage(resultValue);
                 menu3dsHideDialog();
                 if (resultValue != -1 && currentTab->MenuItems[currentTab->SelectedItemIndex].ID == 18000)
                     ui3dsSetFont(resultValue);
                 if (resultValue != -1 && currentTab->MenuItems[currentTab->SelectedItemIndex].ID == 23000)
                     ui3dsSetTheme(resultValue);
-                if (resultValue != -1 && currentTab->MenuItems[currentTab->SelectedItemIndex].ID == 24000)
-                    ui3dsSetLanguage(resultValue);
                 menu3dsDrawEverything();
             }
         }
@@ -1134,7 +1133,7 @@ void menu3dsHideMenu()
 // NOTE: You must call menu3dsHideMenu to transit
 //       the menu away.
 //-------------------------------------------------------
-int menu3dsShowDialog(const char *title, const char *dialogText, int newDialogBackColor, SMenuItem *menuItems, int selectedID)
+int menu3dsShowDialog(const char *title, const char *dialogText, int newDialogBackColor, SMenuItem *menuItems, int selectedID, bool isTextCFormat)
 {
     // Count the number items
     int itemCount = 0;
@@ -1157,7 +1156,7 @@ int menu3dsShowDialog(const char *title, const char *dialogText, int newDialogBa
     currentTab->DialogText = dialogText;
     currentTab->MenuItems = menuItems;
     currentTab->ItemCount = itemCount;
-
+    currentTab->IsTextCFormat = isTextCFormat;
     currentTab->FirstItemIndex = 0;
     currentTab->SelectedItemIndex = 0;
 

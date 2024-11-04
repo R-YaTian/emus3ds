@@ -1,0 +1,1193 @@
+# English translations for High compatibility emulators for 3DS package.
+# Copyright (C) 2024 R-YaTian
+# This file is distributed under the same license as the High compatibility emulators for 3DS package.
+# Automatically generated, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: High compatibility emulators for 3DS R2\n"
+"Report-Msgid-Bugs-To: gmtianya@gmail.com\n"
+"POT-Creation-Date: 2024-11-04 11:46+0800\n"
+"PO-Revision-Date: 2024-11-04 11:46+0800\n"
+"Last-Translator: R-YaTian\n"
+"Language-Team: none\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/3ds/3dscheat.cpp:41
+msgid "无该游戏可用的金手指."
+msgstr "No cheats available for this game."
+
+#: src/3ds/3dsmain.cpp:130 src/cores/temperpce/3ds/3dsimpl.cpp:177
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:157
+#: src/cores/picodrive/3ds/3dsimpl.cpp:204
+msgid "  语言"
+msgstr "  Language"
+
+#: src/3ds/3dsmain.cpp:130 src/cores/temperpce/3ds/3dsimpl.cpp:177
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:157
+#: src/cores/picodrive/3ds/3dsimpl.cpp:204
+msgid "选择应用程序显示的语言"
+msgstr "Select the display language of the application"
+
+#: src/3ds/3dsmain.cpp:131 src/cores/temperpce/3ds/3dsimpl.cpp:179
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:159
+#: src/cores/picodrive/3ds/3dsimpl.cpp:206
+msgid "  主题"
+msgstr "  Theme"
+
+#: src/3ds/3dsmain.cpp:131 src/cores/temperpce/3ds/3dsimpl.cpp:179
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:159
+#: src/cores/picodrive/3ds/3dsimpl.cpp:206
+msgid "选择应用于界面的主题"
+msgstr "The theme used for the user interface."
+
+#: src/3ds/3dsmain.cpp:132 src/cores/temperpce/3ds/3dsimpl.cpp:180
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:160
+#: src/cores/picodrive/3ds/3dsimpl.cpp:207
+msgid "  字体"
+msgstr "  Font"
+
+#: src/3ds/3dsmain.cpp:132 src/cores/temperpce/3ds/3dsimpl.cpp:180
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:160
+#: src/cores/picodrive/3ds/3dsimpl.cpp:207
+msgid "用于用户界面的字体(仅适用于ASCII字符)"
+msgstr "The font used for the user interface. (Only ASCII characters are supported)"
+
+#: src/3ds/3dsmain.cpp:133 src/cores/temperpce/3ds/3dsimpl.cpp:307
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:290
+#: src/cores/picodrive/3ds/3dsimpl.cpp:336
+msgid "  退出"
+msgstr "  Exit"
+
+#: src/3ds/3dsmain.cpp:145 src/3ds/3dsmain.cpp:473 src/3ds/3dsmain.cpp:522
+msgid "金手指"
+msgstr "cheats"
+
+#: src/3ds/3dsmain.cpp:162 src/3ds/3dsmain.cpp:395
+msgid "加载 ROM"
+msgstr "Load ROM"
+
+#: src/3ds/3dsmain.cpp:162
+msgid "加载中... 请稍后."
+msgstr "Loading... this may take a while."
+
+#: src/3ds/3dsmain.cpp:315
+msgid "保存设置到SD卡..."
+msgstr "Saving settings to SD card..."
+
+#: src/3ds/3dsmain.cpp:347 src/3ds/3dsmain.cpp:385
+msgid "选项"
+msgstr "Options"
+
+#: src/3ds/3dsmain.cpp:348 src/3ds/3dsmain.cpp:386
+msgid "选择 ROM"
+msgstr "Select ROM"
+
+#: src/3ds/3dsmain.cpp:395
+msgid "无法加载 ROM."
+msgstr "Unable to load ROM."
+
+#: src/3ds/3dsmain.cpp:409 src/3ds/3dsmain.cpp:673
+msgid "退出"
+msgstr "Exit"
+
+#: src/3ds/3dsmain.cpp:409 src/3ds/3dsmain.cpp:673
+msgid "立即退出?"
+msgstr "Leaving so soon?"
+
+#: src/3ds/3dsmain.cpp:470 src/3ds/3dsmain.cpp:519
+#: src/cores/temperpce/3ds/3dsimpl.cpp:285
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:267
+#: src/cores/picodrive/3ds/3dsimpl.cpp:314
+msgid "模拟器"
+msgstr "Emulator"
+
+#: src/3ds/3dsmain.cpp:471 src/3ds/3dsmain.cpp:520
+msgid "设置"
+msgstr "Options"
+
+#: src/3ds/3dsmain.cpp:472 src/3ds/3dsmain.cpp:521
+msgid "控制"
+msgstr "Controls"
+
+#: src/3ds/3dsmain.cpp:474 src/3ds/3dsmain.cpp:523 src/3ds/3dsmain.cpp:562
+msgid "选择ROM"
+msgstr "Select ROM"
+
+#: src/3ds/3dsmain.cpp:533 src/3ds/3dsmain.cpp:576 src/3ds/3dsmain.cpp:583
+#: src/3ds/3dsmain.cpp:589 src/3ds/3dsmain.cpp:611
+#: src/cores/temperpce/3ds/3dsimpl.cpp:289
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:272
+#: src/cores/picodrive/3ds/3dsimpl.cpp:318
+msgid "即时存档"
+msgstr "Save State"
+
+#: src/3ds/3dsmain.cpp:533
+msgid "自动保存..."
+msgstr "Autosaving state..."
+
+#: src/3ds/3dsmain.cpp:538
+msgid "自动保存失败"
+msgstr "Autosave failure"
+
+#: src/3ds/3dsmain.cpp:538
+msgid ""
+"自动保存失败.\n"
+"强制加载?"
+msgstr "Automatic savestate writing failed.\nLoad chosen game anyway?"
+
+#: src/3ds/3dsmain.cpp:575
+#, c-format
+msgid ""
+"保存到存档位 %d...\n"
+"请稍后"
+msgstr "Saving into slot %d...\nThis may take a while"
+
+#: src/3ds/3dsmain.cpp:582
+#, c-format
+msgid "存档位 %d 保存完成."
+msgstr "Slot %d save completed."
+
+#: src/3ds/3dsmain.cpp:588
+#, c-format
+msgid "无法保存到存档位 %d!"
+msgstr "Unable to save slot %d!"
+
+#: src/3ds/3dsmain.cpp:610
+#, c-format
+msgid "无法加载存档位 %d!"
+msgstr "Unable to load slot %d!"
+
+#: src/3ds/3dsmain.cpp:617 src/3ds/3dsmain.cpp:647 src/3ds/3dsmain.cpp:652
+msgid "截屏"
+msgstr "Screenshot"
+
+#: src/3ds/3dsmain.cpp:617
+msgid ""
+"开始截屏...\n"
+"请稍后."
+msgstr "Now taking a screenshot...\nThis may take a while."
+
+#: src/3ds/3dsmain.cpp:646
+#, c-format
+msgid "完成! 文件已保存到 %s"
+msgstr "Done! File saved to %s"
+
+#: src/3ds/3dsmain.cpp:652
+msgid "截屏时发生错误!"
+msgstr "Unable to take screenshot!"
+
+#: src/3ds/3dsmain.cpp:658
+msgid "重置控制台"
+msgstr "Reset Console"
+
+#: src/3ds/3dsmain.cpp:658
+msgid "确定吗?"
+msgstr "Are you sure?"
+
+#: src/3ds/3dsmain.cpp:935
+msgid "点触下屏幕"
+msgstr "Touch bottom screen "
+
+#: src/3ds/3dsmain.cpp:935
+msgid "点触屏幕"
+msgstr "Touch screen "
+
+#: src/3ds/3dsmain.cpp:937
+msgid "或按下Home键"
+msgstr "or press Home "
+
+#: src/3ds/3dsmain.cpp:938
+msgid "呼出菜单"
+msgstr "for menu"
+
+#: src/3ds/3dsmenu.cpp:51
+msgid "否"
+msgstr "No"
+
+#: src/3ds/3dsmenu.cpp:52
+msgid "是"
+msgstr "Yes"
+
+#: src/3ds/3dsmenu.cpp:57
+msgid "确定"
+msgstr "OK"
+
+#: src/3ds/3dsmenu.cpp:68
+msgid "原始"
+msgstr "Original"
+
+#: src/3ds/3dsmenu.cpp:69
+msgid "暗黑模式"
+msgstr "Dark mode"
+
+#: src/3ds/3dsmenu.cpp:344
+msgid "A:选择  B:取消  X+上/下:翻页"
+msgstr "A:Select B:Cancel"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:60
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:64
+#: src/cores/picodrive/3ds/3dsimpl.cpp:96
+msgid "上屏幕"
+msgstr "Top"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:61
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:65
+#: src/cores/picodrive/3ds/3dsimpl.cpp:97
+msgid "下屏幕"
+msgstr "Bottom"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:66
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:70
+#: src/cores/picodrive/3ds/3dsimpl.cpp:102
+msgid "不拉伸"
+msgstr "No Stretch"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:66
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:70
+#: src/cores/picodrive/3ds/3dsimpl.cpp:102
+msgid "点对点"
+msgstr "Pixel Perfect"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:67
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:71
+msgid "适配4:3"
+msgstr "4:3 Fit"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:67
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:71
+#: src/cores/picodrive/3ds/3dsimpl.cpp:104
+msgid "拉伸到320x240"
+msgstr "Stretch to 320x240"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:68
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:72
+#: src/cores/picodrive/3ds/3dsimpl.cpp:106
+msgid "全屏"
+msgstr "Fullscreen"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:68
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:72
+#: src/cores/picodrive/3ds/3dsimpl.cpp:106
+msgid "拉伸到全屏幕"
+msgstr "Stretch to Fullscreen"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:69
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:73
+msgid "裁剪适配4:3"
+msgstr "Cropped 4:3 Fit"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:69
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:73
+#: src/cores/picodrive/3ds/3dsimpl.cpp:107
+msgid "裁剪并拉伸到320x240"
+msgstr "Crop & Stretch to 320x240"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:70
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:74
+#: src/cores/picodrive/3ds/3dsimpl.cpp:109
+msgid "裁剪全屏"
+msgstr "Cropped Fullscreen"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:70
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:74
+#: src/cores/picodrive/3ds/3dsimpl.cpp:109
+msgid "裁剪并拉伸到全屏幕"
+msgstr "Crop & Stretch to Fullscreen"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:75
+#: src/cores/temperpce/3ds/3dsimpl.cpp:94
+#: src/cores/temperpce/3ds/3dsimpl.cpp:138
+#: src/cores/temperpce/3ds/3dsimpl.cpp:170
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:91
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:110
+#: src/cores/picodrive/3ds/3dsimpl.cpp:114
+#: src/cores/picodrive/3ds/3dsimpl.cpp:141
+#: src/cores/picodrive/3ds/3dsimpl.cpp:191
+msgid "关闭"
+msgstr "Disabled"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:76
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:92
+#: src/cores/picodrive/3ds/3dsimpl.cpp:115
+msgid "开启 (最高1帧)"
+msgstr "Enabled (max 1 frame)"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:77
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:93
+#: src/cores/picodrive/3ds/3dsimpl.cpp:116
+msgid "开启 (最高2帧)"
+msgstr "Enabled (max 2 frame)"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:78
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:94
+#: src/cores/picodrive/3ds/3dsimpl.cpp:117
+msgid "开启 (最高3帧)"
+msgstr "Enabled (max 3 frame)"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:79
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:95
+#: src/cores/picodrive/3ds/3dsimpl.cpp:118
+msgid "开启 (最高4帧)"
+msgstr "Enabled (max 4 frame)"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:84
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:100
+#: src/cores/picodrive/3ds/3dsimpl.cpp:130
+msgid "ROM默认"
+msgstr "Default based on ROM"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:91
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:107
+#: src/cores/picodrive/3ds/3dsimpl.cpp:138
+msgid "1秒"
+msgstr "1 second"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:92
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:108
+#: src/cores/picodrive/3ds/3dsimpl.cpp:139
+msgid "10秒"
+msgstr "10 second"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:93
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:109
+#: src/cores/picodrive/3ds/3dsimpl.cpp:140
+msgid "60秒"
+msgstr "60 second"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:94
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:110
+#: src/cores/picodrive/3ds/3dsimpl.cpp:141
+msgid "点触下屏幕保存"
+msgstr "Touch bottom screen to save"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:99
+#: src/cores/temperpce/3ds/3dsimpl.cpp:110
+#: src/cores/temperpce/3ds/3dsimpl.cpp:123
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:115
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:126
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:135
+#: src/cores/picodrive/3ds/3dsimpl.cpp:146
+#: src/cores/picodrive/3ds/3dsimpl.cpp:157
+#: src/cores/picodrive/3ds/3dsimpl.cpp:176
+msgid "无"
+msgstr "None"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:100
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:116
+#: src/cores/picodrive/3ds/3dsimpl.cpp:147
+msgid "最慢"
+msgstr "Slowest"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:101
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:117
+#: src/cores/picodrive/3ds/3dsimpl.cpp:148
+msgid "更慢"
+msgstr "Slower"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:102
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:118
+#: src/cores/picodrive/3ds/3dsimpl.cpp:149
+msgid "慢"
+msgstr "Slow"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:103
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:119
+#: src/cores/picodrive/3ds/3dsimpl.cpp:150
+msgid "快"
+msgstr "Fast"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:104
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:120
+#: src/cores/picodrive/3ds/3dsimpl.cpp:151
+msgid "更快"
+msgstr "Faster"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:105
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:121
+#: src/cores/picodrive/3ds/3dsimpl.cpp:152
+msgid "特快"
+msgstr "Very Fast"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:111
+msgid "I键"
+msgstr "Button I"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:112
+msgid "II键"
+msgstr "Button II"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:113
+msgid "III键"
+msgstr "Button III"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:114
+msgid "IV键"
+msgstr "Button IV"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:115
+msgid "V键"
+msgstr "Button V"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:116
+msgid "VI键"
+msgstr "Button VI"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:117
+msgid "PCE SELECT键"
+msgstr "PCE's SELECT"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:118
+msgid "PCE RUN键"
+msgstr "PCE's RUN"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:124
+#: src/cores/temperpce/3ds/3dsimpl.cpp:206
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:136
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:186
+#: src/cores/picodrive/3ds/3dsimpl.cpp:177
+#: src/cores/picodrive/3ds/3dsimpl.cpp:235
+msgid "3DS A键"
+msgstr "3DS A Button"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:125
+#: src/cores/temperpce/3ds/3dsimpl.cpp:211
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:137
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:191
+#: src/cores/picodrive/3ds/3dsimpl.cpp:178
+#: src/cores/picodrive/3ds/3dsimpl.cpp:240
+msgid "3DS B键"
+msgstr "3DS B Button"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:126
+#: src/cores/temperpce/3ds/3dsimpl.cpp:216
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:138
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:196
+#: src/cores/picodrive/3ds/3dsimpl.cpp:179
+#: src/cores/picodrive/3ds/3dsimpl.cpp:245
+msgid "3DS X键"
+msgstr "3DS X Button"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:127
+#: src/cores/temperpce/3ds/3dsimpl.cpp:221
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:139
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:201
+#: src/cores/picodrive/3ds/3dsimpl.cpp:180
+#: src/cores/picodrive/3ds/3dsimpl.cpp:250
+msgid "3DS Y键"
+msgstr "3DS Y Button"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:128
+#: src/cores/temperpce/3ds/3dsimpl.cpp:226
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:140
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:206
+#: src/cores/picodrive/3ds/3dsimpl.cpp:181
+#: src/cores/picodrive/3ds/3dsimpl.cpp:255
+msgid "3DS L键"
+msgstr "3DS L Button"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:129
+#: src/cores/temperpce/3ds/3dsimpl.cpp:231
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:141
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:211
+#: src/cores/picodrive/3ds/3dsimpl.cpp:182
+#: src/cores/picodrive/3ds/3dsimpl.cpp:260
+msgid "3DS R键"
+msgstr "3DS R Button"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:130
+#: src/cores/temperpce/3ds/3dsimpl.cpp:236
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:142
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:216
+#: src/cores/picodrive/3ds/3dsimpl.cpp:183
+#: src/cores/picodrive/3ds/3dsimpl.cpp:265
+msgid "New3DS ZL键"
+msgstr "New 3DS ZL Button"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:131
+#: src/cores/temperpce/3ds/3dsimpl.cpp:241
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:143
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:221
+#: src/cores/picodrive/3ds/3dsimpl.cpp:184
+#: src/cores/picodrive/3ds/3dsimpl.cpp:270
+msgid "New3DS ZR键"
+msgstr "New 3DS ZR Button"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:137
+#: src/cores/temperpce/3ds/3dsimpl.cpp:169
+#: src/cores/picodrive/3ds/3dsimpl.cpp:190
+msgid "开启"
+msgstr "Enabled"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:137
+#: src/cores/picodrive/3ds/3dsimpl.cpp:190
+msgid "较快运行但可能会出现卡死"
+msgstr "Faster but some games may freeze"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:138
+#: src/cores/picodrive/3ds/3dsimpl.cpp:191
+msgid "较慢运行以换取更高兼容性"
+msgstr "Slower but better compatibility"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:144
+#: src/cores/picodrive/3ds/3dsimpl.cpp:197
+msgid "快速"
+msgstr "Fast"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:144
+#: src/cores/picodrive/3ds/3dsimpl.cpp:197
+msgid "更快速,采用高度优化的CPU核心"
+msgstr "Faster, heavily optimized CPU core."
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:145
+#: src/cores/picodrive/3ds/3dsimpl.cpp:198
+msgid "兼容"
+msgstr "Compatible"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:145
+#: src/cores/picodrive/3ds/3dsimpl.cpp:198
+msgid "更高兼容性,采用较慢的CPU核心"
+msgstr "More compatible, but slower CPU core."
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:169
+msgid "最好效果但更慢速"
+msgstr "Best, but slower"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:170
+msgid "最快速度但不精确"
+msgstr "Fastest, less accurate"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:176
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:156
+#: src/cores/picodrive/3ds/3dsimpl.cpp:203
+msgid "全局设置"
+msgstr "GLOBAL SETTINGS"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:178
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:158
+#: src/cores/picodrive/3ds/3dsimpl.cpp:205
+msgid "  屏幕比例"
+msgstr "  Screen Stretch"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:178
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:158
+#: src/cores/picodrive/3ds/3dsimpl.cpp:205
+msgid "您希望屏幕以何种方式显示?"
+msgstr "How would you like the final screen to appear?"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:181
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:161
+#: src/cores/picodrive/3ds/3dsimpl.cpp:208
+msgid "  游戏显示屏幕"
+msgstr "  Game Screen"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:181
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:161
+#: src/cores/picodrive/3ds/3dsimpl.cpp:208
+msgid "选择使用上屏或下屏进行游玩"
+msgstr "Play your games on top or bottom screen"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:182
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:162
+#: src/cores/picodrive/3ds/3dsimpl.cpp:209
+msgid "  隐藏副屏幕的文本"
+msgstr "  Hide text in second screen"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:183
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:163
+#: src/cores/picodrive/3ds/3dsimpl.cpp:210
+msgid "  禁用3D调节杆"
+msgstr "  Disable 3D Slider"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:185
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:165
+#: src/cores/picodrive/3ds/3dsimpl.cpp:212
+msgid "  退出时自动保存即时存档并在启动时自动加载"
+msgstr "  Automatically save state on exit and load state on start"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:187
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:169
+#: src/cores/picodrive/3ds/3dsimpl.cpp:214
+msgid "游戏设置"
+msgstr "GAME-SPECIFIC SETTINGS"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:188
+msgid "  CPU核心"
+msgstr "  CPU Core"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:188
+msgid "游戏出现卡死时可选择原生CPU核心"
+msgstr "Change to the original core if your game freezes."
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:189
+msgid "  空闲态循环补丁"
+msgstr "  Idle Loop Patching"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:189
+msgid "改变此项配置后需重启ROM"
+msgstr "You must reload the ROM after changing this."
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:190
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:170
+#: src/cores/picodrive/3ds/3dsimpl.cpp:215
+msgid "  跳帧"
+msgstr "  Frameskip"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:190
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:170
+#: src/cores/picodrive/3ds/3dsimpl.cpp:215
+msgid "跳帧可以加快游戏速度,但可能会导致画面不平滑"
+msgstr "Try changing this if the game runs slow. Skipping frames help it run faster but less smooth."
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:191
+msgid ""
+"BIOS文件必须放置在根目录的 /emus3ds/temperpce_3ds/syscards 文件夹. 改变此项配"
+"置后将重启ROM"
+msgstr "The BIOS must be in your /emus3ds/temperpce_3ds/syscards folder. Re-load ROM after changing."
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:192
+msgid "  调色板修复"
+msgstr "  In-Frame Palette Changes"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:192
+msgid "可尝试更改此项,若游戏画面中某些颜色不正确"
+msgstr "Try changing this if some colours in the game look off."
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:194
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:174
+#: src/cores/picodrive/3ds/3dsimpl.cpp:219
+msgid "音频"
+msgstr "AUDIO"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:195
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:175
+#: src/cores/picodrive/3ds/3dsimpl.cpp:221
+msgid "  将音量设置应用于所有游戏"
+msgstr "  Apply volume to all games"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:196
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:176
+#: src/cores/picodrive/3ds/3dsimpl.cpp:222
+msgid "  音量扩增"
+msgstr "  Volume Amplification"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:202
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:182
+#: src/cores/picodrive/3ds/3dsimpl.cpp:231
+msgid "按键设置"
+msgstr "BUTTON CONFIGURATION"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:203
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:183
+#: src/cores/picodrive/3ds/3dsimpl.cpp:232
+msgid "  为所有游戏映射按键"
+msgstr "  Apply button mappings to all games"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:204
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:184
+#: src/cores/picodrive/3ds/3dsimpl.cpp:233
+msgid "  为所有游戏映射连发按键"
+msgstr "  Apply rapid fire settings to all games"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:207
+#: src/cores/temperpce/3ds/3dsimpl.cpp:208
+#: src/cores/temperpce/3ds/3dsimpl.cpp:212
+#: src/cores/temperpce/3ds/3dsimpl.cpp:213
+#: src/cores/temperpce/3ds/3dsimpl.cpp:217
+#: src/cores/temperpce/3ds/3dsimpl.cpp:218
+#: src/cores/temperpce/3ds/3dsimpl.cpp:222
+#: src/cores/temperpce/3ds/3dsimpl.cpp:223
+#: src/cores/temperpce/3ds/3dsimpl.cpp:227
+#: src/cores/temperpce/3ds/3dsimpl.cpp:228
+#: src/cores/temperpce/3ds/3dsimpl.cpp:232
+#: src/cores/temperpce/3ds/3dsimpl.cpp:233
+#: src/cores/temperpce/3ds/3dsimpl.cpp:237
+#: src/cores/temperpce/3ds/3dsimpl.cpp:238
+#: src/cores/temperpce/3ds/3dsimpl.cpp:242
+#: src/cores/temperpce/3ds/3dsimpl.cpp:243
+#: src/cores/temperpce/3ds/3dsimpl.cpp:247
+#: src/cores/temperpce/3ds/3dsimpl.cpp:248
+#: src/cores/temperpce/3ds/3dsimpl.cpp:251
+#: src/cores/temperpce/3ds/3dsimpl.cpp:252
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:187
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:188
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:192
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:193
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:197
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:198
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:202
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:203
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:207
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:208
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:212
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:213
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:217
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:218
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:222
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:223
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:227
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:228
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:231
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:232
+#: src/cores/picodrive/3ds/3dsimpl.cpp:236
+#: src/cores/picodrive/3ds/3dsimpl.cpp:237
+#: src/cores/picodrive/3ds/3dsimpl.cpp:241
+#: src/cores/picodrive/3ds/3dsimpl.cpp:242
+#: src/cores/picodrive/3ds/3dsimpl.cpp:246
+#: src/cores/picodrive/3ds/3dsimpl.cpp:247
+#: src/cores/picodrive/3ds/3dsimpl.cpp:251
+#: src/cores/picodrive/3ds/3dsimpl.cpp:252
+#: src/cores/picodrive/3ds/3dsimpl.cpp:256
+#: src/cores/picodrive/3ds/3dsimpl.cpp:257
+#: src/cores/picodrive/3ds/3dsimpl.cpp:261
+#: src/cores/picodrive/3ds/3dsimpl.cpp:262
+#: src/cores/picodrive/3ds/3dsimpl.cpp:266
+#: src/cores/picodrive/3ds/3dsimpl.cpp:267
+#: src/cores/picodrive/3ds/3dsimpl.cpp:271
+#: src/cores/picodrive/3ds/3dsimpl.cpp:272
+#: src/cores/picodrive/3ds/3dsimpl.cpp:276
+#: src/cores/picodrive/3ds/3dsimpl.cpp:277
+#: src/cores/picodrive/3ds/3dsimpl.cpp:280
+#: src/cores/picodrive/3ds/3dsimpl.cpp:281
+msgid "  映射到"
+msgstr "  Maps to"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:209
+#: src/cores/temperpce/3ds/3dsimpl.cpp:214
+#: src/cores/temperpce/3ds/3dsimpl.cpp:219
+#: src/cores/temperpce/3ds/3dsimpl.cpp:224
+#: src/cores/temperpce/3ds/3dsimpl.cpp:229
+#: src/cores/temperpce/3ds/3dsimpl.cpp:234
+#: src/cores/temperpce/3ds/3dsimpl.cpp:239
+#: src/cores/temperpce/3ds/3dsimpl.cpp:244
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:189
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:194
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:199
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:204
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:209
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:214
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:219
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:224
+#: src/cores/picodrive/3ds/3dsimpl.cpp:238
+#: src/cores/picodrive/3ds/3dsimpl.cpp:243
+#: src/cores/picodrive/3ds/3dsimpl.cpp:248
+#: src/cores/picodrive/3ds/3dsimpl.cpp:253
+#: src/cores/picodrive/3ds/3dsimpl.cpp:258
+#: src/cores/picodrive/3ds/3dsimpl.cpp:263
+#: src/cores/picodrive/3ds/3dsimpl.cpp:268
+#: src/cores/picodrive/3ds/3dsimpl.cpp:273
+msgid "  连发速度"
+msgstr "  Rapid-Fire Speed"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:246
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:226
+#: src/cores/picodrive/3ds/3dsimpl.cpp:275
+msgid "3DS SELECT键"
+msgstr "3DS SELECT Button"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:250
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:230
+#: src/cores/picodrive/3ds/3dsimpl.cpp:279
+msgid "3DS START键"
+msgstr "3DS START Button"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:254
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:234
+#: src/cores/picodrive/3ds/3dsimpl.cpp:283
+msgid "模拟器功能设置"
+msgstr "EMULATOR FUNCTIONS"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:255
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:235
+#: src/cores/picodrive/3ds/3dsimpl.cpp:284
+msgid "为所有游戏应用映射"
+msgstr "Apply keys to all games"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:256
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:236
+#: src/cores/picodrive/3ds/3dsimpl.cpp:285
+msgid "打开模拟器菜单"
+msgstr "Open Emulator Menu"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:257
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:237
+#: src/cores/picodrive/3ds/3dsimpl.cpp:286
+msgid "快进"
+msgstr "Fast Forward"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:258
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:238
+#: src/cores/picodrive/3ds/3dsimpl.cpp:287
+msgid "  (在New3DS上效果更好. 可能会导致游戏卡死或出错.)"
+msgstr "  (Works better on N3DS. May freeze/corrupt games.)"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:266
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:248
+#: src/cores/picodrive/3ds/3dsimpl.cpp:295
+msgid "插入磁盘"
+msgstr "Eject Disk"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:267
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:249
+#: src/cores/picodrive/3ds/3dsimpl.cpp:296
+msgid "切换到磁盘1的A面"
+msgstr "Change to Disk 1 Side A"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:268
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:250
+#: src/cores/picodrive/3ds/3dsimpl.cpp:297
+msgid "切换到磁盘1的B面"
+msgstr "Change to Disk 1 Side B"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:269
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:251
+#: src/cores/picodrive/3ds/3dsimpl.cpp:298
+msgid "切换到磁盘2的A面"
+msgstr "Change to Disk 2 Side A"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:270
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:252
+#: src/cores/picodrive/3ds/3dsimpl.cpp:299
+msgid "切换到磁盘2的B面"
+msgstr "Change to Disk 2 Side B"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:271
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:253
+#: src/cores/picodrive/3ds/3dsimpl.cpp:300
+msgid "切换到磁盘3的A面"
+msgstr "Change to Disk 3 Side A"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:272
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:254
+#: src/cores/picodrive/3ds/3dsimpl.cpp:301
+msgid "切换到磁盘3的B面"
+msgstr "Change to Disk 3 Side B"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:273
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:255
+#: src/cores/picodrive/3ds/3dsimpl.cpp:302
+msgid "切换到磁盘4的A面"
+msgstr "Change to Disk 4 Side A"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:274
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:256
+#: src/cores/picodrive/3ds/3dsimpl.cpp:303
+msgid "切换到磁盘4的B面"
+msgstr "Change to Disk 4 Side B"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:286
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:268
+#: src/cores/picodrive/3ds/3dsimpl.cpp:315
+msgid "  返回游戏"
+msgstr "  Resume Game"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:290
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:273
+#: src/cores/picodrive/3ds/3dsimpl.cpp:319
+msgid "  保存存档位 #1"
+msgstr "  Save Slot #1"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:291
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:274
+#: src/cores/picodrive/3ds/3dsimpl.cpp:320
+msgid "  保存存档位 #2"
+msgstr "  Save Slot #2"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:292
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:275
+#: src/cores/picodrive/3ds/3dsimpl.cpp:321
+msgid "  保存存档位 #3"
+msgstr "  Save Slot #3"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:293
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:276
+#: src/cores/picodrive/3ds/3dsimpl.cpp:322
+msgid "  保存存档位 #4"
+msgstr "  Save Slot #4"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:294
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:277
+#: src/cores/picodrive/3ds/3dsimpl.cpp:323
+msgid "  保存存档位 #5"
+msgstr "  Save Slot #5"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:297
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:280
+#: src/cores/picodrive/3ds/3dsimpl.cpp:326
+msgid "  加载存档位 #1"
+msgstr "  Load Slot #1"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:298
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:281
+#: src/cores/picodrive/3ds/3dsimpl.cpp:327
+msgid "  加载存档位 #2"
+msgstr "  Load Slot #2"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:299
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:282
+#: src/cores/picodrive/3ds/3dsimpl.cpp:328
+msgid "  加载存档位 #3"
+msgstr "  Load Slot #3"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:300
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:283
+#: src/cores/picodrive/3ds/3dsimpl.cpp:329
+msgid "  加载存档位 #4"
+msgstr "  Load Slot #4"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:301
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:284
+#: src/cores/picodrive/3ds/3dsimpl.cpp:330
+msgid "  加载存档位 #5"
+msgstr "  Load Slot #5"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:304
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:287
+#: src/cores/picodrive/3ds/3dsimpl.cpp:333
+msgid "其他"
+msgstr "Others"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:305
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:288
+#: src/cores/picodrive/3ds/3dsimpl.cpp:334
+msgid "  截屏"
+msgstr "  Take Screenshot"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:306
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:289
+#: src/cores/picodrive/3ds/3dsimpl.cpp:335
+msgid "  重置控制台"
+msgstr "  Reset Console"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:1079
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:837
+#: src/cores/picodrive/3ds/3dsimpl.cpp:1063
+msgid "正在保存SRAM到SD卡..."
+msgstr "Saving SRAM to SD card..."
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:1172
+#: src/cores/picodrive/3ds/3dsimpl.cpp:1146
+msgid "CD-ROM BIOS 更换成功"
+msgstr "Updated CD-ROM BIOS"
+
+#: src/cores/temperpce/3ds/3dsimpl.cpp:1172
+#: src/cores/picodrive/3ds/3dsimpl.cpp:1146
+msgid "要立即重置控制台吗?"
+msgstr "Would you like to reset your console?"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:79
+msgid "默认"
+msgstr "Default"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:80
+msgid "直接捕捉调色板"
+msgstr "Direct capture palette"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:81
+msgid "提取自NES Classic"
+msgstr "Taken from NES Classic"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:82
+msgid "Playchoice-10街机"
+msgstr "Playchoice 10 arcade"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:83
+msgid "支持D93色温的Sony PVM"
+msgstr "Sony PVM with D93 color temp"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:84
+msgid "Firebrandx的终极调色板"
+msgstr "Firebrandx's premiere final palette"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:85
+msgid "消费级Sony TV电视配置"
+msgstr "Consumer-grade Sony TV sets"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:86
+msgid "Nakedarthur的最终专业级调色板"
+msgstr "Nakedarthur's final aprox palette"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:127
+msgid "NES A键"
+msgstr "NES A Button"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:128
+msgid "NES B键"
+msgstr "NES B Button"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:129
+msgid "NES SELECT键"
+msgstr "NES SELECT Button"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:130
+msgid "NES START键"
+msgstr "NES START Button"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:150
+msgid "模拟实机"
+msgstr "Hardware Accurate"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:150
+msgid "显示类似实机的闪烁效果"
+msgstr "Flickers like real hardware"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:151
+msgid "视觉优先"
+msgstr "Better Visuals"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:151
+msgid "以较低模拟精确度换取更好的显示效果"
+msgstr "Looks better, less accurate"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:166
+msgid "  调色板"
+msgstr "  Palette"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:166
+msgid "选取您喜爱的NES调色板"
+msgstr "Choose which NES color palette you prefer."
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:171
+#: src/cores/picodrive/3ds/3dsimpl.cpp:217
+msgid "  帧率"
+msgstr "  Framerate"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:171
+msgid "某些游戏默认运行于 50 或 60 FPS. 可在需要时覆盖帧率设置."
+msgstr "Some games run at 50 or 60 FPS by default. Override if required."
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:172
+msgid "  精灵闪烁"
+msgstr "  Flickering Sprites"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:172
+msgid "精灵在实机上将会闪烁. 您可以禁用以获得更好的视觉效果."
+msgstr "Sprites on real hardware flicker. You can disable for better visuals."
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:239
+msgid "为1P投币 (VS Games)"
+msgstr "Insert Coin 1P (VS Games)"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:240
+msgid "为2P投币 (VS Games)"
+msgstr "Insert Coin 2P (VS Games)"
+
+#: src/cores/virtuanes/3ds/3dsimpl.cpp:269
+msgid "  选择磁盘"
+msgstr "  Choose Disk"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:103
+msgid "宽度适配NTSC制式4:3"
+msgstr "4:3 (NTSC) Width"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:103
+msgid "拉伸宽度到320像素"
+msgstr "Stretch Width Only to 320px"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:104
+msgid "适配NTSC制式4:3"
+msgstr "4:3 (NTSC) Fit"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:105
+msgid "适配PAL制式5:4"
+msgstr "5:4 (PAL) Fit"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:105
+msgid "拉伸到300x240"
+msgstr "Stretch to 300x240"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:107
+msgid "裁剪适配NTSC制式4:3"
+msgstr "Cropped 4:3 (NTSC) Fit"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:108
+msgid "裁剪适配PAL制式5:4"
+msgstr "Cropped 5:4 (PAL) Fit"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:108
+msgid "裁剪并拉伸到300x240"
+msgstr "Crop & Stretch to 300x240"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:123
+msgid "跟随ROM或地区制式配置"
+msgstr "Default based on ROM/Region"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:131
+msgid "美国"
+msgstr "USA"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:132
+msgid "欧洲"
+msgstr "Europe"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:133
+msgid "日本"
+msgstr "Japan"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:158
+msgid "A键"
+msgstr "A Button"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:159
+msgid "B键"
+msgstr "B Button"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:160
+msgid "C键"
+msgstr "C Button"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:161
+msgid "X键"
+msgstr "X Button"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:162
+msgid "Y键"
+msgstr "Y Button"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:163
+msgid "Z键"
+msgstr "Z Button"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:164
+msgid "Mode键"
+msgstr "Mode Button"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:165
+msgid "Start键"
+msgstr "Start Button"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:170
+msgid "3键控制器"
+msgstr "3-Button Controller"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:171
+msgid "6键控制器"
+msgstr "6-Button Controller"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:216
+msgid "  地区"
+msgstr "  Region"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:216
+msgid "每个游戏都有对应支持的地区,可选择更改"
+msgstr "Each game a default supported region. Override if required."
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:217
+msgid "部分游戏默认在50 FPS(PAL)或60 FPS(NTSC)运行,可选择更改"
+msgstr "Some games run at 50 (PAL), 60 (NTSC) FPS by default. Override if required."
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:220
+msgid "  低通滤波"
+msgstr "  Low-pass filter"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:228
+msgid "控制器类型"
+msgstr "CONTROLLER TYPE"
+
+#: src/cores/picodrive/3ds/3dsimpl.cpp:229
+msgid "  SEGA控制器类型"
+msgstr "  Sega Controller Type"

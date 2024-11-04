@@ -140,7 +140,7 @@ void menu3dsHideMenu();
 // NOTE: You must call menu3dsHideMenu to transit
 //       the menu away.
 //-------------------------------------------------------
-int menu3dsShowDialog(const char *title, const char *dialogText, int dialogBackColor, SMenuItem *menuItems, int selectedID = -1);
+int menu3dsShowDialog(const char *title, const char *dialogText, int dialogBackColor, SMenuItem *menuItems, int selectedID = -1, bool isTextCFormat = false);
 
 
 //-------------------------------------------------------

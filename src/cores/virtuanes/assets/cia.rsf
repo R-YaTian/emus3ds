@@ -6,7 +6,7 @@ BasicInfo:
   Logo                   : Nintendo # Nintendo / Licensed / Distributed / iQue / iQueForSystem
 
 RomFs:
-  # Specifies the root path of the file system to include in the ROM.
+  # Specifies the root path of the read only file system to include in the ROM.
   RootPath                : $(APP_ROMFS)
 
 TitleInfo:
@@ -18,7 +18,7 @@ Option:
   FreeProductCode         : true # Removes limitations on ProductCode
   MediaFootPadding        : false # If true CCI files are created with padding
   EnableCrypt             : false # Enables encryption for NCCH and CIA
-  EnableCompress          : true # Compresses exefs code
+  EnableCompress          : true # Compresses where applicable (currently only exefs:/.code)
 
 AccessControlInfo:
   CoreVersion                   : 2
@@ -68,12 +68,14 @@ AccessControlInfo:
   # - CreateSeed
   # - UseCardSpi
 
+  # Process Settings
   MemoryType                    : Application # Application / System / Base
+  SystemMode                    : 64MB # 64MB(Default)/96MB/80MB/72MB/32MB
   IdealProcessor                : 0
   AffinityMask                  : 1
 
   Priority                      : 16
-  MaxCpu                        : 0
+  MaxCpu                        : 0 # Let system decide
   HandleTableSize               : 512
 
   DisableDebug                  : false
@@ -85,6 +87,12 @@ AccessControlInfo:
   CanShareDeviceMemory          : true
   RunnableOnSleep               : false
   SpecialMemoryArrange          : true
+
+  # New3DS Exclusive Process Settings
+  SystemModeExt                 : Legacy # Legacy: Use Old3DS SystemMode
+  CpuSpeed                      : 804MHz # 256MHz(Default)/804MHz
+  EnableL2Cache                 : true # false(default)/true
+  CanAccessCore2                : true
 
   # Virtual Address Mappings
   IORegisterMapping:
