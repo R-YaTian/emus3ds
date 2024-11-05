@@ -69,6 +69,18 @@ This emulator uses the same user interface as VirtuaNES for 3DS, TemperPCE for 3
 
 ## Change History
 
+### v0.96R
+- Added an option to disable 3D Slider, also fix some issue related to 3D enabled
+- Auto disable 3D Slider when emulator menu is opened
+- Added support for game screen swap
+- Added dark mode UI theme
+- Added i18n language support, added English translations
+- Major improve for sound and csnd, fix various sound issues
+- Update lodepng lib to latest version
+- Change home button to raise emulator menu instead of return to 3ds homemenu
+- Use 3dszlib instead of build-in old version of zlib
+- Further improvements to overall application stability and other minor adjustments have been made to enhance the user experience
+
 ### v0.95c
 - Fully Simplified Chinese support, big thx to [xxxxst](https://github.com/xxxxst)
 - Now will sort files by Chinese Pinyin

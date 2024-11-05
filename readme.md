@@ -1,16 +1,18 @@
 # Emus for 3DS 
+<p align="left">
+<a title="GitHub all releases" target="_blank" href="https://github.com/R-YaTian/emus3ds/releases/latest"><img src="https://img.shields.io/github/downloads/R-YaTian/emus3ds/total"></a>
+</p>
 
-## Chinese Simplified Version
+## Continued By R-YaTian
 
 ### Credits
 - [bubble2k16](https://github.com/bubble2k16): Original author of original English version
 - [xxxxst](https://github.com/xxxxst): Simple Chinese language directory support and GBK font table
-- [R-YaTian](https://github.com/R-YaTian): Continue work on Chinese language support and Implement Chinese Pinyin sorting for files
+- [R-YaTian](https://github.com/R-YaTian): Continue work on Chinese language support, implement Chinese Pinyin sorting for files and implement i18n language support
 
 ### Translators
-- [James-Makoto](https://github.com/James-Makoto)
-- [R-YaTian](https://github.com/R-YaTian)
-- [xxxxst](https://github.com/xxxxst)
+- English: [R-YaTian](https://github.com/R-YaTian), [bubble2k16](https://github.com/bubble2k16)
+- Chinese Simplified: [James-Makoto](https://github.com/James-Makoto), [R-YaTian](https://github.com/R-YaTian), [xxxxst](https://github.com/xxxxst)
 
 ### Download
 

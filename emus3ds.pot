@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: High compatibility emulators for 3DS R2\n"
 "Report-Msgid-Bugs-To: gmtianya@gmail.com\n"
-"POT-Creation-Date: 2024-11-04 14:09+0800\n"
+"POT-Creation-Date: 2024-11-05 14:45+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,106 +64,106 @@ msgstr ""
 msgid "  退出"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:145 src/3ds/3dsmain.cpp:473 src/3ds/3dsmain.cpp:522
+#: src/3ds/3dsmain.cpp:145 src/3ds/3dsmain.cpp:472 src/3ds/3dsmain.cpp:521
 msgid "金手指"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:162 src/3ds/3dsmain.cpp:395
+#: src/3ds/3dsmain.cpp:161 src/3ds/3dsmain.cpp:394
 msgid "加载 ROM"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:162
+#: src/3ds/3dsmain.cpp:161
 msgid "加载中... 请稍后."
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:315
+#: src/3ds/3dsmain.cpp:314
 msgid "保存设置到SD卡..."
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:347 src/3ds/3dsmain.cpp:385
+#: src/3ds/3dsmain.cpp:346 src/3ds/3dsmain.cpp:384
 msgid "选项"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:348 src/3ds/3dsmain.cpp:386
+#: src/3ds/3dsmain.cpp:347 src/3ds/3dsmain.cpp:385
 msgid "选择 ROM"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:395 src/3ds/3dsmain.cpp:562
+#: src/3ds/3dsmain.cpp:394 src/3ds/3dsmain.cpp:561
 msgid "无法加载 ROM."
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:409 src/3ds/3dsmain.cpp:673
+#: src/3ds/3dsmain.cpp:408 src/3ds/3dsmain.cpp:674
 msgid "退出"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:409 src/3ds/3dsmain.cpp:673
+#: src/3ds/3dsmain.cpp:408 src/3ds/3dsmain.cpp:674
 msgid "立即退出?"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:470 src/3ds/3dsmain.cpp:519
+#: src/3ds/3dsmain.cpp:469 src/3ds/3dsmain.cpp:518
 #: src/cores/temperpce/3ds/3dsimpl.cpp:262
 #: src/cores/virtuanes/3ds/3dsimpl.cpp:266
 #: src/cores/picodrive/3ds/3dsimpl.cpp:291
 msgid "模拟器"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:471 src/3ds/3dsmain.cpp:520
+#: src/3ds/3dsmain.cpp:470 src/3ds/3dsmain.cpp:519
 msgid "设置"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:472 src/3ds/3dsmain.cpp:521
+#: src/3ds/3dsmain.cpp:471 src/3ds/3dsmain.cpp:520
 msgid "控制"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:474 src/3ds/3dsmain.cpp:523 src/3ds/3dsmain.cpp:562
+#: src/3ds/3dsmain.cpp:473 src/3ds/3dsmain.cpp:522 src/3ds/3dsmain.cpp:561
 msgid "选择ROM"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:533 src/3ds/3dsmain.cpp:576 src/3ds/3dsmain.cpp:583
-#: src/3ds/3dsmain.cpp:589 src/3ds/3dsmain.cpp:611
+#: src/3ds/3dsmain.cpp:532 src/3ds/3dsmain.cpp:575 src/3ds/3dsmain.cpp:582
+#: src/3ds/3dsmain.cpp:588 src/3ds/3dsmain.cpp:610
 #: src/cores/temperpce/3ds/3dsimpl.cpp:266
 #: src/cores/virtuanes/3ds/3dsimpl.cpp:271
 #: src/cores/picodrive/3ds/3dsimpl.cpp:295
 msgid "即时存档"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:533
+#: src/3ds/3dsmain.cpp:532
 msgid "自动保存..."
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:538
+#: src/3ds/3dsmain.cpp:537
 msgid "自动保存失败"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:538
+#: src/3ds/3dsmain.cpp:537
 msgid ""
 "自动保存失败.\n"
 "强制加载?"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:575
+#: src/3ds/3dsmain.cpp:574
 #, c-format
 msgid ""
 "保存到存档位 %d...\n"
 "请稍后"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:582
+#: src/3ds/3dsmain.cpp:581
 #, c-format
 msgid "存档位 %d 保存完成."
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:588
+#: src/3ds/3dsmain.cpp:587
 #, c-format
 msgid "无法保存到存档位 %d!"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:610
+#: src/3ds/3dsmain.cpp:609
 #, c-format
 msgid "无法加载存档位 %d!"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:617 src/3ds/3dsmain.cpp:647 src/3ds/3dsmain.cpp:652
+#: src/3ds/3dsmain.cpp:617 src/3ds/3dsmain.cpp:648 src/3ds/3dsmain.cpp:654
 msgid "截屏"
 msgstr ""
 
@@ -173,56 +173,56 @@ msgid ""
 "请稍后."
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:646
+#: src/3ds/3dsmain.cpp:647
 #, c-format
 msgid "完成! 文件已保存到 %s"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:652
+#: src/3ds/3dsmain.cpp:654
 msgid "截屏时发生错误!"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:658
+#: src/3ds/3dsmain.cpp:660
 msgid "重置控制台"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:658
+#: src/3ds/3dsmain.cpp:660
 msgid "确定吗?"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:935
+#: src/3ds/3dsmain.cpp:937
 msgid "点触下屏幕"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:935
+#: src/3ds/3dsmain.cpp:937
 msgid "点触屏幕"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:937
+#: src/3ds/3dsmain.cpp:939
 msgid "或按下Home键"
 msgstr ""
 
-#: src/3ds/3dsmain.cpp:938
+#: src/3ds/3dsmain.cpp:940
 msgid "呼出菜单"
 msgstr ""
 
-#: src/3ds/3dsmenu.cpp:51
+#: src/3ds/3dsmenu.cpp:52
 msgid "否"
 msgstr ""
 
-#: src/3ds/3dsmenu.cpp:52
+#: src/3ds/3dsmenu.cpp:53
 msgid "是"
 msgstr ""
 
-#: src/3ds/3dsmenu.cpp:57
+#: src/3ds/3dsmenu.cpp:58
 msgid "确定"
 msgstr ""
 
-#: src/3ds/3dsmenu.cpp:68
+#: src/3ds/3dsmenu.cpp:69
 msgid "原始"
 msgstr ""
 
-#: src/3ds/3dsmenu.cpp:69
+#: src/3ds/3dsmenu.cpp:70
 msgid "暗黑模式"
 msgstr ""
 
@@ -919,15 +919,15 @@ msgstr ""
 
 #: src/cores/temperpce/3ds/3dsimpl.cpp:1056
 #: src/cores/virtuanes/3ds/3dsimpl.cpp:836
-#: src/cores/picodrive/3ds/3dsimpl.cpp:1039
+#: src/cores/picodrive/3ds/3dsimpl.cpp:1038
 msgid "正在保存SRAM到SD卡..."
 msgstr ""
 
-#: src/cores/temperpce/3ds/3dsimpl.cpp:1149
+#: src/cores/temperpce/3ds/3dsimpl.cpp:1153
 msgid "CD-ROM BIOS 更换成功"
 msgstr ""
 
-#: src/cores/temperpce/3ds/3dsimpl.cpp:1149
+#: src/cores/temperpce/3ds/3dsimpl.cpp:1153
 msgid "要立即重置控制台吗?"
 msgstr ""
 
