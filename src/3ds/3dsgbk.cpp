@@ -22,7 +22,7 @@ void gbk3dsLoadGBKImage() {
 	const int colCount = (gbkColEnd - gbkColStart + 1);
 	const int dataSize = rowCount * colCount * (fontGridSize * fontGridSize) * colorByteCount;
 
-	// laod from bin file
+	// load from bin file
 	FILE *file = fopen("/emus3ds/gbk.bin", "rb");
 	if (file == NULL) return;
 	fseek(file, 0, SEEK_END);
