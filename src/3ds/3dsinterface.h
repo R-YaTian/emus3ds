@@ -105,6 +105,8 @@ typedef struct
     int     Theme = 0;                      // current theme
 
     int     Language = 0;                   // current ui language
+
+    int     ScreenFilter = 1;               // Screen Filter setting
 } SSettings3DS;
 
 

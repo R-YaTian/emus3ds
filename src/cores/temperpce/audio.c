@@ -34,4 +34,3 @@ void audio_revert_pause_state(u32 pause_state)
   if(pause_state == 0)
     audio_unpause();
 }
-

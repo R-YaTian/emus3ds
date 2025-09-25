@@ -68,7 +68,7 @@ void audio_unlock();
 
 u32 audio_pause();
 void audio_unpause();
-void audio_revert_pause_state();
+void audio_revert_pause_state(u32 pause_state);
 
 #ifdef EXTERN_C_END
 EXTERN_C_END

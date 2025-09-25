@@ -155,6 +155,7 @@ SMenuItem optionMenu[] = {
     MENU_MAKE_HEADER1   (getText("全局设置")),
     MENU_MAKE_PICKER    (24000, getText("  语言"), getText("选择应用程序显示的语言"), &optionsForLanguage, DIALOG_TYPE_INFO),
     MENU_MAKE_PICKER    (11000, getText("  屏幕比例"), getText("您希望屏幕以何种方式显示?"), optionsForStretch, DIALOG_TYPE_INFO),
+    MENU_MAKE_PICKER    (25000, getText("  线性过滤"), getText("是否启用线性过滤,会稍微增加模糊效果,\n当屏幕比例设置为\"不拉伸\"时无效"), &optionsForNoYes, DIALOG_TYPE_INFO),
     MENU_MAKE_PICKER    (23000, getText("  主题"), getText("选择应用于界面的主题"), &optionsForTheme, DIALOG_TYPE_INFO),
     MENU_MAKE_PICKER    (18000, getText("  字体"), getText("用于用户界面的字体(仅适用于ASCII字符)"), &optionsForFont, DIALOG_TYPE_INFO),
     MENU_MAKE_PICKER    (15000, getText("  游戏显示屏幕"), getText("选择使用上屏或下屏进行游玩"), optionsForScreenSwap, DIALOG_TYPE_INFO),
@@ -1135,6 +1136,7 @@ bool impl3dsReadWriteSettingsGlobal(bool writeMode)
     config3dsReadWriteInt32("GameScreen=%d\n", &settings3DS.GameScreen, 0, 1);
     config3dsReadWriteInt32("Theme=%d\n", &settings3DS.Theme, 0, 1);
     config3dsReadWriteInt32("Language=%d\n", &settings3DS.Language, 0, 1);
+    config3dsReadWriteInt32("ScreenFilter=%d\n", &settings3DS.ScreenFilter, 0, 1);
 
     config3dsCloseFile();
     return true;
@@ -1239,6 +1241,7 @@ bool impl3dsCopyMenuToOrFromSettings(bool copyMenuToSettings)
     bool settingsUpdated = false;
     UPDATE_SETTINGS(settings3DS.Theme, -1, 23000);
     UPDATE_SETTINGS(settings3DS.Language, -1, 24000);
+    UPDATE_SETTINGS(settings3DS.ScreenFilter, -1, 25000);
     UPDATE_SETTINGS(settings3DS.Font, -1, 18000);
     UPDATE_SETTINGS(settings3DS.ScreenStretch, -1, 11000);
     UPDATE_SETTINGS(settings3DS.GameScreen, -1, 15000);
